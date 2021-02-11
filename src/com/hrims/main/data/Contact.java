@@ -9,6 +9,6 @@ package com.hrims.main.data;
  *
  * @author Justin
  */
-public class IngredientList {
+public class Contact {
     
 }
