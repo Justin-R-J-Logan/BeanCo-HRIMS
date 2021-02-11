@@ -1,14 +1,12 @@
 package com.hrims.main.frames;
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This is a license.
  */
 
 /**
  *
- * @author Seilum
+ * @author Alexandra Reaman
  */
 public class Employee_Interface extends javax.swing.JInternalFrame {
 
