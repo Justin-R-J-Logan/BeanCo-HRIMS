@@ -99,6 +99,7 @@ public class Employee_Interface extends javax.swing.JInternalFrame {
         centerCenterPanel.setLayout(new java.awt.BorderLayout());
 
         machineIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        machineIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Machine.png"))); // NOI18N
         centerCenterPanel.add(machineIcon, java.awt.BorderLayout.CENTER);
         centerCenterPanel.add(beanProductionProgressBar, java.awt.BorderLayout.SOUTH);
 
