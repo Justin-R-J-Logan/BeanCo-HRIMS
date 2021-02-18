@@ -19,6 +19,17 @@ public class Machine
         return _machineID;
     }
 
+    public Machine(int _machineID, int _locationID, String _machineName, Date _purchaseDate, Date _lastUse, Date _created, Date _lastLogin, boolean _inUse) {
+        this._machineID = _machineID;
+        this._locationID = _locationID;
+        this._machineName = _machineName;
+        this._purchaseDate = _purchaseDate;
+        this._lastUse = _lastUse;
+        this._created = _created;
+        this._lastLogin = _lastLogin;
+        this._inUse = _inUse;
+    }
+
     public void setMachineID(int _machineID) 
     {
         this._machineID = _machineID;
@@ -34,16 +45,6 @@ public class Machine
         this._locationID = _locationID;
     }
 
-    public int getAccessRights() 
-    {
-        return _accessRights;
-    }
-
-    public void setAccessRights(int _accessRights) 
-    {
-        this._accessRights = _accessRights;
-    }
-
     public String getMachineName() 
     {
         return _machineName;
@@ -52,26 +53,6 @@ public class Machine
     public void setMachineName(String _machineName) 
     {
         this._machineName = _machineName;
-    }
-
-    public String getUsername() 
-    {
-        return _username;
-    }
-
-    public void setUsername(String _username) 
-    {
-        this._username = _username;
-    }
-
-    public String getPassword() 
-    {
-        return _password;
-    }
-
-    public void setPassword(String _password) 
-    {
-        this._password = _password;
     }
 
     public Date getPurchaseDate() 
@@ -126,10 +107,7 @@ public class Machine
     
     private int _machineID;
     private int _locationID;
-    private int _accessRights;
     private String _machineName;
-    private String _username;
-    private String _password;
     private java.sql.Date _purchaseDate;
     private java.sql.Date _lastUse;
     private java.sql.Date _created;

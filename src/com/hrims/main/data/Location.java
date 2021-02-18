@@ -62,16 +62,6 @@ public class Location
     {
         this._company = _company;
     }
-    
-    public int getAccessRights() 
-    {
-        return _accessRights;
-    }
-
-    public void setAccessRights(int _accessRights) 
-    {
-        this._accessRights = _accessRights;
-    }
 
     public Date getCreated() 
     {
@@ -81,6 +71,16 @@ public class Location
     public void setCreated(Date _created) 
     {
         this._created = _created;
+    }
+
+    public Location(int _locationID, String _address, String _mainPhone, String _email, String _company, Date _created, Date _lastLogin) {
+        this._locationID = _locationID;
+        this._address = _address;
+        this._mainPhone = _mainPhone;
+        this._email = _email;
+        this._company = _company;
+        this._created = _created;
+        this._lastLogin = _lastLogin;
     }
 
     public Date getLastLogin() 
@@ -93,34 +93,11 @@ public class Location
         this._lastLogin = _lastLogin;
     }
     
-    public String getUsername() 
-    {
-        return _username;
-    }
-
-    public void setUsername(String _username) 
-    {
-        this._username = _username;
-    }
-
-    public String getPassword() 
-    {
-        return _password;
-    }
-
-    public void setPassword(String _password) 
-    {
-        this._password = _password;
-    }
-    
     private int _locationID;
-    private int _accessRights;
     private String _address;
     private String _mainPhone;
     private String _email;
     private String _company;
-    private String _username;
-    private String _password;
     private java.sql.Date _created;
     private java.sql.Date _lastLogin;
 }

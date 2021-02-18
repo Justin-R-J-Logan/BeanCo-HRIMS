@@ -19,6 +19,19 @@ public class Contact {
     private String _addressL1;
     private String _addressL2;
     private String _mainPhone;
+
+    public Contact(int _contactID, int _locationID, String _firstName, String _lastName, String _sin, String _addressL1, String _addressL2, String _mainPhone, String _email, String _company) {
+        this._contactID = _contactID;
+        this._locationID = _locationID;
+        this._firstName = _firstName;
+        this._lastName = _lastName;
+        this._sin = _sin;
+        this._addressL1 = _addressL1;
+        this._addressL2 = _addressL2;
+        this._mainPhone = _mainPhone;
+        this._email = _email;
+        this._company = _company;
+    }
     private String _email;
     private String _company;
 
