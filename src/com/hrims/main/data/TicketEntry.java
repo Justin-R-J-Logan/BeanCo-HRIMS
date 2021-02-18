@@ -11,4 +11,7 @@ package com.hrims.main.data;
  */
 public class TicketEntry {
     
+    int userId;
+    int entryId;
+    String message;
 }

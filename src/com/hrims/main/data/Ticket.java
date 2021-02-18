@@ -5,10 +5,17 @@
  */
 package com.hrims.main.data;
 
+import java.util.HashMap;
+
 /**
  *
  * @author Justin
  */
 public class Ticket {
+    
+public static HashMap<Integer, TicketEntry> tickets = new HashMap<Integer, TicketEntry>();
+int userID;
+String description;
+boolean resolved;
     
 }
