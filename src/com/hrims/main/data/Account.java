@@ -14,6 +14,11 @@ import java.util.ArrayList;
  */
 public class Account {
 
+    
+    public Account() {
+        
+    }
+    
     public Account(int _accountNumber, int _accessRights, Date _dob, Date _dod, Date _created, Date _lastLogin, String _username, String _password) {
         this._accountNumber = _accountNumber;
         this._accessRights = _accessRights;

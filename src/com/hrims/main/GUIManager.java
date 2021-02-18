@@ -43,6 +43,11 @@ public class GUIManager {
     private static int Windows_Running = 0;
     private static final Startup_ProgressBar bar = new Startup_ProgressBar();
     
+    /**
+     *
+     * @param s
+     * @return
+     */
     public static JInternalFrame Lookup(String s) {
         if(_table.containsKey(s)) return _table.get(s);
         else {
@@ -53,6 +58,11 @@ public class GUIManager {
         }
     }
     
+    /**
+     *
+     * @param s
+     * @return
+     */
     public static boolean Show(String s) {
         JInternalFrame f = Lookup(s);
         if(f == null || f.isVisible() == true ) return false;
@@ -66,6 +76,12 @@ public class GUIManager {
         }
     }
     
+    /**
+     *
+     * @param s
+     * @param f
+     * @return
+     */
     public static boolean Register(String s, JInternalFrame f) {
         boolean ret = false;
         if(!_table.containsKey(s)) {
@@ -79,6 +95,11 @@ public class GUIManager {
         return ret;
     }
 
+    /**
+     *
+     * @param s
+     * @return
+     */
     public static boolean Hide(String s) {
         JInternalFrame f = Lookup(s);
         if(f == null) {
@@ -92,6 +113,9 @@ public class GUIManager {
         }
     }
     
+    /**
+     *
+     */
     public static void Logout() {
         for (String key : _table.keySet()) {
             if(_table.get(key).isVisible()) Hide(key);
@@ -100,6 +124,9 @@ public class GUIManager {
         Show("Login");
     }
 
+    /**
+     *
+     */
     public static void Window_Closed() {
         Windows_Running--;
     }
