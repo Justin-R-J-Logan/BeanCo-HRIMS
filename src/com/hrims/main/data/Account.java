@@ -19,11 +19,9 @@ public class Account {
         
     }
     
-    public Account(int _accountNumber, int _accessRights, Date _dob, Date _dod, Date _created, Date _lastLogin, String _username, String _password) {
+    public Account(int _accountNumber, int _accessRights, Date _created, Date _lastLogin, String _username, String _password) {
         this._accountNumber = _accountNumber;
         this._accessRights = _accessRights;
-        this._dob = _dob;
-        this._dod = _dod;
         this._created = _created;
         this._lastLogin = _lastLogin;
         this._username = _username;
@@ -44,22 +42,6 @@ public class Account {
 
     public void setAccessRights(int _accessRights) {
         this._accessRights = _accessRights;
-    }
-
-    public Date getDob() {
-        return _dob;
-    }
-
-    public void setDob(Date _dob) {
-        this._dob = _dob;
-    }
-
-    public Date getDod() {
-        return _dod;
-    }
-
-    public void setDod(Date _dod) {
-        this._dod = _dod;
     }
 
     public Date getCreated() {
@@ -96,8 +78,6 @@ public class Account {
     
     private int _accountNumber;
     private int _accessRights;
-    private java.sql.Date _dob;
-    private java.sql.Date _dod;
     private java.sql.Date _created;
     private java.sql.Date _lastLogin;
     private String _username;

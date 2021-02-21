@@ -5,6 +5,8 @@
  */
 package com.hrims.main.data;
 
+import java.sql.Date;
+
 /**
  *
  * @author Justin
@@ -12,6 +14,8 @@ package com.hrims.main.data;
 public class Contact {
     
     private int _contactID;
+    private int _accountID;
+
     private int _locationID;
     private String _firstName;
     private String _lastName;
@@ -19,9 +23,14 @@ public class Contact {
     private String _addressL1;
     private String _addressL2;
     private String _mainPhone;
+    private String _email;
+    private String _company;
+    private java.sql.Date _dob;
+    private java.sql.Date _dod;
 
-    public Contact(int _contactID, int _locationID, String _firstName, String _lastName, String _sin, String _addressL1, String _addressL2, String _mainPhone, String _email, String _company) {
+    public Contact(int _contactID, int _accountID, int _locationID, String _firstName, String _lastName, String _sin, String _addressL1, String _addressL2, String _mainPhone, String _email, String _company,  Date _dob, Date _dod) {
         this._contactID = _contactID;
+        this._accountID = _accountID;
         this._locationID = _locationID;
         this._firstName = _firstName;
         this._lastName = _lastName;
@@ -31,9 +40,9 @@ public class Contact {
         this._mainPhone = _mainPhone;
         this._email = _email;
         this._company = _company;
+        this._dob = _dob;
+        this._dod = _dod;
     }
-    private String _email;
-    private String _company;
 
     public int getContactID() {
         return _contactID;
@@ -113,5 +122,29 @@ public class Contact {
 
     public void setLocationID(int _locationID) {
         this._locationID = _locationID;
+    }
+    
+    public int getAccountID() {
+        return _accountID;
+    }
+
+    public void setAccountID(int _accountID) {
+        this._accountID = _accountID;
+    }
+    
+    public Date getDob() {
+        return _dob;
+    }
+
+    public void setDob(Date _dob) {
+        this._dob = _dob;
+    }
+
+    public Date getDod() {
+        return _dod;
+    }
+
+    public void setDod(Date _dod) {
+        this._dod = _dod;
     }
 }

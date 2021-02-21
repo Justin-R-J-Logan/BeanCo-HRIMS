@@ -14,27 +14,20 @@ import java.util.Calendar;
  * @author Alexandra
  */
 public class Product {
+    
+    private int productID;
     private ArrayList<Ingredient> ingredientsList;
     private Machine productionMachine;
-    private Location productionLocation;
-    private Date dateOfProduction;
-    private Date dateOfExpiry;
     
     /**
      * A standard constructor to create an object with known data.
      * @param ingredientsList ArrayList of ingredients used in production.
      * @param productionMachine Machine used in production.
-     * @param productionLocation Location of Production.
-     * @param dateOfProduction Date the product was manufactured.
-     * @param dateOfExpiry Date the product expires.
      */
-    public Product(ArrayList<Ingredient> ingredientsList, Machine productionMachine, 
-            Location productionLocation, Date dateOfProduction, Date dateOfExpiry) {
+    public Product(int productID, ArrayList<Ingredient> ingredientsList, Machine productionMachine) {
+        this.productID = productID;
         this.ingredientsList = ingredientsList;
         this.productionMachine = productionMachine;
-        this.productionLocation = productionLocation;
-        this.dateOfProduction = dateOfProduction;
-        this.dateOfExpiry = dateOfExpiry;
     }
     
     /**
@@ -44,8 +37,6 @@ public class Product {
         ingredientsList = new ArrayList();
         //productionMachine = new Machine();
         //productionLocation = new Location();
-        dateOfProduction = Calendar.getInstance().getTime();
-        dateOfExpiry = Calendar.getInstance().getTime();
         
     }
     
@@ -77,61 +68,6 @@ public class Product {
      */
     public void setProductionMachine(Machine productionMachine) {
         this.productionMachine = productionMachine;
-    }
-    
-    /**
-     * @return the location the product was manufactured at.
-     */
-    public Location getProductionLocation() {
-        return productionLocation;
-    }
-    
-    /**
-     * Sets the location of production to a new location, overwriting the previous location.
-     * @param productionLocation to set the Location to.
-     */
-    public void setProductionLocation(Location productionLocation) {
-        this.productionLocation = productionLocation;
-    }
-    
-    /**
-     * @return the date the product was manufactured.
-     */
-    public Date getDateOfProduction() {
-        return dateOfProduction;
-    }
-    
-    /**
-     * Sets the Date of Production to a new date, overwriting the previous date.
-     * @param dateOfProduction to set the date to.
-     */
-    public void setDateOfProduction(Date dateOfProduction) {
-        this.dateOfProduction = dateOfProduction;
-    }
-
-    /**
-     * @return the date the product will expire.
-     */
-    public Date getDateOfExpiry() {
-        return dateOfExpiry;
-    }
-    
-    /**
-     * Sets the date of expiry to a new date, overwriting the previous date.
-     * @param dateOfExpiry to set the date to.
-     */
-    public void setDateOfExpiry(Date dateOfExpiry) {
-        this.dateOfExpiry = dateOfExpiry;
-    }
-    
-    /**
-     * Checks the validity of the product by comparing the production and expiry dates.
-     * @return true if the product is valid, or false if the product is invalid or expired.
-     */
-    public boolean checkValidity(){
-        boolean valid = false;
-        if (dateOfProduction.before(dateOfExpiry)){ valid = true; }
-        return valid;
     }
     
     /**
