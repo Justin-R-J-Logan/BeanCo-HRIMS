@@ -1,8 +1,10 @@
 package com.hrims.main.frames;
 
 import com.hrims.main.data.Account;
+import com.hrims.main.sql.SQLAccount;
 import com.hrims.main.sql.SQLCaller;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,6 +24,7 @@ public class Editor_Account extends javax.swing.JInternalFrame {
     
     int pageNumber = 0;
     int numPerPage = 25;
+    boolean lockForward = false;
     
     public Editor_Account() {
         initComponents();
@@ -149,6 +152,11 @@ public class Editor_Account extends javax.swing.JInternalFrame {
         jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
         btnPrevious.setText("Previous");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnPrevious);
 
         txtPageNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -156,6 +164,11 @@ public class Editor_Account extends javax.swing.JInternalFrame {
         jPanel3.add(txtPageNumber);
 
         btnNext.setText("Next");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnNext);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -181,10 +194,10 @@ public class Editor_Account extends javax.swing.JInternalFrame {
 
     
     private void Reload() {
-        ArrayList<Account> accounts = SQLCaller.ME.getAccounts(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
+        ArrayList<Account> accounts = SQLAccount.ME.getAccounts(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
         
         for(int y = 0; y < grdAccounts.getRowCount(); y++) {
-                for(int x = 0; x < grdAccounts.getColumnCount(); x++) {
+            for(int x = 0; x < grdAccounts.getColumnCount(); x++) {
                 if(y >= accounts.size()) {
                     grdAccounts.getModel().setValueAt("", y, x);
                 } else {
@@ -217,11 +230,12 @@ public class Editor_Account extends javax.swing.JInternalFrame {
                                 information = ""+a.contacts.get(0).getEmail();
                             }
                             break;
-                    }
+                        }
                     grdAccounts.getModel().setValueAt(information, y, x);
                 }
             }
         }
+        
         txtPageNumber.setText(""+(pageNumber+1));
         
     }
@@ -233,6 +247,20 @@ public class Editor_Account extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Reload();
     }//GEN-LAST:event_formInternalFrameOpened
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        if(!lockForward) {
+            pageNumber++;
+            Reload();
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        pageNumber--;
+        if(pageNumber<0) pageNumber=0;
+        lockForward = false;
+        Reload();
+    }//GEN-LAST:event_btnPreviousActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,5 +1,9 @@
 package com.hrims.main.frames;
 
+import com.hrims.main.data.Location;
+import com.hrims.main.sql.SQLLocation;
+import java.util.ArrayList;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,6 +16,9 @@ package com.hrims.main.frames;
  */
 public class Editor_Location extends javax.swing.JInternalFrame {
 
+    int pageNumber = 0;
+    int numPerPage = 25;
+    
     /**
      * Creates new form Employee
      */
@@ -19,6 +26,40 @@ public class Editor_Location extends javax.swing.JInternalFrame {
         initComponents();
     }
 
+    private void Reload() {
+        ArrayList<Location> locations = SQLLocation.ME.getLocations(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
+        
+        for(int y = 0; y < tblLocations.getRowCount(); y++) {
+                for(int x = 0; x < tblLocations.getColumnCount(); x++) {
+                if(y >= locations.size()) {
+                    tblLocations.getModel().setValueAt("", y, x);
+                } else {
+                    Location l = locations.get(y);
+                    String information = "";
+                    switch(x) {
+                        case 0:
+                            information = ""+l.getLocationID();
+                            break;
+                        case 1:
+                            information = ""+l.getAddress() + " " + l.getAddress2();
+                            break;
+                        case 2:
+                            information = ""+l.getMainPhone();
+                            break;
+                        case 3:
+                            information = ""+l.getEmail();
+                            break;
+                        case 4:
+                            information = ""+l.getCompany();
+                            break;
+                    }
+                    tblLocations.getModel().setValueAt(information, y, x);
+                }
+            }
+        }
+        txtPageNumber.setText(""+(pageNumber+1));
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,16 +70,16 @@ public class Editor_Location extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblLocations = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jTextField2 = new javax.swing.JTextField();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        jButton5 = new javax.swing.JButton();
+        txtPageNumber = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jToggleButton3 = new javax.swing.JToggleButton();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -49,8 +90,25 @@ public class Editor_Location extends javax.swing.JInternalFrame {
         setTitle("Location Editor");
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblLocations.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"1", "60 Commerce Crescent", "705.474.7600", "N/A", "Canadore"},
                 {null, null, null, null, null},
@@ -97,7 +155,7 @@ public class Editor_Location extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblLocations);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -123,15 +181,15 @@ public class Editor_Location extends javax.swing.JInternalFrame {
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
-        jToggleButton1.setText("Previous");
-        jPanel3.add(jToggleButton1);
+        jButton5.setText("Previous");
+        jPanel3.add(jButton5);
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("1");
-        jPanel3.add(jTextField2);
+        txtPageNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPageNumber.setText("1");
+        jPanel3.add(txtPageNumber);
 
-        jToggleButton2.setText("Next");
-        jPanel3.add(jToggleButton2);
+        jButton4.setText("Next");
+        jPanel3.add(jButton4);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -158,22 +216,26 @@ public class Editor_Location extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        Reload();
+    }//GEN-LAST:event_formInternalFrameOpened
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JTable tblLocations;
+    private javax.swing.JTextField txtPageNumber;
     // End of variables declaration//GEN-END:variables
 }

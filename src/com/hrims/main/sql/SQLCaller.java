@@ -6,6 +6,7 @@
 package com.hrims.main.sql;
 
 import com.hrims.main.data.Account;
+import com.hrims.main.data.Contact;
 import java.net.*;
 import java.io.*;
 import java.sql.Connection;
@@ -64,58 +65,5 @@ public class SQLCaller {
         }
         
         return results;
-    }
-    
-    public Account getAccount(int _accountNumber) {
-        Account acc = new Account();
-        try {
-            ResultSet result = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM account WHERE accountid=" + _accountNumber);
-            result.first();
-            acc.setAccountNumber(result.getInt(1));
-            acc.setUsername(result.getString(2));
-            acc.setPassword(result.getString(3));
-            acc.setCreated(result.getDate(4));
-            acc.setLastLogin(result.getDate(5));
-            acc.setAccessRights(result.getInt(6));
-            acc.setDiscount(result.getInt(7));
-            
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return acc;
-    }
-    
-    public ArrayList<Account> getAccounts(int low, int high) {
-        ArrayList<Account> accounts = new ArrayList<Account>();
-        
-        try {
-            ResultSet result = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM account "
-                                                        + "WHERE accountid BETWEEN " + low + " AND " + high + ";");
-            while(result.next()) {
-                Account acc = new Account();
-                
-                acc.setAccountNumber(result.getInt(1));
-                acc.setUsername(result.getString(2));
-                acc.setPassword(result.getString(3));
-                acc.setCreated(result.getDate(4));
-                acc.setLastLogin(result.getDate(5));
-                acc.setAccessRights(result.getInt(6));
-                acc.setDiscount(result.getInt(7));
-                
-                accounts.add(acc);
-            }
-            
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return accounts;
-    }
-    
-    public static void main(String arg[]) {
-        
-        ArrayList<Account> accounts = ME.getAccounts(0, 10);
-        for(Account a : accounts) {
-            System.out.println(a.toString());
-        }
     }
 }

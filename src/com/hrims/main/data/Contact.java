@@ -44,6 +44,10 @@ public class Contact {
         this._dod = _dod;
     }
 
+    public Contact() {
+        
+    }
+
     public int getContactID() {
         return _contactID;
     }

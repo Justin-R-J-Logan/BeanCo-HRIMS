@@ -73,16 +73,13 @@ public class Location
         this._created = _created;
     }
 
-    public Location(int _locationID, String _address, String _address2, String _mainPhone, String _email, String _company, Date _created) {
-        this._locationID = _locationID;
-        this._address = _address;
-        this._address2 = _address2;
-        this._mainPhone = _mainPhone;
-        this._email = _email;
-        this._company = _company;
-        this._created = _created;
+    public String getAddress2() {
+        return _address2;
     }
 
+    public void setAddress2(String _address2) {
+        this._address2 = _address2;
+    }
     
     private int _locationID;
     private String _address;

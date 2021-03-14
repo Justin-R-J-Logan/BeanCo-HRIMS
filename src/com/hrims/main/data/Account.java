@@ -122,5 +122,15 @@ public class Account {
 
     
     public final ArrayList<Contact> contacts = new ArrayList<Contact>();
+
+    public void addContact(Contact c) {
+        contacts.add(c);
+    }
+    public void remContact(Contact c) {
+        contacts.remove(c);
+    }
+    public void remContact(int c) {
+        contacts.remove(c);
+    }
     
 }
