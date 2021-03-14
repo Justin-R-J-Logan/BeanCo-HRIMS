@@ -17,12 +17,12 @@ public class SQLContact {
 
     public static SQLContact ME = new SQLContact();
     
-    public ArrayList<Contact> getContacts(int low, int high) {
+    public ArrayList<Contact> getContactsFromAccountID(int lowAccID, int highAccID) {
         
             ArrayList<Contact> contacts = new ArrayList<Contact>();
             try {
                 ResultSet contactresults = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM contact "
-                                                        + "WHERE accountid BETWEEN " + low + " AND " + high + ";");
+                                                        + "WHERE accountid BETWEEN " + lowAccID + " AND " + highAccID + ";");
                 while(contactresults.next()) {
                     Contact con = new Contact();
                     con.setContactID(contactresults.getInt(1));

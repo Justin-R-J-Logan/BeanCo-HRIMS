@@ -43,7 +43,7 @@ public class SQLAccount {
         
         try {
             ArrayList<Contact> contacts;
-            contacts = SQLContact.ME.getContacts(low, high);
+            contacts = SQLContact.ME.getContactsFromAccountID(low, high);
             
             ResultSet result = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM account "
                                                         + "WHERE accountid BETWEEN " + low + " AND " + high + ";");
