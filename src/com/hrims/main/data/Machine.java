@@ -19,14 +19,13 @@ public class Machine
         return _machineID;
     }
 
-    public Machine(int _machineID, int _locationID, String _machineName, Date _purchaseDate, Date _lastUse, Date _created, Date _lastLogin, boolean _inUse) {
+    public Machine(int _machineID, int _locationID, String _machineName, Date _purchaseDate, Date _lastUse, Date _created, boolean _inUse) {
         this._machineID = _machineID;
         this._locationID = _locationID;
         this._machineName = _machineName;
         this._purchaseDate = _purchaseDate;
         this._lastUse = _lastUse;
         this._created = _created;
-        this._lastLogin = _lastLogin;
         this._inUse = _inUse;
     }
 
@@ -94,16 +93,6 @@ public class Machine
     {
         this._created = _created;
     }
-
-    public Date getLastLogin() 
-    {
-        return _lastLogin;
-    }
-
-    public void setLastLogin(Date _lastLogin) 
-    {
-        this._lastLogin = _lastLogin;
-    }
     
     private int _machineID;
     private int _locationID;
@@ -111,6 +100,5 @@ public class Machine
     private java.sql.Date _purchaseDate;
     private java.sql.Date _lastUse;
     private java.sql.Date _created;
-    private java.sql.Date _lastLogin;
     private boolean _inUse;
 }

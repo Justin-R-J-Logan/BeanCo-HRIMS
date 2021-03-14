@@ -1,5 +1,9 @@
 package com.hrims.main.frames;
 
+import com.hrims.main.data.Account;
+import com.hrims.main.sql.SQLCaller;
+import java.util.ArrayList;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,6 +19,10 @@ public class Editor_Account extends javax.swing.JInternalFrame {
     /**
      * Creates new form Employee
      */
+    
+    int pageNumber = 0;
+    int numPerPage = 25;
+    
     public Editor_Account() {
         initComponents();
     }
@@ -29,30 +37,47 @@ public class Editor_Account extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        grdAccounts = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jTextField2 = new javax.swing.JTextField();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        btnPrevious = new javax.swing.JButton();
+        txtPageNumber = new javax.swing.JTextField();
+        btnNext = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        cmbSearch = new javax.swing.JComboBox<>();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setTitle("Account Editor");
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        grdAccounts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1),  new Integer(1), "test", "guy", "123-456-7890", "qwe@asd.zxc"},
+                { new Integer(1), null, "test", "guy", "123-456-7890", "qwe@asd.zxc"},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -79,14 +104,14 @@ public class Editor_Account extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Account ID", "Location ID", "First Name", "Last Name", "Phone", "Email"
+                "Account ID", "Username", "First Name", "Last Name", "Phone", "Email"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, true, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -97,25 +122,25 @@ public class Editor_Account extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(grdAccounts);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        jPanel1.add(btnAdd);
 
-        jButton2.setText("Edit");
-        jPanel1.add(jButton2);
+        btnEdit.setText("Edit");
+        jPanel1.add(btnEdit);
 
-        jButton3.setText("Delete");
-        jPanel1.add(jButton3);
+        btnDelete.setText("Delete");
+        jPanel1.add(btnDelete);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -123,29 +148,29 @@ public class Editor_Account extends javax.swing.JInternalFrame {
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
-        jToggleButton1.setText("Previous");
-        jPanel3.add(jToggleButton1);
+        btnPrevious.setText("Previous");
+        jPanel3.add(btnPrevious);
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("1");
-        jPanel3.add(jTextField2);
+        txtPageNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPageNumber.setText("1");
+        jPanel3.add(txtPageNumber);
 
-        jToggleButton2.setText("Next");
-        jPanel3.add(jToggleButton2);
+        btnNext.setText("Next");
+        jPanel3.add(btnNext);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jToggleButton3.setText("Search");
-        jPanel4.add(jToggleButton3, java.awt.BorderLayout.LINE_END);
+        cmbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Account ID", "Location ID", "First Name", "Last Name", "Phone", "Company" }));
+        cmbSearch.setSelectedIndex(2);
+        jPanel4.add(cmbSearch, java.awt.BorderLayout.LINE_START);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Account ID", "Location ID", "First Name", "Last Name", "Phone", "Company" }));
-        jComboBox1.setSelectedIndex(2);
-        jPanel4.add(jComboBox1, java.awt.BorderLayout.LINE_START);
+        txtSearch.setText("Search");
+        jPanel4.add(txtSearch, java.awt.BorderLayout.CENTER);
 
-        jTextField1.setText("Search");
-        jPanel4.add(jTextField1, java.awt.BorderLayout.CENTER);
+        btnSearch.setText("Search");
+        jPanel4.add(btnSearch, java.awt.BorderLayout.LINE_END);
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
 
@@ -154,26 +179,77 @@ public class Editor_Account extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    
+    private void Reload() {
+        ArrayList<Account> accounts = SQLCaller.ME.getAccounts(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+        for(int y = 0; y < grdAccounts.getRowCount(); y++) {
+                for(int x = 0; x < grdAccounts.getColumnCount(); x++) {
+                if(y >= accounts.size()) {
+                    grdAccounts.getModel().setValueAt("", y, x);
+                } else {
+                    Account a = accounts.get(y);
+                    String information = "";
+                    switch(x) {
+                        case 0:
+                            information = ""+a.getAccountNumber();
+                            break;
+                        case 1:
+                            information = ""+a.getUsername();
+                            break;
+                        case 2:
+                            if(a.contacts.size() > 0) {
+                                information = ""+a.contacts.get(0).getFirstName();
+                            }
+                            break;
+                        case 3:
+                            if(a.contacts.size() > 0) {
+                                information = ""+a.contacts.get(0).getLastName();
+                            }
+                            break;
+                        case 4:
+                            if(a.contacts.size() > 0) {
+                                information = ""+a.contacts.get(0).getMainPhone();
+                            }
+                            break;
+                        case 5:
+                            if(a.contacts.size() > 0) {
+                                information = ""+a.contacts.get(0).getEmail();
+                            }
+                            break;
+                    }
+                    grdAccounts.getModel().setValueAt(information, y, x);
+                }
+            }
+        }
+        txtPageNumber.setText(""+(pageNumber+1));
+        
+    }
+    
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        Reload();
+    }//GEN-LAST:event_formInternalFrameOpened
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JComboBox<String> cmbSearch;
+    private javax.swing.JTable grdAccounts;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JTextField txtPageNumber;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

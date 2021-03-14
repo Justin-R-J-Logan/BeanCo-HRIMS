@@ -12,19 +12,19 @@ package com.hrims.main.data;
 public class TicketEntry {
 
     public int getUserId() {
-        return userId;
+        return userid;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.userid = userId;
     }
 
     public int getEntryId() {
-        return entryId;
+        return entryid;
     }
 
     public void setEntryId(int entryId) {
-        this.entryId = entryId;
+        this.entryid = entryId;
     }
 
     public String getMessage() {
@@ -34,14 +34,24 @@ public class TicketEntry {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public int getTicketid() {
+        return ticketid;
+    }
+
+    public void setTicketid(int ticketid) {
+        this.ticketid = ticketid;
+    }
     
-    int userId;
-    int entryId;
+    int ticketid;
+    int userid;
+    int entryid;
     String message;
 
-    public TicketEntry(int userId, int entryId, String message) {
-        this.userId = userId;
-        this.entryId = entryId;
+    public TicketEntry(int ticketid, int userId, int entryid, String message) {
+        this.ticketid = ticketid;
+        this.userid = userId;
+        this.entryid = entryid;
         this.message = message;
     }
 }

@@ -5,6 +5,7 @@
  */
 package com.hrims.main.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -12,9 +13,9 @@ import java.util.HashMap;
  * @author Justin
  */
 public class DataManager {
-    public static HashMap<Integer, Account> _accounts = new HashMap<Integer, Account>();
-    public static HashMap<Integer, Product> _products = new HashMap<Integer, Product>();
-    public static HashMap<Integer, Location> _locations = new HashMap<Integer, Location>();
-    public static HashMap<Integer, Machine> _machines = new HashMap<Integer, Machine>();
-    public static HashMap<Integer, Ticket> _tickets = new HashMap<Integer, Ticket>();
+    public static ArrayList<Account> _accounts = new ArrayList<Account>();
+    public static ArrayList<Product> _products = new ArrayList<Product>();
+    public static ArrayList<Location> _locations = new ArrayList<Location>();
+    public static ArrayList<Machine> _machines = new ArrayList<Machine>();
+    public static ArrayList<Ticket> _tickets = new ArrayList<Ticket>();
 }
