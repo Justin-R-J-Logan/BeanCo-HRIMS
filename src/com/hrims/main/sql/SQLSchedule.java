@@ -99,7 +99,7 @@ public class SQLSchedule {
      * @param arg 
      */
     public static void main(String arg[]) {
-        /* Code to test the various sql functions.
+        /* Code to test the various sql functions.*/
         
         
         int year = 2021; //Enter the exact year.
@@ -109,6 +109,6 @@ public class SQLSchedule {
         //Tests select on the given date.
         java.sql.Date testDate = new java.sql.Date(year-1900, month-1, day);
         System.out.println(testDate);
-        System.out.println(ME.getSchedules(testDate));*/
+        System.out.println(ME.getSchedules(testDate).get(0).toString());
     }
 }

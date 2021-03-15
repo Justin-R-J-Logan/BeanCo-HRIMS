@@ -1,11 +1,15 @@
 package com.hrims.main.frames;
 
 
+import com.hrims.main.data.ScheduleDay;
+import com.hrims.main.sql.SQLSchedule;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Properties;
 import org.jdatepicker.JDatePicker;
 import org.jdatepicker.UtilDateModel;
-
+import java.sql.Date;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -18,6 +22,8 @@ import org.jdatepicker.UtilDateModel;
  */
 public class Editor_Schedule extends javax.swing.JInternalFrame {
 
+    java.sql.Date currentDate = null;
+    
     /**
      * Creates new form Employee
      */
@@ -35,7 +41,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSchedule = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         jDatePicker1 = new JDatePicker(sqlDate);
@@ -44,9 +50,9 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        jButton5 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        jButton4 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jToggleButton3 = new javax.swing.JToggleButton();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -59,43 +65,43 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1),  new Integer(1), "8:00", "15:00", "Need them beans"},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                { new Integer(1),  new Integer(1), "8:00", "15:00"},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Employee ID", "Machine ID", "Time Start", "Time End", "Reason"
+                "Employee ID", "Machine ID", "Time Start", "Time End"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
+                false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -106,13 +112,19 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblSchedule);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jDatePicker1.setDoubleBuffered(true);
+        fixDate();
+        jDatePicker1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDatePicker1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jDatePicker1);
 
         jButton1.setText("Add");
@@ -135,15 +147,15 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
-        jToggleButton1.setText("Previous");
-        jPanel3.add(jToggleButton1);
+        jButton5.setText("Previous");
+        jPanel3.add(jButton5);
 
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField2.setText("1");
         jPanel3.add(jTextField2);
 
-        jToggleButton2.setText("Next");
-        jPanel3.add(jToggleButton2);
+        jButton4.setText("Next");
+        jPanel3.add(jButton4);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -169,11 +181,44 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePicker1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jDatePicker1ActionPerformed
+
+    private void Reload() {
+        ArrayList<ScheduleDay> schedules = SQLSchedule.ME.getSchedules(currentDate);
+        
+        for(int y = 0; y < tblSchedule.getRowCount(); y++) {
+                for(int x = 0; x < tblSchedule.getColumnCount(); x++) {
+                if(y >= schedules.size()) {
+                    tblSchedule.getModel().setValueAt("", y, x);
+                } else {
+                    ScheduleDay d = schedules.get(y);
+                    String information = "";
+                    switch(x) {
+                        case 0:
+                            information = ""+d.getAccountid();
+                            break;
+                        case 1:
+                            information = ""+d.getStart();
+                            break;
+                        case 2:
+                            information = ""+d.getEnd();
+                            break;
+                    }
+                    tblSchedule.getModel().setValueAt(information, y, x);
+                }
+            }
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private org.jdatepicker.JDatePicker jDatePicker1;
     private javax.swing.JPanel jPanel1;
@@ -181,11 +226,14 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JTable tblSchedule;
     // End of variables declaration//GEN-END:variables
+
+    private void fixDate() {
+        java.util.Date date = (java.util.Date)jDatePicker1.getModel().getValue();
+        date = new java.sql.Date(date.getTime());
+    }
 }

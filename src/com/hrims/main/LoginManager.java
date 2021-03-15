@@ -5,6 +5,7 @@
  */
 package com.hrims.main;
 
+import com.hrims.main.sql.SQLLogin;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
 
@@ -59,7 +60,7 @@ public class LoginManager {
      * @param password given from the login GUI
      */
     public static void Login(String username, String password) {
-        if(UserPasswordVerification(username, password)) {
+        if(SQLLogin.ME.Login(username, password)) {
             GUIManager.Login();
             status = Login_Status.IN;
         } else {
