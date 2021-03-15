@@ -1,4 +1,4 @@
-package com.hrims.main.frames.unused;
+package com.hrims.main.unusedclasses;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

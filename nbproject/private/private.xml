@@ -4,9 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/frames/Editor_Account.java</file>
+            <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/sql/SQLLocation.java</file>
+            <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/frames/Editor_Location.java</file>
+            <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/data/ScheduleDay.java</file>
             <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/data/Ticket.java</file>
-            <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/data/TicketEntry.java</file>
-            <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/sql/SQLCaller.java</file>
+            <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/frames/Editor_Schedule.java</file>
+            <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/frames/Editor_Machine.java</file>
+            <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/sql/SQLAccount.java</file>
+            <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/data/Account.java</file>
+            <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/data/Machine.java</file>
+            <file>file:/C:/Users/Justin_Server/Documents/College/Year%203/Sem02/CIS%20354%20-%20Project%20Implimentation/BeanCo/BeanCo-HRIMS/src/com/hrims/main/data/Location.java</file>
         </group>
     </open-files>
 </project-private>
