@@ -3,13 +3,12 @@ package com.hrims.main.frames;
 
 import com.hrims.main.data.ScheduleDay;
 import com.hrims.main.sql.SQLSchedule;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Properties;
 import org.jdatepicker.JDatePicker;
 import org.jdatepicker.UtilDateModel;
-import java.sql.Date;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -22,8 +21,6 @@ import java.sql.Date;
  */
 public class Editor_Schedule extends javax.swing.JInternalFrame {
 
-    java.sql.Date currentDate = null;
-    
     /**
      * Creates new form Employee
      */
@@ -40,23 +37,23 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblSchedule = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
+        jspDataDisplay = new javax.swing.JScrollPane();
+        tblData = new javax.swing.JTable();
+        pnlManagement = new javax.swing.JPanel();
         java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        jDatePicker1 = new JDatePicker(sqlDate);
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        jdpDatePicker = new JDatePicker(sqlDate);
+        btnAdd = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        pnlSearchPagination = new javax.swing.JPanel();
+        pnlPagination = new javax.swing.JPanel();
+        btnPrevious = new javax.swing.JButton();
+        txtPageNumber = new javax.swing.JTextField();
+        btnNext = new javax.swing.JButton();
+        pnlSearch = new javax.swing.JPanel();
+        cmbSearch = new javax.swing.JComboBox<>();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -65,43 +62,43 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
 
-        tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
+        tblData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1),  new Integer(1), "8:00", "15:00"},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null,  new Integer(1), "8:00", "15:00", null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Employee ID", "Machine ID", "Time Start", "Time End"
+                "Date", "Account ID", "Time Start", "Time End", "Total Break Time"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -112,128 +109,159 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblSchedule);
+        jspDataDisplay.setViewportView(tblData);
 
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jspDataDisplay, java.awt.BorderLayout.CENTER);
 
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+        pnlManagement.setLayout(new java.awt.GridLayout(1, 0));
 
-        jDatePicker1.setDoubleBuffered(true);
-        fixDate();
-        jDatePicker1.addActionListener(new java.awt.event.ActionListener() {
+        jdpDatePicker.setDoubleBuffered(true);
+        pnlManagement.add(jdpDatePicker);
+
+        btnAdd.setText("Add");
+        pnlManagement.add(btnAdd);
+
+        btnEdit.setText("Edit");
+        pnlManagement.add(btnEdit);
+
+        btnDelete.setText("Delete");
+        pnlManagement.add(btnDelete);
+
+        getContentPane().add(pnlManagement, java.awt.BorderLayout.PAGE_START);
+
+        pnlSearchPagination.setLayout(new java.awt.BorderLayout());
+
+        pnlPagination.setLayout(new java.awt.GridLayout(1, 0));
+
+        btnPrevious.setText("Previous");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jDatePicker1ActionPerformed(evt);
+                btnPreviousActionPerformed(evt);
             }
         });
-        jPanel1.add(jDatePicker1);
+        pnlPagination.add(btnPrevious);
 
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        txtPageNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPageNumber.setText("1");
+        pnlPagination.add(txtPageNumber);
+
+        btnNext.setText("Next");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnNextActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        pnlPagination.add(btnNext);
 
-        jButton2.setText("Edit");
-        jPanel1.add(jButton2);
+        pnlSearchPagination.add(pnlPagination, java.awt.BorderLayout.CENTER);
 
-        jButton3.setText("Delete");
-        jPanel1.add(jButton3);
+        pnlSearch.setLayout(new java.awt.BorderLayout());
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        cmbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Location ID", "Address", "Phone", "Email", "Company" }));
+        pnlSearch.add(cmbSearch, java.awt.BorderLayout.LINE_START);
 
-        jPanel2.setLayout(new java.awt.BorderLayout());
+        txtSearch.setText("Search");
+        pnlSearch.add(txtSearch, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
+        btnSearch.setText("Search");
+        pnlSearch.add(btnSearch, java.awt.BorderLayout.LINE_END);
 
-        jButton5.setText("Previous");
-        jPanel3.add(jButton5);
+        pnlSearchPagination.add(pnlSearch, java.awt.BorderLayout.PAGE_START);
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("1");
-        jPanel3.add(jTextField2);
-
-        jButton4.setText("Next");
-        jPanel3.add(jButton4);
-
-        jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
-
-        jPanel4.setLayout(new java.awt.BorderLayout());
-
-        jToggleButton3.setText("Search");
-        jPanel4.add(jToggleButton3, java.awt.BorderLayout.LINE_END);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Location ID", "Address", "Phone", "Email", "Company" }));
-        jPanel4.add(jComboBox1, java.awt.BorderLayout.LINE_START);
-
-        jTextField1.setText("Search");
-        jPanel4.add(jTextField1, java.awt.BorderLayout.CENTER);
-
-        jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
-
-        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(pnlSearchPagination, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    /***
+     * Returns to the previous page of the schedule list pagination. **Presently Page Number does nothing.
+     * @param evt 
+     */
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        pageNumber--;
+        if(pageNumber<0) pageNumber=0;
+        lockForward = false;
+        Reload();
+    }//GEN-LAST:event_btnPreviousActionPerformed
 
-    private void jDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePicker1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jDatePicker1ActionPerformed
-
+    /***
+     * Proceeds to the next page of the the schedule list pagination. **Presently Page Number does nothing.
+     * @param evt 
+     */
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        if(!lockForward) {
+            pageNumber++;
+            Reload();
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+    
+    /***
+     * Reloads the information contained in the schedule list, potentially by 
+     * page number.
+     * Alternative is to make this a separate function for iterating through a 
+     * populated list, though including the data update with the page iteration,
+     * while slower, might help insure data parity.
+     * 
+     * Currently does nothing until I figure out how to extract a java.sql.Date 
+     * object from the JDatePicker.
+     */
     private void Reload() {
-        ArrayList<ScheduleDay> schedules = SQLSchedule.ME.getSchedules(currentDate);
-        
-        for(int y = 0; y < tblSchedule.getRowCount(); y++) {
-                for(int x = 0; x < tblSchedule.getColumnCount(); x++) {
+        //dateSelection = date from jdpDatePicker, make use of some method to convert if necessary.
+        ArrayList<ScheduleDay> schedules = SQLSchedule.ME.getSchedules(dateSelection);
+
+        for(int y = 0; y < tblData.getRowCount(); y++) {
+            for(int x = 0; x < tblData.getColumnCount(); x++) {
                 if(y >= schedules.size()) {
-                    tblSchedule.getModel().setValueAt("", y, x);
+                    tblData.getModel().setValueAt("", y, x);
                 } else {
-                    ScheduleDay d = schedules.get(y);
+                    ScheduleDay schd = schedules.get(y);
                     String information = "";
                     switch(x) {
                         case 0:
-                            information = ""+d.getAccountid();
+                            information = ""+schd.getDate();
                             break;
                         case 1:
-                            information = ""+d.getStart();
+                            information = ""+schd.getAccountid();
                             break;
                         case 2:
-                            information = ""+d.getEnd();
+                            information = ""+schd.getStart();
                             break;
-                    }
-                    tblSchedule.getModel().setValueAt(information, y, x);
+                        case 3:
+                            information = ""+schd.getEnd();
+                            break;
+                        case 4:
+                            information = ""+schd.getTotalBreakTime();
+                            break;
+                        }
+                    tblData.getModel().setValueAt(information, y, x);
                 }
             }
         }
-        
+
+        txtPageNumber.setText(""+(pageNumber+1));
+
     }
 
+    
+    private int pageNumber = 0; //Page number used for the internal pagination.
+    private java.sql.Date dateSelection; //Hopefully the selected date of the JDatepicker.
+    private Boolean lockForward = false; //A boolean to prevent iteration ahead of the populated arraylist.
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private org.jdatepicker.JDatePicker jDatePicker1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JTable tblSchedule;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JComboBox<String> cmbSearch;
+    private org.jdatepicker.JDatePicker jdpDatePicker;
+    private javax.swing.JScrollPane jspDataDisplay;
+    private javax.swing.JPanel pnlManagement;
+    private javax.swing.JPanel pnlPagination;
+    private javax.swing.JPanel pnlSearch;
+    private javax.swing.JPanel pnlSearchPagination;
+    private javax.swing.JTable tblData;
+    private javax.swing.JTextField txtPageNumber;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
-
-    private void fixDate() {
-        java.util.Date date = (java.util.Date)jDatePicker1.getModel().getValue();
-        date = new java.sql.Date(date.getTime());
-    }
 }
