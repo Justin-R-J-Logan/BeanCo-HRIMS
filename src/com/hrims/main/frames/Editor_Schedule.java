@@ -1,9 +1,6 @@
 package com.hrims.main.frames;
 
 
-import com.hrims.main.data.ScheduleDay;
-import com.hrims.main.sql.SQLSchedule;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Properties;
 import org.jdatepicker.JDatePicker;
@@ -37,23 +34,23 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jspDataDisplay = new javax.swing.JScrollPane();
-        tblData = new javax.swing.JTable();
-        pnlManagement = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
         java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        jdpDatePicker = new JDatePicker(sqlDate);
-        btnAdd = new javax.swing.JButton();
-        btnEdit = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
-        pnlSearchPagination = new javax.swing.JPanel();
-        pnlPagination = new javax.swing.JPanel();
-        btnPrevious = new javax.swing.JButton();
-        txtPageNumber = new javax.swing.JTextField();
-        btnNext = new javax.swing.JButton();
-        pnlSearch = new javax.swing.JPanel();
-        cmbSearch = new javax.swing.JComboBox<>();
-        txtSearch = new javax.swing.JTextField();
-        btnSearch = new javax.swing.JButton();
+        jDatePicker1 = new JDatePicker(sqlDate);
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jTextField2 = new javax.swing.JTextField();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        jPanel4 = new javax.swing.JPanel();
+        jToggleButton3 = new javax.swing.JToggleButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jTextField1 = new javax.swing.JTextField();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -62,9 +59,9 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
 
-        tblData.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null,  new Integer(1), "8:00", "15:00", null},
+                { new Integer(1),  new Integer(1), "8:00", "15:00", "Need them beans"},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -91,11 +88,11 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Date", "Account ID", "Time Start", "Time End", "Total Break Time"
+                "Employee ID", "Machine ID", "Time Start", "Time End", "Reason"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, true, false
@@ -109,159 +106,86 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jspDataDisplay.setViewportView(tblData);
+        jScrollPane1.setViewportView(jTable1);
 
-        getContentPane().add(jspDataDisplay, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        pnlManagement.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        jdpDatePicker.setDoubleBuffered(true);
-        pnlManagement.add(jdpDatePicker);
+        jDatePicker1.setDoubleBuffered(true);
+        jPanel1.add(jDatePicker1);
 
-        btnAdd.setText("Add");
-        pnlManagement.add(btnAdd);
-
-        btnEdit.setText("Edit");
-        pnlManagement.add(btnEdit);
-
-        btnDelete.setText("Delete");
-        pnlManagement.add(btnDelete);
-
-        getContentPane().add(pnlManagement, java.awt.BorderLayout.PAGE_START);
-
-        pnlSearchPagination.setLayout(new java.awt.BorderLayout());
-
-        pnlPagination.setLayout(new java.awt.GridLayout(1, 0));
-
-        btnPrevious.setText("Previous");
-        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPreviousActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        pnlPagination.add(btnPrevious);
+        jPanel1.add(jButton1);
 
-        txtPageNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPageNumber.setText("1");
-        pnlPagination.add(txtPageNumber);
+        jButton2.setText("Edit");
+        jPanel1.add(jButton2);
 
-        btnNext.setText("Next");
-        btnNext.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextActionPerformed(evt);
-            }
-        });
-        pnlPagination.add(btnNext);
+        jButton3.setText("Delete");
+        jPanel1.add(jButton3);
 
-        pnlSearchPagination.add(pnlPagination, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        pnlSearch.setLayout(new java.awt.BorderLayout());
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
-        cmbSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Location ID", "Address", "Phone", "Email", "Company" }));
-        pnlSearch.add(cmbSearch, java.awt.BorderLayout.LINE_START);
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
-        txtSearch.setText("Search");
-        pnlSearch.add(txtSearch, java.awt.BorderLayout.CENTER);
+        jToggleButton1.setText("Previous");
+        jPanel3.add(jToggleButton1);
 
-        btnSearch.setText("Search");
-        pnlSearch.add(btnSearch, java.awt.BorderLayout.LINE_END);
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField2.setText("1");
+        jPanel3.add(jTextField2);
 
-        pnlSearchPagination.add(pnlSearch, java.awt.BorderLayout.PAGE_START);
+        jToggleButton2.setText("Next");
+        jPanel3.add(jToggleButton2);
 
-        getContentPane().add(pnlSearchPagination, java.awt.BorderLayout.PAGE_END);
+        jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
+
+        jPanel4.setLayout(new java.awt.BorderLayout());
+
+        jToggleButton3.setText("Search");
+        jPanel4.add(jToggleButton3, java.awt.BorderLayout.LINE_END);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Location ID", "Address", "Phone", "Email", "Company" }));
+        jPanel4.add(jComboBox1, java.awt.BorderLayout.LINE_START);
+
+        jTextField1.setText("Search");
+        jPanel4.add(jTextField1, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /***
-     * Returns to the previous page of the schedule list pagination. **Presently Page Number does nothing.
-     * @param evt 
-     */
-    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
-        pageNumber--;
-        if(pageNumber<0) pageNumber=0;
-        lockForward = false;
-        Reload();
-    }//GEN-LAST:event_btnPreviousActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    /***
-     * Proceeds to the next page of the the schedule list pagination. **Presently Page Number does nothing.
-     * @param evt 
-     */
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        if(!lockForward) {
-            pageNumber++;
-            Reload();
-        }
-    }//GEN-LAST:event_btnNextActionPerformed
-    
-    /***
-     * Reloads the information contained in the schedule list, potentially by 
-     * page number.
-     * Alternative is to make this a separate function for iterating through a 
-     * populated list, though including the data update with the page iteration,
-     * while slower, might help insure data parity.
-     * 
-     * Currently does nothing until I figure out how to extract a java.sql.Date 
-     * object from the JDatePicker.
-     */
-    private void Reload() {
-        //dateSelection = date from jdpDatePicker, make use of some method to convert if necessary.
-        ArrayList<ScheduleDay> schedules = SQLSchedule.ME.getSchedules(dateSelection);
 
-        for(int y = 0; y < tblData.getRowCount(); y++) {
-            for(int x = 0; x < tblData.getColumnCount(); x++) {
-                if(y >= schedules.size()) {
-                    tblData.getModel().setValueAt("", y, x);
-                } else {
-                    ScheduleDay schd = schedules.get(y);
-                    String information = "";
-                    switch(x) {
-                        case 0:
-                            information = ""+schd.getDate();
-                            break;
-                        case 1:
-                            information = ""+schd.getAccountid();
-                            break;
-                        case 2:
-                            information = ""+schd.getStart();
-                            break;
-                        case 3:
-                            information = ""+schd.getEnd();
-                            break;
-                        case 4:
-                            information = ""+schd.getTotalBreakTime();
-                            break;
-                        }
-                    tblData.getModel().setValueAt(information, y, x);
-                }
-            }
-        }
-
-        txtPageNumber.setText(""+(pageNumber+1));
-
-    }
-
-    
-    private int pageNumber = 0; //Page number used for the internal pagination.
-    private java.sql.Date dateSelection; //Hopefully the selected date of the JDatepicker.
-    private Boolean lockForward = false; //A boolean to prevent iteration ahead of the populated arraylist.
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnEdit;
-    private javax.swing.JButton btnNext;
-    private javax.swing.JButton btnPrevious;
-    private javax.swing.JButton btnSearch;
-    private javax.swing.JComboBox<String> cmbSearch;
-    private org.jdatepicker.JDatePicker jdpDatePicker;
-    private javax.swing.JScrollPane jspDataDisplay;
-    private javax.swing.JPanel pnlManagement;
-    private javax.swing.JPanel pnlPagination;
-    private javax.swing.JPanel pnlSearch;
-    private javax.swing.JPanel pnlSearchPagination;
-    private javax.swing.JTable tblData;
-    private javax.swing.JTextField txtPageNumber;
-    private javax.swing.JTextField txtSearch;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private org.jdatepicker.JDatePicker jDatePicker1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JToggleButton jToggleButton3;
     // End of variables declaration//GEN-END:variables
 }
