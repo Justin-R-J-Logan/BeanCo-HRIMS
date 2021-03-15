@@ -1,5 +1,11 @@
 package com.hrims.main.frames;
 
+import com.hrims.main.data.Machine;
+import com.hrims.main.sql.SQLCaller;
+import com.hrims.main.sql.SQLMachine;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,10 +14,14 @@ package com.hrims.main.frames;
 
 /**
  *
- * @author Matt
+ * @author Matthew
  */
 public class Editor_Machine extends javax.swing.JInternalFrame {
 
+    int pageNumber = 0;
+    int numPerPage = 25;
+    boolean lockForward = false;
+    
     /**
      * Creates new form Employee
      */
@@ -29,16 +39,16 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblMachine = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jTextField2 = new javax.swing.JTextField();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        btnPrevious = new javax.swing.JToggleButton();
+        txtPageNumber = new javax.swing.JTextField();
+        btnNext = new javax.swing.JToggleButton();
         jPanel4 = new javax.swing.JPanel();
         jToggleButton3 = new javax.swing.JToggleButton();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -50,7 +60,7 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblMachine.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 { new Integer(1),  new Integer(1), "Mean Bean Machine (TM)", "02/09/2021", "02/10/2021",  new Boolean(true)},
                 {null, null, null, null, null, null},
@@ -97,8 +107,8 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setDoubleBuffered(true);
-        jScrollPane1.setViewportView(jTable1);
+        tblMachine.setDoubleBuffered(true);
+        jScrollPane1.setViewportView(tblMachine);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -124,15 +134,20 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
-        jToggleButton1.setText("Previous");
-        jPanel3.add(jToggleButton1);
+        btnPrevious.setText("Previous");
+        jPanel3.add(btnPrevious);
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("1");
-        jPanel3.add(jTextField2);
+        txtPageNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPageNumber.setText("1");
+        jPanel3.add(txtPageNumber);
 
-        jToggleButton2.setText("Next");
-        jPanel3.add(jToggleButton2);
+        btnNext.setText("Next");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnNext);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -159,8 +174,70 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        if(!lockForward) 
+        {
+            pageNumber++;
+            Reload();
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
 
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) 
+    {                                            
+        pageNumber--;
+        if(pageNumber<0) pageNumber=0;
+        lockForward = false;
+        Reload();
+    } 
+    
+    private void Reload() {
+        ArrayList<Machine> machines = SQLMachine.ME.getMachines(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
+        
+        for(int y = 0; y < tblMachine.getRowCount(); y++) {
+                for(int x = 0; x < tblMachine.getColumnCount(); x++) {
+                if(y >= machines.size()) {
+                    tblMachine.getModel().setValueAt("", y, x);
+                } else {
+                    Machine l = machines.get(y);
+                    String information = "";
+                    switch(x) {
+                        case 0:
+                            information = ""+l.getMachineID();
+                            break;
+                        case 1:
+                            information = ""+l.getLocationID();
+                            break;
+                        case 2:
+                            information = ""+l.getMachineName();
+                            break;
+                        case 3:
+                            information = ""+l.getPurchaseDate();
+                            break;
+                        case 4:
+                            information = ""+l.getLastUse();
+                            break;
+                        case 5:
+                            information = ""+l.getCreated();
+                            break;
+                    }
+                    tblMachine.getModel().setValueAt(information, y, x);
+                }
+            }
+        }
+        txtPageNumber.setText(""+(pageNumber+1));
+        
+    }
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) 
+    {                                         
+        Reload();
+    }                                                                            
+
+   
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnNext;
+    private javax.swing.JToggleButton btnPrevious;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -170,11 +247,9 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JTable tblMachine;
+    private javax.swing.JTextField txtPageNumber;
     // End of variables declaration//GEN-END:variables
 }
