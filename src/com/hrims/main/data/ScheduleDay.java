@@ -53,6 +53,11 @@ public class ScheduleDay {
     public void setTotalBreakTime(int _totalBreakTime) {
         this._totalBreakTime = _totalBreakTime;
     }
+
+    @Override
+    public String toString() {
+        return "ScheduleDay{" + "_accountid=" + _accountid + ", _date=" + _date + ", _start=" + _start + ", _end=" + _end + ", _totalBreakTime=" + _totalBreakTime + '}';
+    }
     
     private int _accountid;
     private java.sql.Date _date;
