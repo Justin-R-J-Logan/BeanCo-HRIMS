@@ -11,6 +11,10 @@ package com.hrims.main.data;
  */
 public class TicketEntry {
 
+    public TicketEntry() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getUserId() {
         return userid;
     }

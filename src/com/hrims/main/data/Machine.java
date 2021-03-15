@@ -14,6 +14,10 @@ import java.sql.Date;
 public class Machine 
 {
 
+    public Machine() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getMachineID() 
     {
         return _machineID;

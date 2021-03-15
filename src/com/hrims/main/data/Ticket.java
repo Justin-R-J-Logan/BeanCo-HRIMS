@@ -5,6 +5,7 @@
  */
 package com.hrims.main.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,12 +14,8 @@ import java.util.HashMap;
  */
 public class Ticket {
 
-    public static HashMap<Integer, TicketEntry> getTickets() {
-        return tickets;
-    }
-
-    public static void setTickets(HashMap<Integer, TicketEntry> tickets) {
-        Ticket.tickets = tickets;
+    public Ticket() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getUserID() {
@@ -51,9 +48,26 @@ public class Ticket {
         this.resolved = resolved;
     }
     
-    public static HashMap<Integer, TicketEntry> tickets = new HashMap<Integer, TicketEntry>();
+    public static ArrayList<TicketEntry> tickets = new ArrayList<TicketEntry>();
     int userID;
     String description;
     boolean resolved;
+    int TicketId;
+
+    public int getTicketId() {
+        return TicketId;
+    }
+
+    public void setTicketId(int TicketId) {
+        this.TicketId = TicketId;
+    }
+
+    public void setTicketNumber(int aInt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void addEntry(TicketEntry c) {
+       tickets.add(c);
+    }
     
 }
