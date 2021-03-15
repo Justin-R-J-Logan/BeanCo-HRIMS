@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.hrims.main.frames.unused;
+package com.hrims.main.unusedclasses;
 
 /**
  *
