@@ -183,7 +183,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
 
     /***
      * Returns to the previous page of the schedule list pagination. **Presently Page Number does nothing.
-     * @param evt 
+     * @param evt the calling event.
      */
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
         btnNext.setEnabled(true);
@@ -194,13 +194,20 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
 
     /***
      * Proceeds to the next page of the the schedule list pagination. **Presently Page Number does nothing.
-     * @param evt 
+     * @param evt the calling event.
      */
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         pageNumber++;
         Reload();
     }//GEN-LAST:event_btnNextActionPerformed
 
+    
+    /***
+     * Calls the update function on the selection of a new date, repopulating
+     * the array with new information, provided the event has the action command
+     * "date selected", else prints the calling event to sout.
+     * @param evt The calling event.
+     */
     private void jdpDatePickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jdpDatePickerActionPerformed
         if (evt.getActionCommand().equalsIgnoreCase("date selected")){
             Update();
@@ -215,6 +222,10 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
 
     /***
      * Reloads the information displayed in the Data table.
+     * 
+     * Pagination isn't currently functional; I'd need at least 26 entries on a
+     * given date to test it so I'm gonna make that work as soon as I've finished
+     * the Add and Edit buttons' functionalities.
      */
     private void Reload() {
         //dateSelection = date from jdpDatePicker, make use of some method to convert if necessary.
@@ -270,9 +281,9 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         Reload();
     }
     
-    private final int resultsPerPage = 25;
-    private int pageNumber = 0; //Page number used for the internal pagination.
     
+    private final int resultsPerPage = 25; //Number of results displayed per page.
+    private int pageNumber = 0; //Page number used for the internal pagination.
     ArrayList<ScheduleDay> schedules; //Arraylist containing the information 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
