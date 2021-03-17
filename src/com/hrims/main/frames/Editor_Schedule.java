@@ -5,9 +5,7 @@ import com.hrims.main.data.ScheduleDay;
 import com.hrims.main.sql.SQLSchedule;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Properties;
 import org.jdatepicker.JDatePicker;
-import org.jdatepicker.UtilDateModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -61,6 +59,11 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         setTitle("Schedule Editor");
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         tblData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -116,6 +119,11 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         pnlManagement.setLayout(new java.awt.GridLayout(1, 0));
 
         jdpDatePicker.setDoubleBuffered(true);
+        jdpDatePicker.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jdpDatePickerActionPerformed(evt);
+            }
+        });
         pnlManagement.add(jdpDatePicker);
 
         btnAdd.setText("Add");
@@ -178,9 +186,9 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
      * @param evt 
      */
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        btnNext.setEnabled(true);
         pageNumber--;
         if(pageNumber<0) pageNumber=0;
-        lockForward = false;
         Reload();
     }//GEN-LAST:event_btnPreviousActionPerformed
 
@@ -189,26 +197,28 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
      * @param evt 
      */
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        if(!lockForward) {
-            pageNumber++;
-            Reload();
-        }
+        pageNumber++;
+        Reload();
     }//GEN-LAST:event_btnNextActionPerformed
-    
+
+    private void jdpDatePickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jdpDatePickerActionPerformed
+        if (evt.getActionCommand().equalsIgnoreCase("date selected")){
+            Update();
+        } else {
+            System.out.println("Event: " + evt.toString());
+        }
+    }//GEN-LAST:event_jdpDatePickerActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        Update();
+    }//GEN-LAST:event_formComponentShown
+
     /***
-     * Reloads the information contained in the schedule list, potentially by 
-     * page number.
-     * Alternative is to make this a separate function for iterating through a 
-     * populated list, though including the data update with the page iteration,
-     * while slower, might help insure data parity.
-     * 
-     * Currently does nothing until I figure out how to extract a java.sql.Date 
-     * object from the JDatePicker.
+     * Reloads the information displayed in the Data table.
      */
     private void Reload() {
         //dateSelection = date from jdpDatePicker, make use of some method to convert if necessary.
-        ArrayList<ScheduleDay> schedules = SQLSchedule.ME.getSchedules(dateSelection);
-
+        //ArrayList<ScheduleDay> schedules = SQLSchedule.ME.getSchedules(dateSelection);
         for(int y = 0; y < tblData.getRowCount(); y++) {
             for(int x = 0; x < tblData.getColumnCount(); x++) {
                 if(y >= schedules.size()) {
@@ -239,13 +249,31 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         }
 
         txtPageNumber.setText(""+(pageNumber+1));
+        if (schedules.size() < ((resultsPerPage*pageNumber)+resultsPerPage)) {
+            btnNext.setEnabled(false);
+        }
 
     }
-
     
+    /***
+     * On-call: Updates the data stored in the schedules array to the current date
+     * stored in the Date Picker.
+     */
+    private void Update(){
+        int year = jdpDatePicker.getModel().getYear();
+        int month = jdpDatePicker.getModel().getMonth();
+        int day = jdpDatePicker.getModel().getDay();
+        java.sql.Date dateSelection = new java.sql.Date(year-1900, month, day);
+        System.out.println("Date: " + dateSelection.toString());
+        schedules = SQLSchedule.ME.getSchedules(dateSelection);
+        pageNumber = 0;
+        Reload();
+    }
+    
+    private final int resultsPerPage = 25;
     private int pageNumber = 0; //Page number used for the internal pagination.
-    private java.sql.Date dateSelection; //Hopefully the selected date of the JDatepicker.
-    private Boolean lockForward = false; //A boolean to prevent iteration ahead of the populated arraylist.
+    
+    ArrayList<ScheduleDay> schedules; //Arraylist containing the information 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
