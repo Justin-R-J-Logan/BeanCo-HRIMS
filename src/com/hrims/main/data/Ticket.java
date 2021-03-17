@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class Ticket {
 
     public Ticket() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     public int getUserID() {
@@ -68,6 +68,10 @@ public class Ticket {
 
     public void addEntry(TicketEntry c) {
        tickets.add(c);
+    }
+    
+    public TicketEntry[] getEntries() {
+        return (TicketEntry[])tickets.toArray();
     }
     
 }

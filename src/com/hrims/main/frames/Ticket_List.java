@@ -6,6 +6,9 @@
 package com.hrims.main.frames;
 
 import com.hrims.main.GUIManager;
+import com.hrims.main.data.Ticket;
+import com.hrims.main.sql.SQLTicket;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,6 +16,10 @@ import com.hrims.main.GUIManager;
  */
 public class Ticket_List extends javax.swing.JInternalFrame {
 
+    int pageNumber = 0;
+    int numPerPage = 25;
+    ArrayList<Ticket> tickets; //current list of tickets;
+    
     /**
      * Creates new form TicketList
      */
@@ -20,6 +27,38 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         initComponents();
     }
 
+    
+    private void Reload() {
+        tickets = SQLTicket.ME.getTickets(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
+        
+        for(int y = 0; y < tblTickets.getRowCount(); y++) {
+                for(int x = 0; x < tblTickets.getColumnCount(); x++) {
+                if(y >= tickets.size()) {
+                    tblTickets.getModel().setValueAt("", y, x);
+                } else {
+                    Ticket l = tickets.get(y);
+                    String information = "";
+                    switch(x) {
+                        case 0:
+                            information = ""+l.getTicketId();
+                            break;
+                        case 1:
+                            information = ""+l.isResolved();//+l;
+                            break;
+                        case 2:
+                            information = ""+l.getUserID();
+                            break;
+                        case 3:
+                            information = ""+l.getDescription();
+                            break;
+                    }
+                    tblTickets.getModel().setValueAt(information, y, x);
+                }
+            }
+        }
+        txtPage.setText(""+(pageNumber+1));
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,20 +73,18 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblTickets = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jTextField1 = new javax.swing.JTextField();
+        btnViewTicket = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jTextField2 = new javax.swing.JTextField();
-        jToggleButton4 = new javax.swing.JToggleButton();
+        btnPrevious = new javax.swing.JButton();
+        txtPage = new javax.swing.JTextField();
+        btnNext = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jToggleButton5 = new javax.swing.JToggleButton();
         jComboBox2 = new javax.swing.JComboBox<>();
         jTextField3 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         jInternalFrame1.setVisible(true);
 
@@ -74,8 +111,13 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         setTitle("Ticket List");
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblTickets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"1", "Closed", "TheBeanMachine", "Machine broke down, pls help!"},
                 {null, null, null, null},
@@ -107,33 +149,19 @@ public class Ticket_List extends javax.swing.JInternalFrame {
                 "Ticket No", "Status", "User", "Descritpion"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblTickets);
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jToggleButton2.setText("View Ticket");
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnViewTicket.setText("View Ticket");
+        btnViewTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
+                btnViewTicketActionPerformed(evt);
             }
         });
-        jPanel2.add(jToggleButton2, java.awt.BorderLayout.LINE_START);
-
-        jToggleButton3.setText("Search");
-        jPanel2.add(jToggleButton3, java.awt.BorderLayout.LINE_END);
-
-        jTextField1.setText("Search...");
-        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextField1FocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField1FocusLost(evt);
-            }
-        });
-        jPanel2.add(jTextField1, java.awt.BorderLayout.CENTER);
+        jPanel2.add(btnViewTicket, java.awt.BorderLayout.LINE_START);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
@@ -141,22 +169,29 @@ public class Ticket_List extends javax.swing.JInternalFrame {
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
-        jToggleButton1.setText("Previous");
-        jPanel4.add(jToggleButton1);
+        btnPrevious.setText("Previous");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnPrevious);
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("1");
-        jPanel4.add(jTextField2);
+        txtPage.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPage.setText("1");
+        jPanel4.add(txtPage);
 
-        jToggleButton4.setText("Next");
-        jPanel4.add(jToggleButton4);
+        btnNext.setText("Next");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnNext);
 
         jPanel3.add(jPanel4, java.awt.BorderLayout.CENTER);
 
         jPanel5.setLayout(new java.awt.BorderLayout());
-
-        jToggleButton5.setText("Search");
-        jPanel5.add(jToggleButton5, java.awt.BorderLayout.LINE_END);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ticket No.", "Status", "User", "Description" }));
         jComboBox2.setSelectedIndex(2);
@@ -165,6 +200,9 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         jTextField3.setText("Search");
         jPanel5.add(jTextField3, java.awt.BorderLayout.CENTER);
 
+        jButton1.setText("Search");
+        jPanel5.add(jButton1, java.awt.BorderLayout.LINE_END);
+
         jPanel3.add(jPanel5, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_END);
@@ -172,21 +210,30 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
-        if(jTextField1.getText().equalsIgnoreCase("search...")) {
-            jTextField1.setText("");
-        }
-    }//GEN-LAST:event_jTextField1FocusGained
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        pageNumber--;
+        if(pageNumber<0) pageNumber=0;
+        Reload();
+    }//GEN-LAST:event_btnPreviousActionPerformed
 
-    private void jTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusLost
-        if(jTextField1.getText().equalsIgnoreCase("")) {
-            jTextField1.setText("Search...");
-        }
-    }//GEN-LAST:event_jTextField1FocusLost
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        pageNumber++;
+        Reload();
+    }//GEN-LAST:event_btnNextActionPerformed
 
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        GUIManager.Show("TicketPage");
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        Reload();
+    }//GEN-LAST:event_formComponentShown
+
+    private void btnViewTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTicketActionPerformed
+        
+        try {
+            int ticket = Integer.parseInt(tblTickets.getValueAt(tblTickets.getSelectedRow(), 0).toString());
+            
+            GUIManager.Show("TicketPage");
+            ((Ticket_Page)(GUIManager.Lookup("TicketPage"))).setTicket(tickets.get(ticket));
+        } catch(Exception ex) { }
+    }//GEN-LAST:event_btnViewTicketActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,6 +286,10 @@ public class Ticket_List extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
+    private javax.swing.JButton btnViewTicket;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JInternalFrame jInternalFrame1;
@@ -248,15 +299,9 @@ public class Ticket_List extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JToggleButton jToggleButton4;
-    private javax.swing.JToggleButton jToggleButton5;
+    private javax.swing.JTable tblTickets;
+    private javax.swing.JTextField txtPage;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,6 +1,8 @@
 package com.hrims.main.frames;
 
 import com.hrims.main.GUIManager;
+import com.hrims.main.data.Ticket;
+import com.hrims.main.data.TicketEntry;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,7 +15,36 @@ import com.hrims.main.GUIManager;
  * @author mrdsc
  */
 public class Ticket_Page extends javax.swing.JInternalFrame {
-
+    
+    Ticket ticket;
+    int pageNumber = 0;
+    int numPerPage = 25;
+   
+    private void Reload() {
+        
+        for(int y = 0; y < tblPages.getRowCount(); y++) {
+                for(int x = 0; x < tblPages.getColumnCount(); x++) {
+                if(y >= ticket.getEntries().length) {
+                    tblPages.getModel().setValueAt("", y, x);
+                } else {
+                    TicketEntry l = ticket.getEntries()[y];
+                    String information = "";
+                    switch(x) {
+                        case 0:
+                            information = ""+l.getEntryId();
+                            break;
+                        case 1:
+                            information = ""+l.getUserId();//+l;
+                            break;
+                        case 2:
+                            information = ""+l.getMessage();
+                            break;
+                    }
+                    tblPages.getModel().setValueAt(information, y, x);
+                }
+            }
+        }
+    }
     /**
      * Creates new form Employee
      */
@@ -31,11 +62,11 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblPages = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jToggleButton1 = new javax.swing.JToggleButton();
@@ -52,43 +83,43 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblPages.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1),  new Integer(1), "test", "description"},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                { new Integer(1),  new Integer(1), "test"},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Response ID", "UserID", "Response", "Description"
+                "Response ID", "UserID", "Response"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -99,27 +130,27 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblPages);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton1.setText("Add Response");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setText("Add Response");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        jPanel1.add(btnAdd);
 
-        jButton2.setText("Edit");
-        jButton2.setEnabled(false);
-        jPanel1.add(jButton2);
+        btnEdit.setText("Edit");
+        btnEdit.setEnabled(false);
+        jPanel1.add(btnEdit);
 
-        jButton3.setText("Delete");
-        jButton3.setEnabled(false);
-        jPanel1.add(jButton3);
+        btnDelete.setText("Delete");
+        btnDelete.setEnabled(false);
+        jPanel1.add(btnDelete);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -158,26 +189,30 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         GUIManager.Show("Ticket_AddResponse");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JTable tblPages;
     // End of variables declaration//GEN-END:variables
+
+    void setTicket(Ticket get) {
+        this.ticket = get;
+    }
 }

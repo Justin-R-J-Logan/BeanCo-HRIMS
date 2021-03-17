@@ -47,8 +47,8 @@ public class SQLTicket {
             ArrayList<TicketEntry> ticketEntries;
             ticketEntries = SQLTicketEntry.ME.getTicketsFromTicketId(low, high);
             
-            ResultSet result = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM account "
-                                                        + "WHERE accountid BETWEEN " + low + " AND " + high + ";");
+            ResultSet result = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM ticket "
+                                                        + "WHERE ticketid BETWEEN " + low + " AND " + high + ";");
             
             while(result.next()) {
                 Ticket acc = new Ticket();

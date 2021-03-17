@@ -10,7 +10,7 @@ import com.hrims.main.frames.Employee_Interface;
 import com.hrims.main.frames.Login;
 import com.hrims.main.frames.Machine_Breakdown;
 import com.hrims.main.frames.Menu_Administrator;
-import com.hrims.main.frames.Menu_Distributor;s
+import com.hrims.main.frames.Menu_Distributor;
 import com.hrims.main.frames.Menu_Employee;
 import com.hrims.main.frames.Menu_Main;
 import com.hrims.main.frames.Menu_Manager;
@@ -161,7 +161,6 @@ public class GUIManager {
         Register("Employee_Editor", new Editor_Account());
         Register("Location_Editor", new Editor_Location());
         Register("Machine_Editor", new Editor_Machine());
-        Register("Schedule_Viewer", new Schedule_Viewer());
         Register("Administrator_MachineStatus", new Administrator_MachineStatus());
         Register("TicketList", new Ticket_List());
         Register("TicketPage", new Ticket_Page());

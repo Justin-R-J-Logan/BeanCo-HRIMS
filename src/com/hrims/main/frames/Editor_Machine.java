@@ -46,9 +46,9 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        btnPrevious = new javax.swing.JToggleButton();
+        btnPrevious = new javax.swing.JButton();
         txtPageNumber = new javax.swing.JTextField();
-        btnNext = new javax.swing.JToggleButton();
+        btnNext = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jToggleButton3 = new javax.swing.JToggleButton();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -59,10 +59,15 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
         setTitle("Machine Editor");
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         tblMachine.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1),  new Integer(1), "Mean Bean Machine (TM)", "02/09/2021", "02/10/2021",  new Boolean(true)},
+                { new Integer(1),  new Integer(1), "Mean Bean Machine (TM)", "02/09/2021", "02/10/2021", null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -93,7 +98,7 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
@@ -135,6 +140,11 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
         jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
         btnPrevious.setText("Previous");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnPrevious);
 
         txtPageNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -174,21 +184,21 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        if(!lockForward) 
-        {
-            pageNumber++;
-            Reload();
-        }
-    }//GEN-LAST:event_btnNextActionPerformed
-
-    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) 
-    {                                            
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
         pageNumber--;
         if(pageNumber<0) pageNumber=0;
-        lockForward = false;
         Reload();
-    } 
+    }//GEN-LAST:event_btnPreviousActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        pageNumber++;
+        Reload();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        Reload();
+    }//GEN-LAST:event_formComponentShown
+
     
     private void Reload() {
         ArrayList<Machine> machines = SQLMachine.ME.getMachines(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
@@ -217,7 +227,7 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
                             information = ""+l.getLastUse();
                             break;
                         case 5:
-                            information = ""+l.getCreated();
+                            information = ""+l.isInUse();
                             break;
                     }
                     tblMachine.getModel().setValueAt(information, y, x);
@@ -236,8 +246,8 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnNext;
-    private javax.swing.JToggleButton btnPrevious;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
