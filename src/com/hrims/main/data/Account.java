@@ -246,10 +246,11 @@ public class Account implements DataGrabber {
             for(Contact c : contacts) {
                 SQLContact.ME.updateContact(c);
             }
-            return true;
         } catch (Exception ex) {
-            
+            ex.printStackTrace();
+            return false;
         }
+        return true;
     }
     
 }
