@@ -1,5 +1,6 @@
 package com.hrims.main.frames;
 
+import com.hrims.main.GUIManager;
 import com.hrims.main.data.Location;
 import com.hrims.main.sql.SQLLocation;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class Editor_Location extends javax.swing.JInternalFrame {
 
     int pageNumber = 0;
     int numPerPage = 25;
+    ArrayList<Location> locations;
     
     /**
      * Creates new form Employee
@@ -27,7 +29,7 @@ public class Editor_Location extends javax.swing.JInternalFrame {
     }
 
     private void Reload() {
-        ArrayList<Location> locations = SQLLocation.ME.getLocations(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
+        locations = SQLLocation.ME.getLocations(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
         
         for(int y = 0; y < tblLocations.getRowCount(); y++) {
                 for(int x = 0; x < tblLocations.getColumnCount(); x++) {
@@ -58,7 +60,6 @@ public class Editor_Location extends javax.swing.JInternalFrame {
             }
         }
         txtPageNumber.setText(""+(pageNumber+1));
-        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,6 +106,11 @@ public class Editor_Location extends javax.swing.JInternalFrame {
             }
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameOpened(evt);
+            }
+        });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
             }
         });
 
@@ -170,6 +176,11 @@ public class Editor_Location extends javax.swing.JInternalFrame {
         jPanel1.add(jButton1);
 
         jButton2.setText("Edit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2);
 
         jButton3.setText("Delete");
@@ -219,6 +230,28 @@ public class Editor_Location extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Reload();
     }//GEN-LAST:event_formInternalFrameOpened
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int row = tblLocations.getSelectedRow();
+        try {
+            int locID = Integer.parseInt((String)tblLocations.getModel().getValueAt(row, 0));
+            Location loc = null;
+            Properties_Editor<Location> editor = (Properties_Editor<Location>)GUIManager.Lookup("Location_Property_Editor");
+            for(Location l : locations) {
+                if(l.getLocationID()== locID) {
+                    loc = l;
+                }
+            }
+            editor.setObject(loc);
+            editor.setVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        Reload();
+    }//GEN-LAST:event_formComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

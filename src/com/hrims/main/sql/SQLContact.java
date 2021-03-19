@@ -44,4 +44,8 @@ public class SQLContact {
             }
         return contacts;
     }
+
+    public void updateContact(Contact c) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

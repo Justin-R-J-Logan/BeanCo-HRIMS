@@ -9,6 +9,7 @@ import com.hrims.main.data.Account;
 import com.hrims.main.data.Contact;
 import static com.hrims.main.sql.SQLCaller.ME;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 
 /**
@@ -86,6 +87,16 @@ public class SQLAccount {
         
         try {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
+            ResultSetMetaData rsmd = result.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (result.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                if (i > 1) System.out.print(",  ");
+                String columnValue = result.getString(i);
+                System.out.print(columnValue + " " + rsmd.getColumnName(i));
+            }
+            System.out.println("");
+        }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

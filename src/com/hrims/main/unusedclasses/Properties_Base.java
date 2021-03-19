@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.hrims.main.frames;
+package com.hrims.main.unusedclasses;
 
 /**
  *
  * @author Justin
  */
-public class Properties_DistributorInfo extends javax.swing.JInternalFrame {
+public class Properties_Base extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form Distributor_Information
+     * Creates new form Interface_PropertyEditor
      */
-    public Properties_DistributorInfo() {
+    public Properties_Base() {
         initComponents();
     }
 
@@ -27,16 +27,17 @@ public class Properties_DistributorInfo extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
-        setClosable(true);
-        setIconifiable(true);
-        setTitle("Distributor Information");
-
-        jLabel1.setText("No information to see as of yet. Please connect to the SQL server!");
-        getContentPane().add(jLabel1, java.awt.BorderLayout.PAGE_START);
+        setTitle("Properties Editor");
+        setToolTipText("");
+        setMinimumSize(new java.awt.Dimension(640, 380));
+        setPreferredSize(new java.awt.Dimension(640, 380));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -61,12 +62,28 @@ public class Properties_DistributorInfo extends javax.swing.JInternalFrame {
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jPanel1.setLayout(new java.awt.GridLayout(1, 4));
+
+        jButton1.setText("Save");
+        jPanel1.add(jButton1);
+
+        jButton2.setText("Reload");
+        jPanel1.add(jButton2);
+
+        jButton4.setText("Cancel");
+        jPanel1.add(jButton4);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

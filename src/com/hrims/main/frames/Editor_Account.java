@@ -1,5 +1,6 @@
 package com.hrims.main.frames;
 
+import com.hrims.main.GUIManager;
 import com.hrims.main.data.Account;
 import com.hrims.main.sql.SQLAccount;
 import com.hrims.main.sql.SQLCaller;
@@ -25,6 +26,7 @@ public class Editor_Account extends javax.swing.JInternalFrame {
     int pageNumber = 0;
     int numPerPage = 25;
     boolean lockForward = false;
+    ArrayList<Account> accounts;
     
     public Editor_Account() {
         initComponents();
@@ -40,7 +42,7 @@ public class Editor_Account extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        grdAccounts = new javax.swing.JTable();
+        tblAccounts = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
@@ -77,8 +79,13 @@ public class Editor_Account extends javax.swing.JInternalFrame {
                 formInternalFrameOpened(evt);
             }
         });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
-        grdAccounts.setModel(new javax.swing.table.DefaultTableModel(
+        tblAccounts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 { new Integer(1), null, "test", "guy", "123-456-7890", "qwe@asd.zxc"},
                 {null, null, null, null, null, null},
@@ -125,7 +132,7 @@ public class Editor_Account extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(grdAccounts);
+        jScrollPane1.setViewportView(tblAccounts);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -140,6 +147,11 @@ public class Editor_Account extends javax.swing.JInternalFrame {
         jPanel1.add(btnAdd);
 
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnEdit);
 
         btnDelete.setText("Delete");
@@ -194,12 +206,12 @@ public class Editor_Account extends javax.swing.JInternalFrame {
 
     
     private void Reload() {
-        ArrayList<Account> accounts = SQLAccount.ME.getAccounts(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
+        accounts = SQLAccount.ME.getAccounts(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
         
-        for(int y = 0; y < grdAccounts.getRowCount(); y++) {
-            for(int x = 0; x < grdAccounts.getColumnCount(); x++) {
+        for(int y = 0; y < tblAccounts.getRowCount(); y++) {
+            for(int x = 0; x < tblAccounts.getColumnCount(); x++) {
                 if(y >= accounts.size()) {
-                    grdAccounts.getModel().setValueAt("", y, x);
+                    tblAccounts.getModel().setValueAt("", y, x);
                 } else {
                     Account a = accounts.get(y);
                     String information = "";
@@ -231,7 +243,7 @@ public class Editor_Account extends javax.swing.JInternalFrame {
                             }
                             break;
                         }
-                    grdAccounts.getModel().setValueAt(information, y, x);
+                    tblAccounts.getModel().setValueAt(information, y, x);
                 }
             }
         }
@@ -262,6 +274,28 @@ public class Editor_Account extends javax.swing.JInternalFrame {
         Reload();
     }//GEN-LAST:event_btnPreviousActionPerformed
 
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        Reload();
+    }//GEN-LAST:event_formComponentShown
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        int row = tblAccounts.getSelectedRow();
+        try {
+            int accID = Integer.parseInt((String)tblAccounts.getModel().getValueAt(row, 0));
+            Account acc = null;
+            Properties_Editor<Account> editor = (Properties_Editor<Account>)GUIManager.Lookup("Account_Property_Editor");
+            for(Account a : accounts) {
+                if(a.getAccountNumber() == accID) {
+                    acc = a;
+                }
+            }
+            editor.setObject(acc);
+            editor.setVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -271,12 +305,12 @@ public class Editor_Account extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnSearch;
     private javax.swing.JComboBox<String> cmbSearch;
-    private javax.swing.JTable grdAccounts;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblAccounts;
     private javax.swing.JTextField txtPageNumber;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

@@ -5,16 +5,22 @@
  */
 package com.hrims.main.data;
 
+import com.hrims.main.sql.SQLAccount;
 import com.hrims.main.sql.SQLCaller;
+import com.hrims.main.sql.SQLContact;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  *
  * @author Justin
  */
-public class Account {
+public class Account implements DataGrabber {
 
     private static final int ACCESS_ADMINISTRATOR = 16;
     private static final int ACCESS_MANAGER = 8;
@@ -131,6 +137,119 @@ public class Account {
     }
     public void remContact(int c) {
         contacts.remove(c);
+    }
+
+    @Override
+    public Map<String, Object> getResources() {
+        Map<String, Object> resources = new LinkedHashMap<String, Object>();
+        
+        resources.put("Username", this._username);
+        resources.put("Password", this._password);
+        resources.put("Account Number", this._accountNumber);
+        resources.put("Access Rights", this._accessRights);
+        resources.put("Created", this._created);
+        resources.put("Last Login", this._lastLogin);
+        resources.put("Discount", this._discount);
+        
+        
+        int i = 0;
+        for(Contact c : contacts) {
+            resources.put("Contact " + i + " Location ID", "" + c.getLocationID());
+            resources.put("Contact " + i + " First Name", "" + c.getFirstName());
+            resources.put("Contact " + i + " Last Name", "" + c.getLastName());
+            resources.put("Contact " + i + " Address", "" + c.getAddressL1());
+            resources.put("Contact " + i + " Address L2", "" + c.getAddressL1());
+            resources.put("Contact " + i + " Phone", "" + c.getMainPhone());
+            resources.put("Contact " + i + " Email", "" + c.getEmail());
+            resources.put("Contact " + i + " Sin", "" + c.getSin());
+            resources.put("Contact " + i + " Company", "" + c.getCompany());
+        }
+        
+        return resources;
+    }
+
+    @Override
+    public boolean SetResources(Map<String, Object> resources) {
+        try {
+            if(resources.containsKey("Username")) this.setUsername(resources.remove("Username").toString());
+            if(resources.containsKey("Password")) this.setPassword(resources.remove("Password").toString());
+            if(resources.containsKey("Account Number")) this.setAccountNumber(Integer.parseInt(""+resources.remove("Account Number")));
+            if(resources.containsKey("Access Rights")) this.setAccessRights(Integer.parseInt(""+resources.remove("Access Rights")));
+            if(resources.containsKey("Created")) {
+                Object o = resources.remove("Created");
+                if(o instanceof java.sql.Date) {
+                    this.setCreated((java.sql.Date)o);
+                } else {
+                    String date = (String)o;
+                    java.util.Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+                    this.setCreated(new java.sql.Date(date1.getTime()));
+                }
+            }
+            if(resources.containsKey("Last Login")) {
+                Object o = resources.remove("Last Login");
+                if(o instanceof java.sql.Date) {
+                    this.setCreated((java.sql.Date)o);
+                } else {
+                    String date = (String)o;
+                    java.util.Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+                    this.setCreated(new java.sql.Date(date1.getTime()));
+                }
+            }
+            if(resources.containsKey("Discount")) this.setDiscount(Integer.parseInt(""+resources.remove("Discount")));
+            
+            //contacts.clear();
+            for(int i = 0; i < (resources.size()/9); i++) {
+                if(contacts.get(i)!=null) {
+                    Contact c = contacts.get(i);
+                    if(resources.containsKey("Contact " + i + " Location ID")) {
+                        c.setLocationID(Integer.parseInt(resources.get("Contact " + i + " Location ID").toString()));
+                    }
+                    if(resources.containsKey("Contact " + i + " First Name")) {
+                        c.setFirstName(resources.get("Contact " + i + " First Name").toString());
+                    }
+                    if(resources.containsKey("Contact " + i + " Last Name")) {
+                        c.setLastName((resources.get("Contact " + i + " Last Name").toString()));
+                    }
+                    if(resources.containsKey("Contact " + i + " Address")) {
+                        c.setAddressL1(resources.get("Contact " + i + " Address").toString());
+                    }
+                    if(resources.containsKey("Contact " + i + " Address L2")) {
+                        c.setAddressL2(resources.get("Contact " + i + " Address L2").toString());
+                    }
+                    
+                    if(resources.containsKey("Contact " + i + " Phone")) {
+                        c.setMainPhone(resources.get("Contact " + i + " Phone").toString());
+                    }
+                    if(resources.containsKey("Contact " + i + " Email")) {
+                        c.setEmail(resources.get("Contact " + i + " Email").toString());
+                    }
+                    if(resources.containsKey("Contact " + i + " Sin")) {
+                        c.setSin(resources.get("Contact " + i + " Sin").toString());
+                    }
+                    if(resources.containsKey("Contact " + i + " Company")) {
+                        c.setCompany((resources.get("Contact " + i + " Company").toString()));
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        //Make sure we check later for valid data or some shit.
+        return true;
+    }
+
+    @Override
+    public boolean Save() {
+        try {
+            SQLAccount.ME.updateAccount(this);
+            for(Contact c : contacts) {
+                SQLContact.ME.updateContact(c);
+            }
+            return true;
+        } catch (Exception ex) {
+            
+        }
     }
     
 }

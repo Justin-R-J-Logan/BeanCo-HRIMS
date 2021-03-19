@@ -1,5 +1,7 @@
 package com.hrims.main;
 
+import com.hrims.main.data.Account;
+import com.hrims.main.data.Location;
 import com.hrims.main.frames.Administrator_MachineStatus;
 import com.hrims.main.frames.Editor_Account;
 import com.hrims.main.frames.Editor_Location;
@@ -19,8 +21,9 @@ import com.hrims.main.frames.Ticket_Page;
 import com.hrims.main.frames.Order_NewOrder;
 import com.hrims.main.frames.Order_PreviousOrder;
 import com.hrims.main.frames.Order_PreviousOrderList;
-import com.hrims.main.frames.Properties_DistributorInfo;
-import com.hrims.main.frames.Properties_ProgramSettings;
+import com.hrims.main.unusedclasses.Properties_DistributorInfo;
+import com.hrims.main.frames.Properties_Editor;
+import com.hrims.main.unusedclasses.Properties_ProgramSettings;
 import com.hrims.main.frames.Schedule_Viewer;
 import com.hrims.main.frames.Startup_ProgressBar;
 import java.util.HashMap;
@@ -165,6 +168,8 @@ public class GUIManager {
         Register("TicketList", new Ticket_List());
         Register("TicketPage", new Ticket_Page());
         Register("Ticket_AddResponse", new Ticket_AddResponse());
+        Register("Account_Property_Editor", new Properties_Editor<Account>());
+        Register("Location_Property_Editor", new Properties_Editor<Location>());
         
         
         Hide("LoadingBar");
