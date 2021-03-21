@@ -68,6 +68,7 @@ public class SQLSchedule {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
+            return false;
         }
         
         
@@ -88,6 +89,7 @@ public class SQLSchedule {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
+            return false;
         }
         
         return true;
@@ -108,6 +110,7 @@ public class SQLSchedule {
             SQLCaller.ME.Submit_SQL_Query(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
+            return false;
         }
         
         return true;
