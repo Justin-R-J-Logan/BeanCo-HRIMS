@@ -167,3 +167,4 @@ build/classes/com/hrims/main/sql/SQLLocation.class
 build/classes/com/hrims/main/sql/SQLSchedule.class
 build/classes/com/hrims/main/sql/SQLTicket.class
 nbproject/private/private.xml
+*.class
