@@ -18,14 +18,6 @@ import java.util.Map;
  */
 public class ScheduleDay implements DataGrabber<ScheduleDay> {
     
-    public ScheduleDay(){
-        
-    }
-    
-    public ScheduleDay(boolean created){
-        this.justCreated = created;
-    }
-    
     public int getAccountid() {
         return _accountid;
     }
@@ -71,14 +63,11 @@ public class ScheduleDay implements DataGrabber<ScheduleDay> {
         return "ScheduleDay{" + "_accountid=" + _accountid + ", _date=" + _date + ", _start=" + _start + ", _end=" + _end + ", _totalBreakTime=" + _totalBreakTime + '}';
     }
     
-    
     private int _accountid;
     private java.sql.Date _date;
     private java.sql.Time _start;
     private java.sql.Time _end;
     private int _totalBreakTime;
-    private boolean justCreated;
-    
 
     @Override
     public Map<String, Object> getResources() {
@@ -107,7 +96,7 @@ public class ScheduleDay implements DataGrabber<ScheduleDay> {
                 }
             }
             
-            if(resources.containsKey("Account ID")) this.setAccountid(Integer.parseInt(resources.remove("Account ID").toString()));
+            if(resources.containsKey("Account ID")) this.setAccountid(Integer.parseInt(resources.remove("Accound ID").toString()));
             
             if(resources.containsKey("Start Time")) {
                 Object o = resources.remove("Start Time");
@@ -140,13 +129,8 @@ public class ScheduleDay implements DataGrabber<ScheduleDay> {
 
     @Override
     public boolean Save() {
-        if(this.justCreated) { //this is a placeholder, checks if this is a "new" ScheduleDay
-          SQLSchedule.ME.createScheduleDay(this); 
-          this.justCreated = false;
-        } else {
-          SQLSchedule.ME.updateSchedule(this);
-        }
-       return true;
+        SQLSchedule.ME.updateSchedule(this);
+        return true;
     }
-   
+    
 }

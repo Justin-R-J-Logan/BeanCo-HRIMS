@@ -59,16 +59,16 @@ public class SQLSchedule {
     public boolean updateSchedule(ScheduleDay sched) {
         String statement = "UPDATE scheduleday " + "\n"
                 + "SET "
+                + "accountid = '" + sched.getAccountid() + "', "
                 + "start = '" + sched.getStart()+ "', "
                 + "end = '" + sched.getEnd()+ "', "
                 + "totalbreaktime = '" + sched.getTotalBreakTime()+ "'\n"
-                + "WHERE day = '" + sched.getDate() + "' AND accountid = " + sched.getAccountid() + ";";
+                + "WHERE date = " + sched.getDate();
         
         try {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return false;
         }
         
         
@@ -82,14 +82,13 @@ public class SQLSchedule {
      */
     public boolean createScheduleDay(ScheduleDay sched) {
         
-        String statement = "INSERT INTO scheduleDay(day, accountid, start, end, totalbreaktime)" + 
+        String statement = "INSERT INTO scheduleDay(date, accountid, start, end, totalbreaktime)" + 
                 "\n VALUES ('" + sched.getDate() + "', '" + sched.getAccountid() + "', '" + sched.getStart() + "', '" + sched.getEnd() + "', '" + sched.getTotalBreakTime() + "');";
         
         try {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return false;
         }
         
         return true;
@@ -102,15 +101,14 @@ public class SQLSchedule {
      * @return true if successful.
      */
     public boolean deleteScheduleDay(ScheduleDay sched){
-        String statement = ("DELETE FROM scheduleday WHERE \n" + 
-                    "day = '" + sched.getDate() + 
-                    "' AND accountid =" + sched.getAccountid() + ";");
+        String statement = ("DELETE FROM scheduleday WHERE" + 
+                    "date EQUALS" + sched.getDate() + 
+                    "accountid EQUALS" + sched.getAccountid());
         
         try{
             SQLCaller.ME.Submit_SQL_Query(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return false;
         }
         
         return true;
