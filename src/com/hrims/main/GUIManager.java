@@ -2,6 +2,7 @@ package com.hrims.main;
 
 import com.hrims.main.data.Account;
 import com.hrims.main.data.Location;
+import com.hrims.main.data.ScheduleDay;
 import com.hrims.main.frames.Administrator_MachineStatus;
 import com.hrims.main.frames.Editor_Account;
 import com.hrims.main.frames.Editor_Location;
@@ -170,6 +171,7 @@ public class GUIManager {
         Register("Ticket_AddResponse", new Ticket_AddResponse());
         Register("Account_Property_Editor", new Properties_Editor<Account>());
         Register("Location_Property_Editor", new Properties_Editor<Location>());
+        Register("Schedule_Propery_Editor", new Properties_Editor<ScheduleDay>());
         
         
         Hide("LoadingBar");

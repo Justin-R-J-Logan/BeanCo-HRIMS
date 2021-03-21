@@ -1,6 +1,7 @@
 package com.hrims.main.frames;
 
 
+import com.hrims.main.GUIManager;
 import com.hrims.main.data.ScheduleDay;
 import com.hrims.main.sql.SQLSchedule;
 import java.util.ArrayList;
@@ -127,12 +128,27 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         pnlManagement.add(jdpDatePicker);
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
         pnlManagement.add(btnAdd);
 
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
         pnlManagement.add(btnEdit);
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         pnlManagement.add(btnDelete);
 
         getContentPane().add(pnlManagement, java.awt.BorderLayout.PAGE_START);
@@ -197,6 +213,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
      * @param evt the calling event.
      */
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        btnPrevious.setEnabled(true);
         pageNumber++;
         Reload();
     }//GEN-LAST:event_btnNextActionPerformed
@@ -220,12 +237,48 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         Update();
     }//GEN-LAST:event_formComponentShown
 
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        int row = tblData.getSelectedRow();
+        try {
+            int accID = Integer.parseInt((String)tblData.getModel().getValueAt(row,0));
+            
+            ScheduleDay sched = null;
+            Properties_Editor<ScheduleDay> editor = (Properties_Editor<ScheduleDay>)GUIManager.Lookup("Schedule_Property_Editor");
+            for(ScheduleDay s : schedules) {
+                if(s.getAccountid() == accID) {
+                    sched = s;
+                }
+            }
+            editor.setObject(sched);
+            editor.setVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    /***
+     * Either call a handler, or otherwise do *stuff to add a scheduleday to the
+     * database.
+     * @param evt 
+     */
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    /***
+     * Either call a handler, or otherwise do *stuff to delete a scheduleday from
+     * the database.
+     * @param evt 
+     */
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     /***
      * Reloads the information displayed in the Data table.
      * 
-     * Pagination isn't currently functional; I'd need at least 26 entries on a
-     * given date to test it so I'm gonna make that work as soon as I've finished
-     * the Add and Edit buttons' functionalities.
+     * Pagination should be functional, but without the ability to set 26 schedule
+     * days, it's not really testable.
      */
     private void Reload() {
         //dateSelection = date from jdpDatePicker, make use of some method to convert if necessary.
@@ -235,24 +288,23 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
                 if(y >= schedules.size()) {
                     tblData.getModel().setValueAt("", y, x);
                 } else {
-                    ScheduleDay schd = schedules.get(y);
+                    ScheduleDay schd = schedules.get(y + (pageNumber * resultsPerPage));
                     String information = "";
                     switch(x) {
                         case 0:
-                            information = ""+schd.getDate();
-                            break;
-                        case 1:
                             information = ""+schd.getAccountid();
                             break;
-                        case 2:
+                        case 1:
                             information = ""+schd.getStart();
                             break;
-                        case 3:
+                        case 2:
                             information = ""+schd.getEnd();
                             break;
-                        case 4:
+                        case 3:
                             information = ""+schd.getTotalBreakTime();
                             break;
+                        case 4:
+                            
                         }
                     tblData.getModel().setValueAt(information, y, x);
                 }
@@ -262,6 +314,9 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         txtPageNumber.setText(""+(pageNumber+1));
         if (schedules.size() < ((resultsPerPage*pageNumber)+resultsPerPage)) {
             btnNext.setEnabled(false);
+        }
+        if (pageNumber == 0){
+            btnPrevious.setEnabled(false);
         }
 
     }

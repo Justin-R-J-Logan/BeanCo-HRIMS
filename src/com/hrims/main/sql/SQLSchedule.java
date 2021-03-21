@@ -94,6 +94,26 @@ public class SQLSchedule {
         return true;
     }
     
+    /***
+     * Deletes a schedule day from the database.
+     * 
+     * @param sched The schedule day to be deleted.
+     * @return true if successful.
+     */
+    public boolean deleteScheduleDay(ScheduleDay sched){
+        String statement = ("DELETE FROM scheduleday WHERE" + 
+                    "date EQUALS" + sched.getDate() + 
+                    "accountid EQUALS" + sched.getAccountid());
+        
+        try{
+            SQLCaller.ME.Submit_SQL_Query(statement);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return true;
+    }
+    
     /**
      * A main function to test the SQL functions.
      * @param arg 
