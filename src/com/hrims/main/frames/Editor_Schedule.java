@@ -7,6 +7,7 @@ import com.hrims.main.sql.SQLSchedule;
 import java.util.ArrayList;
 import java.util.Calendar;
 import org.jdatepicker.JDatePicker;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -68,41 +69,41 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
 
         tblData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null,  new Integer(1), "8:00", "15:00", null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                { new Integer(1), "8:00", "15:00", null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Date", "Account ID", "Time Start", "Time End", "Total Break Time"
+                "Account ID", "Time Start", "Time End", "Total Break Time"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
+                false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -237,6 +238,14 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         Update();
     }//GEN-LAST:event_formComponentShown
 
+    /***
+     * Calls the Property Editor to handle the editing of information on a schedule
+     * entry in the database.
+     * 
+     * Edit isn't being timed properly in relation to the entry of data, should
+     * poke Justin about the handling to see if it can be worked out.
+     * @param evt 
+     */
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         int row = tblData.getSelectedRow();
         try {
@@ -254,15 +263,34 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        
+        //Update();  //Call the update function to refresh the data loaded.
     }//GEN-LAST:event_btnEditActionPerformed
 
     /***
-     * Either call a handler, or otherwise do *stuff to add a scheduleday to the
+     * Calls the property handler to aid in creating a date object in the
      * database.
+     * 
+     * Currently doesn't function, need to poke justin about how the handler works.
      * @param evt 
      */
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
+                
+        try {
+            ScheduleDay sched = new ScheduleDay(true);
+            int year = jdpDatePicker.getModel().getYear();
+            int month = jdpDatePicker.getModel().getMonth();
+            int day = jdpDatePicker.getModel().getDay();
+            java.sql.Date dateSelection = new java.sql.Date(year-1900, month, day);
+            sched.setDate(dateSelection);
+            Properties_Editor<ScheduleDay> editor = (Properties_Editor<ScheduleDay>)GUIManager.Lookup("Schedule_Property_Editor");
+            editor.setObject(sched);
+            editor.setVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        Update();
     }//GEN-LAST:event_btnAddActionPerformed
 
     /***
@@ -271,7 +299,18 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
      * @param evt 
      */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        int input = JOptionPane.showConfirmDialog(null, "Delete selected schedule?");
+        if (input == 0){
+            ScheduleDay sched = new ScheduleDay();
+            int year = jdpDatePicker.getModel().getYear();
+            int month = jdpDatePicker.getModel().getMonth();
+            int day = jdpDatePicker.getModel().getDay();
+            java.sql.Date dateSelection = new java.sql.Date(year-1900, month, day);
+            sched.setDate(dateSelection);
+            sched.setAccountid(Integer.parseInt(tblData.getModel().getValueAt(tblData.getSelectedRow(), 0).toString()));
+            SQLSchedule.ME.deleteScheduleDay(sched);
+        }
+        Update();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     /***
@@ -330,7 +369,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
         int month = jdpDatePicker.getModel().getMonth();
         int day = jdpDatePicker.getModel().getDay();
         java.sql.Date dateSelection = new java.sql.Date(year-1900, month, day);
-        System.out.println("Date: " + dateSelection.toString());
+        //System.out.println("Date: " + dateSelection.toString());
         schedules = SQLSchedule.ME.getSchedules(dateSelection);
         pageNumber = 0;
         Reload();

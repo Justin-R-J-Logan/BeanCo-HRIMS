@@ -59,11 +59,10 @@ public class SQLSchedule {
     public boolean updateSchedule(ScheduleDay sched) {
         String statement = "UPDATE scheduleday " + "\n"
                 + "SET "
-                + "accountid = '" + sched.getAccountid() + "', "
                 + "start = '" + sched.getStart()+ "', "
                 + "end = '" + sched.getEnd()+ "', "
                 + "totalbreaktime = '" + sched.getTotalBreakTime()+ "'\n"
-                + "WHERE date = " + sched.getDate();
+                + "WHERE day = '" + sched.getDate() + "' AND accountid = " + sched.getAccountid() + ";";
         
         try {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
@@ -82,7 +81,7 @@ public class SQLSchedule {
      */
     public boolean createScheduleDay(ScheduleDay sched) {
         
-        String statement = "INSERT INTO scheduleDay(date, accountid, start, end, totalbreaktime)" + 
+        String statement = "INSERT INTO scheduleDay(day, accountid, start, end, totalbreaktime)" + 
                 "\n VALUES ('" + sched.getDate() + "', '" + sched.getAccountid() + "', '" + sched.getStart() + "', '" + sched.getEnd() + "', '" + sched.getTotalBreakTime() + "');";
         
         try {
@@ -101,9 +100,9 @@ public class SQLSchedule {
      * @return true if successful.
      */
     public boolean deleteScheduleDay(ScheduleDay sched){
-        String statement = ("DELETE FROM scheduleday WHERE" + 
-                    "date EQUALS" + sched.getDate() + 
-                    "accountid EQUALS" + sched.getAccountid());
+        String statement = ("DELETE FROM scheduleday WHERE \n" + 
+                    "day = '" + sched.getDate() + 
+                    "' AND accountid =" + sched.getAccountid() + ";");
         
         try{
             SQLCaller.ME.Submit_SQL_Query(statement);
