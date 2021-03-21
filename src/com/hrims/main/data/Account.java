@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * @author Justin
  */
-public class Account implements DataGrabber {
+public class Account implements DataGrabber<Account> {
 
     private static final int ACCESS_ADMINISTRATOR = 16;
     private static final int ACCESS_MANAGER = 8;
@@ -34,6 +34,7 @@ public class Account implements DataGrabber {
     }
     
     public Account(int _accountNumber, boolean _get) {
+        
     }
     
     
@@ -117,7 +118,7 @@ public class Account implements DataGrabber {
         return "Account{" + "_accountNumber=" + _accountNumber + ", _accessRights=" + _accessRights + ", _created=" + _created + ", _lastLogin=" + _lastLogin + ", _username=" + _username + ", _password=" + _password + ", _access=" + _access + ", _discount=" + _discount + ", contacts=" + contacts + '}';
     }
     
-    private int _accountNumber;
+    private int _accountNumber = -1;
     private int _accessRights;
     private java.sql.Date _created;
     private java.sql.Date _lastLogin;
@@ -145,7 +146,6 @@ public class Account implements DataGrabber {
         
         resources.put("Username", this._username);
         resources.put("Password", this._password);
-        resources.put("Account Number", this._accountNumber);
         resources.put("Access Rights", this._accessRights);
         resources.put("Created", this._created);
         resources.put("Last Login", this._lastLogin);
@@ -173,7 +173,6 @@ public class Account implements DataGrabber {
         try {
             if(resources.containsKey("Username")) this.setUsername(resources.remove("Username").toString());
             if(resources.containsKey("Password")) this.setPassword(resources.remove("Password").toString());
-            if(resources.containsKey("Account Number")) this.setAccountNumber(Integer.parseInt(""+resources.remove("Account Number")));
             if(resources.containsKey("Access Rights")) this.setAccessRights(Integer.parseInt(""+resources.remove("Access Rights")));
             if(resources.containsKey("Created")) {
                 Object o = resources.remove("Created");
@@ -241,14 +240,18 @@ public class Account implements DataGrabber {
 
     @Override
     public boolean Save() {
-        try {
-            SQLAccount.ME.updateAccount(this);
-            for(Contact c : contacts) {
-                SQLContact.ME.updateContact(c);
+        if(this._accountNumber <= -1) {
+            SQLAccount.ME.createAccount(this);
+        } else {
+            try {
+                SQLAccount.ME.updateAccount(this);
+                for(Contact c : contacts) {
+                    SQLContact.ME.updateContact(c);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return false;
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
         }
         return true;
     }

@@ -113,21 +113,10 @@ public class SQLAccount {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
+            return false;
         }
         
         //TODO: Check if account actually updated or not, don't just return true and assume;
         return true;
-    }
-    
-    public static void main(String arg[]) {
-        Account a = new Account();
-        a.setAccountNumber(3);
-        a.setUsername("Bananne");
-        a.setPassword("Password12");
-        a.setAccess(16);
-        a.setDiscount(0);
-        
-        ME.updateAccount(a);
-        
     }
 }

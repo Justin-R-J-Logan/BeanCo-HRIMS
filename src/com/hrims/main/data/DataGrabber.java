@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author Justin
  */
-public interface DataGrabber {
+public interface DataGrabber<T> {
     public Map<String, Object> getResources();
     public boolean SetResources(Map<String, Object> resources);
     public boolean Save();

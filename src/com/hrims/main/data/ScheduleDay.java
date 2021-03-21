@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author Justin
  */
-public class ScheduleDay implements DataGrabber {
+public class ScheduleDay implements DataGrabber<ScheduleDay> {
     
     public int getAccountid() {
         return _accountid;

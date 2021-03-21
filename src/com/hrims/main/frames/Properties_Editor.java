@@ -5,7 +5,6 @@
  */
 package com.hrims.main.frames;
 
-import com.hrims.main.data.ScheduleDay;
 import com.hrims.main.data.Account;
 import com.hrims.main.data.DataGrabber;
 import java.util.HashMap;
@@ -22,6 +21,9 @@ public class Properties_Editor<T extends DataGrabber> extends javax.swing.JInter
     /**
      * Creates new form Interface_PropertyEditor
      */
+    
+    boolean newObject;
+    
     public Properties_Editor() {
         initComponents();
     }

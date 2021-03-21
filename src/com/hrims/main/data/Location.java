@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author Matthew
  */
-public class Location implements DataGrabber
+public class Location implements DataGrabber<Location>
 {
     public int getLocationID() 
     {
@@ -139,5 +139,9 @@ public class Location implements DataGrabber
     public boolean Save() {
         SQLLocation.ME.updateLocation(this);
         return true;
+    }
+
+    public Location CreateNew() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

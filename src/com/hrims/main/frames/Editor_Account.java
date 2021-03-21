@@ -4,6 +4,7 @@ import com.hrims.main.GUIManager;
 import com.hrims.main.data.Account;
 import com.hrims.main.sql.SQLAccount;
 import com.hrims.main.sql.SQLCaller;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -62,6 +63,11 @@ public class Editor_Account extends javax.swing.JInternalFrame {
         setTitle("Account Editor");
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -254,6 +260,17 @@ public class Editor_Account extends javax.swing.JInternalFrame {
     
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         
+        try {
+            Account acc = new Account();
+            Date d = new Date(new java.util.Date().getTime());
+            acc.setCreated(d);
+            acc.setLastLogin(d);
+            Properties_Editor<Account> editor = (Properties_Editor<Account>)GUIManager.Lookup("Account_Property_Editor");
+            editor.setObject(acc);
+            editor.setVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
@@ -295,6 +312,10 @@ public class Editor_Account extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        Reload();
+    }//GEN-LAST:event_formFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
