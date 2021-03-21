@@ -57,7 +57,7 @@ public class SQLMachine
         String statement = "UPDATE machine " + "\n"
                 + "SET "
                 + "locationid = '" + mac.getLocationID() + "', "
-                + "machinename = '" + mac.getMachineName() + "', "
+                + "name = '" + mac.getMachineName() + "', "
                 + "purchasedate = '" + mac.getPurchaseDate()+ "', "
                 + "lastuse = '" + mac.getLastUse()+ "', "
                 + "created = '" + mac.getCreated()+ "' \n"
@@ -78,7 +78,7 @@ public class SQLMachine
     public boolean createMachine(Machine mac) 
     {
         
-        String statement = "INSERT INTO machine(locationid, machinename, purchasedate, lastuse, created)" + 
+        String statement = "INSERT INTO machine(locationid, name, purchasedate, lastuse, created)" + 
                 "\n VALUES ('" + mac.getLocationID() + "', '" + mac.getMachineName() + "', '" + mac.getPurchaseDate() + "', '" + mac.getLastUse() + "', '" + mac.getCreated() + "');";
         
         try 
@@ -93,6 +93,20 @@ public class SQLMachine
         return true;
     }
     
+    public boolean deleteMachine(int machineID)
+    {
+        String statement = ("DELETE FROM machine WHERE \n" + "machineid = '" + machineID + "';");
+        try
+        {
+            SQLCaller.ME.Submit_SQL_Query(statement);
+            return true;
+        } 
+        catch (Exception ex) 
+        {
+            ex.printStackTrace();
+            return false;
+        }   
+    }
     
     public static void main(String arg[]) 
     {

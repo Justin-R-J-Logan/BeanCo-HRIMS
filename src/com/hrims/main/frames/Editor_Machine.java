@@ -1,8 +1,10 @@
 package com.hrims.main.frames;
 
+import com.hrims.main.GUIManager;
 import com.hrims.main.data.Machine;
 import com.hrims.main.sql.SQLCaller;
 import com.hrims.main.sql.SQLMachine;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -16,16 +18,19 @@ import javax.swing.JOptionPane;
  *
  * @author Matthew
  */
-public class Editor_Machine extends javax.swing.JInternalFrame {
+public class Editor_Machine extends javax.swing.JInternalFrame 
+{
 
     int pageNumber = 0;
     int numPerPage = 25;
     boolean lockForward = false;
+    ArrayList<Machine> machines;
     
     /**
      * Creates new form Employee
      */
-    public Editor_Machine() {
+    public Editor_Machine() 
+    {
         initComponents();
     }
 
@@ -128,9 +133,19 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
         jPanel1.add(jButton1);
 
         jButton2.setText("Edit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2);
 
         jButton3.setText("Delete");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton3);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -181,7 +196,20 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        try 
+        {
+            Machine mac = new Machine();
+            Date d = new Date(new java.util.Date().getTime());
+            mac.setCreated(d);
+            mac.setLastUse(d);
+            Properties_Editor<Machine> editor = (Properties_Editor<Machine>)GUIManager.Lookup("Machine_Property_Editor");
+            editor.setObject(mac);
+            editor.setVisible(true);
+        } 
+        catch (Exception ex) 
+        {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
@@ -199,9 +227,43 @@ public class Editor_Machine extends javax.swing.JInternalFrame {
         Reload();
     }//GEN-LAST:event_formComponentShown
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int row = tblMachine.getSelectedRow();
+        try 
+        {
+            int macID = Integer.parseInt((String)tblMachine.getModel().getValueAt(row, 0));
+            Machine acc = null;
+            Properties_Editor<Machine> editor = (Properties_Editor<Machine>)GUIManager.Lookup("Machine_Property_Editor");
+            for(Machine a : machines) 
+            {
+                if(a.getMachineID() == macID) 
+                {
+                    acc = a;
+                }
+            }
+            editor.setObject(acc);
+            editor.setVisible(true);
+        } 
+        catch (Exception ex) 
+        {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
+    int input = JOptionPane.showConfirmDialog(null, "Delete selected machine?");
+    if (input == 0)
+    {
+        int machineID = Integer.parseInt(tblMachine.getModel().getValueAt(tblMachine.getSelectedRow(), 0).toString());
+        SQLMachine.ME.deleteMachine(machineID);
+    }
+        Reload();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     
     private void Reload() {
-        ArrayList<Machine> machines = SQLMachine.ME.getMachines(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
+        machines = SQLMachine.ME.getMachines(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
         
         for(int y = 0; y < tblMachine.getRowCount(); y++) {
                 for(int x = 0; x < tblMachine.getColumnCount(); x++) {
