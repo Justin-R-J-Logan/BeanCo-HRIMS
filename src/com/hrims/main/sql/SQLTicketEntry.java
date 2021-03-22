@@ -18,12 +18,12 @@ public class SQLTicketEntry {
 
     public static SQLTicketEntry ME = new SQLTicketEntry();
     
-    public ArrayList<TicketEntry> getTicketsFromTicketId(int low, int high) {
+    public ArrayList<TicketEntry> getTicketsFromTicketId(int lowAccID, int highAccID) {
         
             ArrayList<TicketEntry> ticketEntries = new ArrayList<TicketEntry>();
             try {
-                ResultSet ticketEntryresults = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM ticketentry "
-                                                        + "WHERE ticketid BETWEEN " + low + " AND " + high + ";");
+                ResultSet ticketEntryresults = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM contact "
+                                                        + "WHERE accountid BETWEEN " + lowAccID + " AND " + highAccID + ";");
                 while(ticketEntryresults.next()) {
                     
                     TicketEntry tic = new TicketEntry();
@@ -32,11 +32,7 @@ public class SQLTicketEntry {
                     tic.setUserId(ticketEntryresults.getInt(3));
                     tic.setMessage(ticketEntryresults.getString(4));
                     
-                    boolean add = true;
-                    for(TicketEntry tce : ticketEntries) {
-                        if(tce.getEntryId() == tic.getEntryId()) add = false;
-                    }
-                    if(add) ticketEntries.add(tic);
+                    ticketEntries.add(tic);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -80,7 +76,7 @@ public class SQLTicketEntry {
         
         String statement = "INSERT INTO ticketentry(ticketid, userid, entryid, message)" 
                 + "\n VALUES ('" + tic.getTicketid()+ "', '" + tic.getUserId()
-                + "', '" + tic.getEntryId() + "', '" + tic.getMessage() + "');";
+                + "', '" + tic.getEntryId() + tic.getMessage() + "');";
         
         try {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
