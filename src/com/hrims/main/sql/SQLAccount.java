@@ -39,7 +39,7 @@ public class SQLAccount {
         return acc;
     }
     
-    public ArrayList<Account> getAccounts(int low, int high) {
+    public ArrayList<Account> getAccountsByIDRange(int low, int high) {
         ArrayList<Account> accounts = new ArrayList<Account>();
         
         try {
@@ -117,6 +117,70 @@ public class SQLAccount {
         }
         
         //TODO: Check if account actually updated or not, don't just return true and assume;
+        return true;
+    }
+
+    public ArrayList<Account> getAccountsByPage(int pageNumber, int maxPer, boolean oneExtra) {
+        ArrayList<Account> accounts = new ArrayList<Account>();
+        
+        try {
+            //ArrayList<Contact> contacts;
+            //contacts = SQLContact.ME.getContactsFromAccountID(low, high);
+            
+            String SQL = "";
+            
+            SQL += "SELECT * ";
+            SQL += "FROM account ";
+            SQL += " LIMIT " + (pageNumber*maxPer) + "," + (oneExtra ? maxPer+1 : maxPer) + ";";
+            
+            //System.out.println(SQL);
+            
+            
+            ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
+            
+            int min=0, max=0;
+            
+            while(result.next()) {
+                Account acc = new Account();
+                
+                acc.setAccountNumber(result.getInt(1));
+                acc.setUsername(result.getString(2));
+                acc.setPassword(result.getString(3));
+                acc.setCreated(result.getDate(4));
+                acc.setLastLogin(result.getDate(5));
+                acc.setAccessRights(result.getInt(6));
+                acc.setDiscount(result.getInt(7));
+                
+                if(acc.getAccountNumber() > max) max = acc.getAccountNumber();
+                if(acc.getAccountNumber() < min) min = acc.getAccess();
+                
+                accounts.add(acc);
+            }
+            ArrayList<Contact> contacts = SQLContact.ME.getContactsFromAccountID(min, max);
+            for(Account acc : accounts) {
+                for(Contact c : contacts) {
+                    if(c.getAccountID() == acc.getAccountNumber())
+                        acc.addContact(c);
+                }
+            }
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return accounts;
+    }
+
+    public boolean deleteAccount(Account acc) {
+        String statement = ("DELETE FROM account WHERE \n" + 
+                    "accountid = " + acc.getAccountNumber()+ ";");
+        
+        try{
+            SQLCaller.ME.Submit_SQL_Query(statement);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        
         return true;
     }
 }

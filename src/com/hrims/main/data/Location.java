@@ -17,6 +17,11 @@ import java.util.Map;
  */
 public class Location implements DataGrabber<Location>
 {
+
+    public Location() {
+        this._locationID = -1;
+    }
+    
     public int getLocationID() 
     {
         return _locationID;
@@ -96,9 +101,8 @@ public class Location implements DataGrabber<Location>
     public Map<String, Object> getResources() {
         Map<String, Object> resources = new LinkedHashMap<String, Object>();
         
-        resources.put("Location ID", this._locationID);
         resources.put("Address", this._address);
-        resources.put("Address 2", this._address2);
+        resources.put("Address2", this._address2);
         resources.put("Main Phone", this._mainPhone);
         resources.put("Email", this._email);
         resources.put("Company", this._company);
@@ -111,7 +115,6 @@ public class Location implements DataGrabber<Location>
     @Override
     public boolean SetResources(Map<String, Object> resources) {
         try {
-            if(resources.containsKey("Location ID")) this.setLocationID(Integer.parseInt(resources.remove("Location ID").toString()));
             if(resources.containsKey("Address")) this.setAddress(resources.remove("Address").toString());
             if(resources.containsKey("Address2")) this.setAddress2(resources.remove("Address2").toString());
             if(resources.containsKey("Main Phone")) this.setMainPhone(resources.remove("Main Phone").toString());
@@ -121,7 +124,9 @@ public class Location implements DataGrabber<Location>
                 Object o = resources.remove("Created");
                 if(o instanceof java.sql.Date) {
                     this.setCreated((java.sql.Date)o);
-                } else {
+                } else if((String)o == null || (String)o == "") {
+                    
+                }  else {
                     String date = (String)o;
                     java.util.Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
                     this.setCreated(new java.sql.Date(date1.getTime()));
@@ -132,16 +137,21 @@ public class Location implements DataGrabber<Location>
             return false;
         }
         //Make sure we check later for valid data or some shit.
+        System.out.println("We did this");
         return true;
     }
 
     @Override
     public boolean Save() {
-        SQLLocation.ME.updateLocation(this);
+        try {
+            if(_locationID < 0) {
+                SQLLocation.ME.createLocation(this);
+            } else {
+                SQLLocation.ME.updateLocation(this);
+            }
+        } catch (Exception ex) {
+            return false;
+        }
         return true;
-    }
-
-    public Location CreateNew() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

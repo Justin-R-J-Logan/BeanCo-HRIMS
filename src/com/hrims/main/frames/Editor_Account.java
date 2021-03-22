@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  *
  * @author mrdsc
  */
-public class Editor_Account extends javax.swing.JInternalFrame {
+public class Editor_Account extends javax.swing.JInternalFrame implements Updatable {
 
     /**
      * Creates new form Employee
@@ -43,11 +43,13 @@ public class Editor_Account extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblAccounts = new javax.swing.JTable();
+        tblAccount = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDuplicate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         btnPrevious = new javax.swing.JButton();
@@ -91,7 +93,7 @@ public class Editor_Account extends javax.swing.JInternalFrame {
             }
         });
 
-        tblAccounts.setModel(new javax.swing.table.DefaultTableModel(
+        tblAccount.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 { new Integer(1), null, "test", "guy", "123-456-7890", "qwe@asd.zxc"},
                 {null, null, null, null, null, null},
@@ -138,7 +140,7 @@ public class Editor_Account extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblAccounts);
+        jScrollPane1.setViewportView(tblAccount);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -161,7 +163,28 @@ public class Editor_Account extends javax.swing.JInternalFrame {
         jPanel1.add(btnEdit);
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnDelete);
+
+        btnUpdate.setText("Reload");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnUpdate);
+
+        btnDuplicate.setText("Duplicate");
+        btnDuplicate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDuplicateActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDuplicate);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -210,14 +233,20 @@ public class Editor_Account extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    @Override
+    public void Update() {
+        accounts = SQLAccount.ME.getAccountsByPage(pageNumber, numPerPage, true);
+        Reload();
+    }
     
-    private void Reload() {
-        accounts = SQLAccount.ME.getAccounts(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
-        
-        for(int y = 0; y < tblAccounts.getRowCount(); y++) {
-            for(int x = 0; x < tblAccounts.getColumnCount(); x++) {
+    @Override
+    public void Reload() {
+        if(accounts.size() > 25) btnNext.setEnabled(true);
+        else btnNext.setEnabled(false);
+        for(int y = 0; y < tblAccount.getRowCount(); y++) {
+            for(int x = 0; x < tblAccount.getColumnCount(); x++) {
                 if(y >= accounts.size()) {
-                    tblAccounts.getModel().setValueAt("", y, x);
+                    tblAccount.getModel().setValueAt("", y, x);
                 } else {
                     Account a = accounts.get(y);
                     String information = "";
@@ -249,12 +278,13 @@ public class Editor_Account extends javax.swing.JInternalFrame {
                             }
                             break;
                         }
-                    tblAccounts.getModel().setValueAt(information, y, x);
+                    tblAccount.getModel().setValueAt(information, y, x);
                 }
             }
         }
         
         txtPageNumber.setText(""+(pageNumber+1));
+        if(pageNumber==0) btnPrevious.setEnabled(false);
         
     }
     
@@ -265,8 +295,9 @@ public class Editor_Account extends javax.swing.JInternalFrame {
             Date d = new Date(new java.util.Date().getTime());
             acc.setCreated(d);
             acc.setLastLogin(d);
-            Properties_Editor<Account> editor = (Properties_Editor<Account>)GUIManager.Lookup("Account_Property_Editor");
+            Properties_Editor<Account, Editor_Account> editor = (Properties_Editor<Account, Editor_Account>)GUIManager.Lookup("Account_Property_Editor");
             editor.setObject(acc);
+            editor.setFrame(this);
             editor.setVisible(true);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -274,39 +305,42 @@ public class Editor_Account extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        Reload();
+        Update();
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         if(!lockForward) {
             pageNumber++;
-            Reload();
+            Update();
+            if(pageNumber>0) btnPrevious.setEnabled(true);
         }
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
         pageNumber--;
-        if(pageNumber<0) pageNumber=0;
+        if(pageNumber==0) btnPrevious.setEnabled(false);
         lockForward = false;
-        Reload();
+        Update();
     }//GEN-LAST:event_btnPreviousActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        Reload();
+        Update();
     }//GEN-LAST:event_formComponentShown
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        int row = tblAccounts.getSelectedRow();
+        int row = tblAccount.getSelectedRow();
+        if(row == -1) return;
         try {
-            int accID = Integer.parseInt((String)tblAccounts.getModel().getValueAt(row, 0));
+            int accID = Integer.parseInt((String)tblAccount.getModel().getValueAt(row, 0));
             Account acc = null;
-            Properties_Editor<Account> editor = (Properties_Editor<Account>)GUIManager.Lookup("Account_Property_Editor");
+            Properties_Editor<Account, Editor_Account> editor = (Properties_Editor<Account, Editor_Account>)GUIManager.Lookup("Account_Property_Editor");
             for(Account a : accounts) {
                 if(a.getAccountNumber() == accID) {
                     acc = a;
                 }
             }
             editor.setObject(acc);
+            editor.setFrame(this);
             editor.setVisible(true);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -314,25 +348,81 @@ public class Editor_Account extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-        Reload();
+        Update();
     }//GEN-LAST:event_formFocusGained
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int input = JOptionPane.showConfirmDialog(null, "Delete selected schedule?");
+        if (input == 0){
+            int accID = Integer.parseInt((String)tblAccount.getModel().getValueAt(tblAccount.getSelectedRow(), 0));
+            
+            Account acc = null;
+            for(Account a : accounts) {
+                if(a.getAccountNumber()== accID) {
+                    acc = a;
+                }
+            }
+            
+            SQLAccount.ME.deleteAccount(acc);
+        }
+        Update();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        Update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDuplicateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDuplicateActionPerformed
+        
+        int row = tblAccount.getSelectedRow();
+        try 
+        {
+            int accID = Integer.parseInt((String)tblAccount.getModel().getValueAt(row, 0));
+            Account acc = null;
+            for(Account m : accounts) 
+            {
+                if(m.getAccountNumber() == accID) 
+                {
+                    acc = m;
+                }
+            }
+            Account a = new Account();
+            a.setAccess(acc.getAccess());
+            a.setAccessRights(acc.getAccessRights());
+            a.setCreated(acc.getCreated());
+            a.setDiscount(acc.getDiscount());
+            a.setLastLogin(acc.getLastLogin());
+            a.setUsername(null);
+            a.setPassword(null);
+            
+            SQLAccount.ME.createAccount(a);
+        } 
+        catch (Exception ex) 
+        {
+            ex.printStackTrace();
+        }
+        Update();
+    }//GEN-LAST:event_btnDuplicateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDuplicate;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbSearch;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblAccounts;
+    private javax.swing.JTable tblAccount;
     private javax.swing.JTextField txtPageNumber;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
+
 }

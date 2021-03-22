@@ -34,7 +34,7 @@ public class Account implements DataGrabber<Account> {
     }
     
     public Account(int _accountNumber, boolean _get) {
-        
+        _accountNumber  = -1;
     }
     
     
@@ -118,7 +118,7 @@ public class Account implements DataGrabber<Account> {
         return "Account{" + "_accountNumber=" + _accountNumber + ", _accessRights=" + _accessRights + ", _created=" + _created + ", _lastLogin=" + _lastLogin + ", _username=" + _username + ", _password=" + _password + ", _access=" + _access + ", _discount=" + _discount + ", contacts=" + contacts + '}';
     }
     
-    private int _accountNumber = -1;
+    private int _accountNumber;
     private int _accessRights;
     private java.sql.Date _created;
     private java.sql.Date _lastLogin;
@@ -178,6 +178,8 @@ public class Account implements DataGrabber<Account> {
                 Object o = resources.remove("Created");
                 if(o instanceof java.sql.Date) {
                     this.setCreated((java.sql.Date)o);
+                } else if((String)o == null || (String)o == "") {
+                    
                 } else {
                     String date = (String)o;
                     java.util.Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
@@ -188,6 +190,8 @@ public class Account implements DataGrabber<Account> {
                 Object o = resources.remove("Last Login");
                 if(o instanceof java.sql.Date) {
                     this.setCreated((java.sql.Date)o);
+                } else if((String)o == null || (String)o == "") {
+                    
                 } else {
                     String date = (String)o;
                     java.util.Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(date);

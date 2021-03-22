@@ -4,6 +4,7 @@ import com.hrims.main.GUIManager;
 import com.hrims.main.data.Location;
 import com.hrims.main.sql.SQLLocation;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  *
  * @author mrdsc
  */
-public class Editor_Location extends javax.swing.JInternalFrame {
+public class Editor_Location extends javax.swing.JInternalFrame implements Updatable {
 
     int pageNumber = 0;
     int numPerPage = 25;
@@ -28,13 +29,19 @@ public class Editor_Location extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-    private void Reload() {
-        locations = SQLLocation.ME.getLocations(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
-        
-        for(int y = 0; y < tblLocations.getRowCount(); y++) {
-                for(int x = 0; x < tblLocations.getColumnCount(); x++) {
+    public void Update() {
+        locations = SQLLocation.ME.getLocationsByPage(pageNumber, numPerPage, true);
+        if(pageNumber <= 0) btnPrevious.setEnabled(false);
+        else btnPrevious.setEnabled(true);
+        if(locations.size() > numPerPage) btnNext.setEnabled(true);
+        else btnNext.setEnabled(false);     
+        Reload();
+    }
+    public void Reload() {
+        for(int y = 0; y < tblLocation.getRowCount(); y++) {
+                for(int x = 0; x < tblLocation.getColumnCount(); x++) {
                 if(y >= locations.size()) {
-                    tblLocations.getModel().setValueAt("", y, x);
+                    tblLocation.getModel().setValueAt("", y, x);
                 } else {
                     Location l = locations.get(y);
                     String information = "";
@@ -55,7 +62,7 @@ public class Editor_Location extends javax.swing.JInternalFrame {
                             information = ""+l.getCompany();
                             break;
                     }
-                    tblLocations.getModel().setValueAt(information, y, x);
+                    tblLocation.getModel().setValueAt(information, y, x);
                 }
             }
         }
@@ -71,20 +78,22 @@ public class Editor_Location extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblLocations = new javax.swing.JTable();
+        tblLocation = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnReload = new javax.swing.JButton();
+        btnDuplicate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
+        btnPrevious = new javax.swing.JButton();
         txtPageNumber = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        btnNext = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JToggleButton();
+        cmbSearchType = new javax.swing.JComboBox<>();
+        txtSearch = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -114,7 +123,7 @@ public class Editor_Location extends javax.swing.JInternalFrame {
             }
         });
 
-        tblLocations.setModel(new javax.swing.table.DefaultTableModel(
+        tblLocation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"1", "60 Commerce Crescent", "705.474.7600", "N/A", "Canadore"},
                 {null, null, null, null, null},
@@ -161,30 +170,51 @@ public class Editor_Location extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblLocations);
+        jScrollPane1.setViewportView(tblLocation);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        jPanel1.add(btnAdd);
 
-        jButton2.setText("Edit");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnEditActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
+        jPanel1.add(btnEdit);
 
-        jButton3.setText("Delete");
-        jPanel1.add(jButton3);
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDelete);
+
+        btnReload.setText("Reload");
+        btnReload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnReload);
+
+        btnDuplicate.setText("Duplicate");
+        btnDuplicate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDuplicateActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDuplicate);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -192,29 +222,29 @@ public class Editor_Location extends javax.swing.JInternalFrame {
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton5.setText("Previous");
-        jPanel3.add(jButton5);
+        btnPrevious.setText("Previous");
+        jPanel3.add(btnPrevious);
 
         txtPageNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtPageNumber.setText("1");
         jPanel3.add(txtPageNumber);
 
-        jButton4.setText("Next");
-        jPanel3.add(jButton4);
+        btnNext.setText("Next");
+        jPanel3.add(btnNext);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jToggleButton3.setText("Search");
-        jPanel4.add(jToggleButton3, java.awt.BorderLayout.LINE_END);
+        btnSearch.setText("Search");
+        jPanel4.add(btnSearch, java.awt.BorderLayout.LINE_END);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Location ID", "Address", "Phone", "Email", "Company" }));
-        jComboBox1.setSelectedIndex(1);
-        jPanel4.add(jComboBox1, java.awt.BorderLayout.LINE_START);
+        cmbSearchType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Location ID", "Address", "Phone", "Email", "Company" }));
+        cmbSearchType.setSelectedIndex(1);
+        jPanel4.add(cmbSearchType, java.awt.BorderLayout.LINE_START);
 
-        jTextField1.setText("Search");
-        jPanel4.add(jTextField1, java.awt.BorderLayout.CENTER);
+        txtSearch.setText("Search");
+        jPanel4.add(txtSearch, java.awt.BorderLayout.CENTER);
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
 
@@ -223,52 +253,115 @@ public class Editor_Location extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+        try {
+            Location loc = new Location();
+            Properties_Editor<Location, Editor_Location> editor = (Properties_Editor<Location, Editor_Location>)GUIManager.Lookup("Account_Property_Editor");
+            editor.setObject(loc);
+            editor.setFrame(this);
+            editor.setVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        Reload();
+        Update();
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int row = tblLocations.getSelectedRow();
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        int row = tblLocation.getSelectedRow();
+        if(row < 0) return;
         try {
-            int locID = Integer.parseInt((String)tblLocations.getModel().getValueAt(row, 0));
+            int locID = Integer.parseInt((String)tblLocation.getModel().getValueAt(row, 0));
+            System.out.println(locID);
             Location loc = null;
-            Properties_Editor<Location> editor = (Properties_Editor<Location>)GUIManager.Lookup("Location_Property_Editor");
+            Properties_Editor<Location, Editor_Location> editor = (Properties_Editor<Location, Editor_Location>)GUIManager.Lookup("Location_Property_Editor");
             for(Location l : locations) {
                 if(l.getLocationID()== locID) {
                     loc = l;
                 }
             }
             editor.setObject(loc);
+            editor.setFrame(this);
             editor.setVisible(true);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnEditActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        Reload();
+        Update();
     }//GEN-LAST:event_formComponentShown
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int input = JOptionPane.showConfirmDialog(null, "Delete selected schedule?");
+        if (input == 0){
+            int locID = Integer.parseInt((String)tblLocation.getModel().getValueAt(tblLocation.getSelectedRow(), 0));
+            Location loc = null;
+            for(Location l : locations) {
+                if(l.getLocationID()== locID) {
+                    loc = l;
+                }
+            }
+            SQLLocation.ME.deleteLocation(loc);
+        }
+        Update();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
+        Update();
+    }//GEN-LAST:event_btnReloadActionPerformed
+
+    private void btnDuplicateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDuplicateActionPerformed
+        int row = tblLocation.getSelectedRow();
+        try 
+        {
+            int locID = Integer.parseInt((String)tblLocation.getModel().getValueAt(row, 0));
+            Location loc = null;
+            for(Location l : locations) 
+            {
+                if(l.getLocationID()== locID) 
+                {
+                    loc = l;
+                }
+            }
+            Location l = new Location();
+            l.setAddress(loc.getAddress());
+            l.setAddress2(loc.getAddress2());
+            l.setCompany(loc.getCompany());
+            l.setCreated(loc.getCreated());
+            l.setEmail(loc.getEmail());
+            l.setMainPhone(loc.getMainPhone());
+            
+            SQLLocation.ME.createLocation(l);
+        } 
+        catch (Exception ex) 
+        {
+            ex.printStackTrace();
+        }
+        Update();
+    }//GEN-LAST:event_btnDuplicateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDuplicate;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
+    private javax.swing.JButton btnReload;
+    private javax.swing.JToggleButton btnSearch;
+    private javax.swing.JComboBox<String> cmbSearchType;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JTable tblLocations;
+    private javax.swing.JTable tblLocation;
     private javax.swing.JTextField txtPageNumber;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

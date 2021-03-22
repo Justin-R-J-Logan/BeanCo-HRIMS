@@ -170,10 +170,10 @@ public class GUIManager {
         Register("TicketList", new Ticket_List());
         Register("TicketPage", new Ticket_Page());
         Register("Ticket_AddResponse", new Ticket_AddResponse());
-        Register("Account_Property_Editor", new Properties_Editor<Account>());
-        Register("Location_Property_Editor", new Properties_Editor<Location>());
-        Register("Schedule_Property_Editor", new Properties_Editor<ScheduleDay>());
-        Register("Machine_Property_Editor", new Properties_Editor<Machine>());
+        Register("Account_Property_Editor", new Properties_Editor<Account, Editor_Account>());
+        Register("Location_Property_Editor", new Properties_Editor<Location, Editor_Location>());
+        Register("Schedule_Property_Editor", new Properties_Editor<ScheduleDay, Editor_Schedule>());
+        Register("Machine_Property_Editor", new Properties_Editor<Machine, Editor_Machine>());
 
 
         Hide("LoadingBar");

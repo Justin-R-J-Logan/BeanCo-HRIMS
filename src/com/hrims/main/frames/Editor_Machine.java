@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  *
  * @author Matthew
  */
-public class Editor_Machine extends javax.swing.JInternalFrame 
+public class Editor_Machine extends javax.swing.JInternalFrame implements Updatable
 {
 
     int pageNumber = 0;
@@ -46,9 +46,11 @@ public class Editor_Machine extends javax.swing.JInternalFrame
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMachine = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnReload = new javax.swing.JButton();
+        btnDuplicate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         btnPrevious = new javax.swing.JButton();
@@ -124,29 +126,45 @@ public class Editor_Machine extends javax.swing.JInternalFrame
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        jPanel1.add(btnAdd);
 
-        jButton2.setText("Edit");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnEditActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
+        jPanel1.add(btnEdit);
 
-        jButton3.setText("Delete");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3);
+        jPanel1.add(btnDelete);
+
+        btnReload.setText("Reload");
+        btnReload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnReload);
+
+        btnDuplicate.setText("Duplicate");
+        btnDuplicate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDuplicateActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDuplicate);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -195,45 +213,46 @@ public class Editor_Machine extends javax.swing.JInternalFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try 
         {
             Machine mac = new Machine();
             Date d = new Date(new java.util.Date().getTime());
             mac.setCreated(d);
             mac.setLastUse(d);
-            Properties_Editor<Machine> editor = (Properties_Editor<Machine>)GUIManager.Lookup("Machine_Property_Editor");
+            Properties_Editor<Machine, Editor_Machine> editor = (Properties_Editor<Machine, Editor_Machine>)GUIManager.Lookup("Machine_Property_Editor");
             editor.setObject(mac);
+            editor.setFrame(this);
             editor.setVisible(true);
         } 
         catch (Exception ex) 
         {
             ex.printStackTrace();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
         pageNumber--;
         if(pageNumber<0) pageNumber=0;
-        Reload();
+        Update();
     }//GEN-LAST:event_btnPreviousActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         pageNumber++;
-        Reload();
+        Update();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        Reload();
+        Update();
     }//GEN-LAST:event_formComponentShown
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         int row = tblMachine.getSelectedRow();
         try 
         {
             int macID = Integer.parseInt((String)tblMachine.getModel().getValueAt(row, 0));
             Machine acc = null;
-            Properties_Editor<Machine> editor = (Properties_Editor<Machine>)GUIManager.Lookup("Machine_Property_Editor");
+            Properties_Editor<Machine, Editor_Machine> editor = (Properties_Editor<Machine, Editor_Machine>)GUIManager.Lookup("Machine_Property_Editor");
             for(Machine a : machines) 
             {
                 if(a.getMachineID() == macID) 
@@ -242,15 +261,16 @@ public class Editor_Machine extends javax.swing.JInternalFrame
                 }
             }
             editor.setObject(acc);
+            editor.setFrame(this);
             editor.setVisible(true);
         } 
         catch (Exception ex) 
         {
             ex.printStackTrace();
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnEditActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         
     int input = JOptionPane.showConfirmDialog(null, "Delete selected machine?");
     if (input == 0)
@@ -258,12 +278,50 @@ public class Editor_Machine extends javax.swing.JInternalFrame
         int machineID = Integer.parseInt(tblMachine.getModel().getValueAt(tblMachine.getSelectedRow(), 0).toString());
         SQLMachine.ME.deleteMachine(machineID);
     }
-        Reload();
-    }//GEN-LAST:event_jButton3ActionPerformed
+        Update();
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
+        Update();
+    }//GEN-LAST:event_btnReloadActionPerformed
+
+    private void btnDuplicateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDuplicateActionPerformed
+        int row = tblMachine.getSelectedRow();
+        try 
+        {
+            int macID = Integer.parseInt((String)tblMachine.getModel().getValueAt(row, 0));
+            Machine mac = null;
+            for(Machine m : machines) 
+            {
+                if(m.getMachineID() == macID) 
+                {
+                    mac = m;
+                }
+            }
+            Machine m = new Machine();
+            m.setCreated(mac.getCreated());
+            m.setInUse(mac.isInUse());
+            m.setLocationID(mac.getLocationID());
+            m.setMachineName(mac.getMachineName());
+            m.setPurchaseDate(mac.getPurchaseDate());
+            m.setLastUse(mac.getLastUse());
+        } 
+        catch (Exception ex) 
+        {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnDuplicateActionPerformed
+
+    public void Update() {
+        machines = SQLMachine.ME.getMachinesByPage(pageNumber, numPerPage, true);
+        if(pageNumber <= 0) btnPrevious.setEnabled(false);
+        else btnPrevious.setEnabled(true);
+        if(machines.size() > numPerPage) btnNext.setEnabled(true);
+        else btnNext.setEnabled(false);     
+        Reload();
+    }
     
-    private void Reload() {
-        machines = SQLMachine.ME.getMachines(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
+    public void Reload() {
         
         for(int y = 0; y < tblMachine.getRowCount(); y++) {
                 for(int x = 0; x < tblMachine.getColumnCount(); x++) {
@@ -302,17 +360,19 @@ public class Editor_Machine extends javax.swing.JInternalFrame
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) 
     {                                         
-        Reload();
+        Update();
     }                                                                            
 
    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDuplicate;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrevious;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnReload;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

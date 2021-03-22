@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Justin
  */
-public class Properties_Editor<T extends DataGrabber> extends javax.swing.JInternalFrame {
+public class Properties_Editor<T extends DataGrabber, U extends Updatable> extends javax.swing.JInternalFrame {
     
     /**
      * Creates new form Interface_PropertyEditor
@@ -113,6 +113,10 @@ public class Properties_Editor<T extends DataGrabber> extends javax.swing.JInter
     }//GEN-LAST:event_btnLoadActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if(null != tblProps.getCellEditor()) {
+            // there is an edit in progress
+            tblProps.getCellEditor().stopCellEditing();
+        }
         Map<String, Object> props = new HashMap<String, Object>();
         for(int i = 0; i < tblProps.getRowCount(); i++) {
             String s = (String)tblProps.getModel().getValueAt(i, 0);
@@ -122,6 +126,9 @@ public class Properties_Editor<T extends DataGrabber> extends javax.swing.JInter
         if(t.SetResources(props)) {
             if(t.Save()) {
                 t = null;
+                if(u != null) {
+                    u.Update();
+                }
                 this.setVisible(false);
             } else {
                 String infoMessage = "Error when saving to database. Please check code.";
@@ -145,6 +152,12 @@ public class Properties_Editor<T extends DataGrabber> extends javax.swing.JInter
     private javax.swing.JTable tblProps;
     // End of variables declaration//GEN-END:variables
 
+    private U u; 
+    
+    public void setFrame(U u) {
+        this.u = u;
+    }
+    
     private T t;
     public void setObject(T t) {
         this.t = t;

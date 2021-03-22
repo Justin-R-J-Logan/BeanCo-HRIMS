@@ -108,8 +108,41 @@ public class SQLMachine
         }   
     }
     
-    public static void main(String arg[]) 
-    {
+    public ArrayList<Machine> getMachinesByPage(int pageNumber, int maxPer, boolean oneExtra) {
+        ArrayList<Machine> machines = new ArrayList<Machine>();
         
+        try {
+            //ArrayList<Contact> contacts;
+            //contacts = SQLContact.ME.getContactsFromMachineID(low, high);
+            
+            String SQL = "";
+            
+            SQL += "SELECT * ";
+            SQL += "FROM machine ";
+            SQL += " LIMIT " + (pageNumber*maxPer) + "," + (oneExtra ? maxPer+1 : maxPer) + ";";
+            
+            //System.out.println(SQL);
+            
+            
+            ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
+            
+            while(result.next()) {
+                Machine mac = new Machine();
+                
+                mac.setMachineID(result.getInt(1));
+                mac.setLocationID(result.getInt(2));
+                mac.setMachineName(result.getString(3));
+                mac.setPurchaseDate(result.getDate(4));
+                mac.setLastUse(result.getDate(5));
+                mac.setCreated(result.getDate(6));
+                mac.setInUse(result.getBoolean(7));
+                
+                machines.add(mac);
+            }
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return machines;
     }
 }

@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  *
  * @author mrdsc
  */
-public class Editor_Schedule extends javax.swing.JInternalFrame {
+public class Editor_Schedule extends javax.swing.JInternalFrame implements Updatable {
 
     /**
      * Creates new form Employee
@@ -252,7 +252,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
             int accID = Integer.parseInt((String)tblData.getModel().getValueAt(row,0));
             
             ScheduleDay sched = null;
-            Properties_Editor<ScheduleDay> editor = (Properties_Editor<ScheduleDay>)GUIManager.Lookup("Schedule_Property_Editor");
+            Properties_Editor<ScheduleDay, Editor_Schedule> editor = (Properties_Editor<ScheduleDay, Editor_Schedule>)GUIManager.Lookup("Schedule_Property_Editor");
             for(ScheduleDay s : schedules) {
                 if(s.getAccountid() == accID) {
                     sched = s;
@@ -283,7 +283,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
             int day = jdpDatePicker.getModel().getDay();
             java.sql.Date dateSelection = new java.sql.Date(year-1900, month, day);
             sched.setDate(dateSelection);
-            Properties_Editor<ScheduleDay> editor = (Properties_Editor<ScheduleDay>)GUIManager.Lookup("Schedule_Property_Editor");
+            Properties_Editor<ScheduleDay, Editor_Schedule> editor = (Properties_Editor<ScheduleDay, Editor_Schedule>)GUIManager.Lookup("Schedule_Property_Editor");
             editor.setObject(sched);
             editor.setVisible(true);
         } catch (Exception ex) {
@@ -319,7 +319,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
      * Pagination should be functional, but without the ability to set 26 schedule
      * days, it's not really testable.
      */
-    private void Reload() {
+    public void Reload() {
         //dateSelection = date from jdpDatePicker, make use of some method to convert if necessary.
         //ArrayList<ScheduleDay> schedules = SQLSchedule.ME.getSchedules(dateSelection);
         for(int y = 0; y < tblData.getRowCount(); y++) {
@@ -364,7 +364,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame {
      * On-call: Updates the data stored in the schedules array to the current date
      * stored in the Date Picker.
      */
-    private void Update(){
+    public void Update(){
         int year = jdpDatePicker.getModel().getYear();
         int month = jdpDatePicker.getModel().getMonth();
         int day = jdpDatePicker.getModel().getDay();
