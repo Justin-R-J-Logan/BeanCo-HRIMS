@@ -11,6 +11,7 @@ import com.hrims.main.data.Ticket;
 import com.hrims.main.data.TicketEntry;
 import static com.hrims.main.sql.SQLCaller.ME;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 
 /**
@@ -72,19 +73,31 @@ public class SQLTicket {
         }
         return accounts;
     }
-    
-    /*
-    public boolean updateAccount(Ticket acc) {
-        String statement = "UPDATE account " + "\n"
+    /*int userID;
+    String description;
+    boolean resolved;
+    int TicketId;*/
+     public boolean updateTicket(Ticket tic) {
+        String statement = "UPDATE ticket " + "\n"
                 + "SET "
-                + "username = '" + acc.getUsername() + "', "
-                + "password = '" + acc.getPassword()+ "', "
-                + "accessrights = '" + acc.getAccessRights()+ "', "
-                + "discount = '" + acc.getDiscount()+ "'\n"
-                + "WHERE accountid = " + acc.getAccountNumber();
+                + "accountid = '" + tic.getUserID() + "', "
+                + "description = '" + tic.getDescription()+ "', "
+                + "resolved = '" + tic.isResolved()+ "', "
+                + "ticketid = '" + tic.getTicketId()+ "'\n"
+                + "WHERE ticketid = " + tic.getTicketId();
         
         try {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
+           /* ResultSetMetaData rsmd = result.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (result.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                if (i > 1) System.out.print(",  ");
+                String columnValue = result.getString(i);
+                System.out.print(columnValue + " " + rsmd.getColumnName(i));
+            }
+            System.out.println("");
+        }*/
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -92,30 +105,34 @@ public class SQLTicket {
         //TODO: Check if account actually created or not, don't just return true and assume;
         return true;
     }
-    public boolean createAccount(Ticket acc) {
+    public boolean createTicket(Ticket tic) {
         
-        String statement = "INSERT INTO account(username, password, accessrights, discount)" + 
-                "\n VALUES ('" + acc.getUsername() + "', '" + acc.getPassword() + "', '" + acc.getAccessRights() + "', '" + acc.getDiscount() + "');";
+        String statement = "INSERT INTO ticket(accountid, description, resolved)" 
+                + "\n VALUES ('" + tic.getUserID()+ "', '" + tic.getDescription()
+                + "', '" + tic.isResolved() + "');";
         
         try {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
         } catch (Exception ex) {
             ex.printStackTrace();
+            return false;
         }
         
         //TODO: Check if account actually updated or not, don't just return true and assume;
         return true;
     }
-    
-    public static void main(String arg[]) {
-        Ticket a = new Ticket();
-        a.setAccountNumber(3);
-        a.setUsername("Bananne");
-        a.setPassword("Password12");
-        a.setAccess(16);
-        a.setDiscount(0);
+
+    public boolean deleteTicket(Ticket tic) {
+        String statement = ("DELETE FROM ticket WHERE \n" + 
+                    "ticketid = " + tic.getTicketId()+ ";");
         
-        ME.updateAccount(a);
+        try{
+            SQLCaller.ME.Submit_SQL_Query(statement);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
         
-    }*/
+        return true;
+    }
 }
