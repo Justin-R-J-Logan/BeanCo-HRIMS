@@ -7,6 +7,7 @@ package com.hrims.main.frames;
 
 import com.hrims.main.GUIManager;
 import com.hrims.main.LoginManager;
+import com.hrims.main.data.Account;
 
 /**
  *

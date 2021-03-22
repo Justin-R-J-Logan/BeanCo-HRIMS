@@ -1,5 +1,8 @@
 package com.hrims.main.frames;
 
+import com.hrims.main.data.Ticket;
+import com.hrims.main.sql.SQLTicket;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,6 +15,9 @@ package com.hrims.main.frames;
  */
 public class Ticket_AddResponse extends javax.swing.JInternalFrame {
 
+    Ticket ticket;
+    Ticket_Page page;
+    
     /**
      * Creates new form GUI_Distributor
      */
@@ -29,56 +35,66 @@ public class Ticket_AddResponse extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        btnAddResponse = new javax.swing.JButton();
+        btnCancel = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtResponse = new javax.swing.JTextArea();
 
         setTitle("New Response");
         setMinimumSize(new java.awt.Dimension(1024, 550));
         setPreferredSize(new java.awt.Dimension(1024, 550));
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
-
-        jTextField1.setText("Response");
-        jTextField1.setToolTipText("");
-        jPanel1.add(jTextField1);
-
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton2.setText("Add Response");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jPanel2.add(jButton2);
-
-        jToggleButton1.setText("Cancel");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAddResponse.setText("Add Response");
+        btnAddResponse.setFocusable(false);
+        btnAddResponse.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAddResponse.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAddResponse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                btnAddResponseActionPerformed(evt);
             }
         });
-        jPanel2.add(jToggleButton1);
+        jPanel2.add(btnAddResponse);
+
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnCancel);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Description");
-        jScrollPane2.setViewportView(jTextArea1);
+        txtResponse.setColumns(20);
+        txtResponse.setRows(5);
+        txtResponse.setText("Description");
+        jScrollPane2.setViewportView(txtResponse);
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void btnAddResponseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddResponseActionPerformed
+        if(SQLTicket.ME.AddResponse(ticket, txtResponse.getText())) {
+            
+            this.page.Update();
+            this.ticket = null;
+            this.setVisible(false);
+        }
+        
+    }//GEN-LAST:event_btnAddResponseActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.ticket = null;
         this.setVisible(false);
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -107,133 +123,7 @@ public class Ticket_AddResponse extends javax.swing.JInternalFrame {
             java.util.logging.Logger.getLogger(Ticket_AddResponse.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+        //</editor-fold
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -244,12 +134,19 @@ public class Ticket_AddResponse extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAddResponse;
+    private javax.swing.JToggleButton btnCancel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JTextArea txtResponse;
     // End of variables declaration//GEN-END:variables
+
+    void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    void setPage(Ticket_Page page) {
+        this.page = page;
+    }
 }

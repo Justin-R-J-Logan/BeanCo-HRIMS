@@ -119,7 +119,7 @@ public class Ticket_List extends javax.swing.JInternalFrame {
 
         tblTickets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "Closed", "TheBeanMachine", "Machine broke down, pls help!"},
+                {"", "", "", ""},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
@@ -148,7 +148,15 @@ public class Ticket_List extends javax.swing.JInternalFrame {
             new String [] {
                 "Ticket No", "Status", "User", "Descritpion"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tblTickets);
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.CENTER);
@@ -228,11 +236,22 @@ public class Ticket_List extends javax.swing.JInternalFrame {
     private void btnViewTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTicketActionPerformed
         
         try {
-            int ticket = Integer.parseInt(tblTickets.getValueAt(tblTickets.getSelectedRow(), 0).toString());
-            
-            GUIManager.Show("TicketPage");
-            ((Ticket_Page)(GUIManager.Lookup("TicketPage"))).setTicket(tickets.get(ticket));
-        } catch(Exception ex) { }
+            int ticketID = Integer.parseInt(tblTickets.getValueAt(tblTickets.getSelectedRow(), 0).toString());
+            Ticket ticket = null;
+            for(Ticket t : tickets) {
+                if(t.getTicketId() == ticketID) {
+                    ticket = t;
+                    break;
+                }
+            }
+                    
+            Ticket_Page tp = ((Ticket_Page)(GUIManager.Lookup("TicketPage")));
+            tp.setTicket(ticket);
+            tp.Update();
+            tp.setVisible(true);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_btnViewTicketActionPerformed
 
     /**

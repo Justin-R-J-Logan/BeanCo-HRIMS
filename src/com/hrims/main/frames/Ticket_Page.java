@@ -3,6 +3,8 @@ package com.hrims.main.frames;
 import com.hrims.main.GUIManager;
 import com.hrims.main.data.Ticket;
 import com.hrims.main.data.TicketEntry;
+import com.hrims.main.sql.SQLTicket;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,18 +18,31 @@ import com.hrims.main.data.TicketEntry;
  */
 public class Ticket_Page extends javax.swing.JInternalFrame {
     
-    Ticket ticket;
+    public Ticket ticket;
     int pageNumber = 0;
     int numPerPage = 25;
-   
-    private void Reload() {
+    public void Update() {
+        System.out.print(ticket.getEntries().size());
+        int ticketid = ticket.getTicketId();
         
-        for(int y = 0; y < tblPages.getRowCount(); y++) {
-                for(int x = 0; x < tblPages.getColumnCount(); x++) {
-                if(y >= ticket.getEntries().length) {
-                    tblPages.getModel().setValueAt("", y, x);
+        ticket = new Ticket();
+        ticket = SQLTicket.ME.getTickets(ticket.getTicketId(),ticket.getTicketId()).get(0);
+        ticket.setTicketId(ticketid);
+        
+        System.out.print(ticket.getEntries().size());
+        DefaultTableModel model = (DefaultTableModel) tblResponses.getModel();
+        model.setRowCount(0);
+        model.setRowCount(numPerPage);
+        Reload();
+    }
+    private void Reload() {
+        int i = 0;
+        for(int y = 0; y < tblResponses.getRowCount(); y++) {
+                for(int x = 0; x < tblResponses.getColumnCount(); x++) {
+                if(y >= ticket.getEntries().size()) {
+                    tblResponses.getModel().setValueAt("", y, x);
                 } else {
-                    TicketEntry l = ticket.getEntries()[y];
+                    TicketEntry l = ticket.getEntries().get(y);
                     String information = "";
                     switch(x) {
                         case 0:
@@ -40,7 +55,7 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
                             information = ""+l.getMessage();
                             break;
                     }
-                    tblPages.getModel().setValueAt(information, y, x);
+                    tblResponses.getModel().setValueAt(information, y, x);
                 }
             }
         }
@@ -62,7 +77,7 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPages = new javax.swing.JTable();
+        tblResponses = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
@@ -83,9 +98,9 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
 
-        tblPages.setModel(new javax.swing.table.DefaultTableModel(
+        tblResponses.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1),  new Integer(1), "test"},
+                {null, null, ""},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -119,7 +134,7 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
                 java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -130,7 +145,7 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblPages);
+        jScrollPane1.setViewportView(tblResponses);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -190,7 +205,10 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        GUIManager.Show("Ticket_AddResponse");
+        Ticket_AddResponse tar = (Ticket_AddResponse)GUIManager.Lookup("Ticket_AddResponse");
+        tar.setTicket(ticket);
+        tar.setPage(this);
+        tar.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
 
@@ -209,7 +227,7 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JTable tblPages;
+    private javax.swing.JTable tblResponses;
     // End of variables declaration//GEN-END:variables
 
     void setTicket(Ticket get) {

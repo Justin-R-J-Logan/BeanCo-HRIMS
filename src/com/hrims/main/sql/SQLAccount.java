@@ -183,4 +183,25 @@ public class SQLAccount {
         
         return true;
     }
+
+    public Account getAccountByUsername(String username) {
+        Account acc = null;
+        
+        try {
+            ResultSet result = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM account WHERE username = '" + username + "';");
+            result.first();
+            acc = new Account();
+            acc.setAccountNumber(result.getInt(1));
+            acc.setUsername(result.getString(2));
+            acc.setPassword(result.getString(3));
+            acc.setCreated(result.getDate(4));
+            acc.setLastLogin(result.getDate(5));
+            acc.setAccessRights(result.getInt(6));
+            acc.setDiscount(result.getInt(7));
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return acc;
+    }
 }

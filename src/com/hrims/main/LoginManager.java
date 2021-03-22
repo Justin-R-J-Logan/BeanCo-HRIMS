@@ -5,6 +5,8 @@
  */
 package com.hrims.main;
 
+import com.hrims.main.data.Account;
+import com.hrims.main.sql.SQLAccount;
 import com.hrims.main.sql.SQLLogin;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
@@ -19,6 +21,7 @@ public class LoginManager {
      *
      */
     public static String Username;
+    public static Account MYACCOUNT;
 
     /**
      *
@@ -60,9 +63,11 @@ public class LoginManager {
      * @param password given from the login GUI
      */
     public static void Login(String username, String password) {
+        MYACCOUNT = null;
         if(SQLLogin.ME.Login(username, password)) {
             GUIManager.Login();
             status = Login_Status.IN;
+            MYACCOUNT = SQLAccount.ME.getAccountByUsername(username);
         } else {
             String infoMessage = "Failed to log in. Username or Password Incorrect";
             String titleBar = "Login Error";
