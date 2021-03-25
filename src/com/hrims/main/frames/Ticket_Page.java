@@ -20,29 +20,30 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
     
     public Ticket ticket;
     int pageNumber = 0;
+    int maxPage = 0;
     int numPerPage = 25;
+    
     public void Update() {
-        System.out.print(ticket.getEntries().size());
         int ticketid = ticket.getTicketId();
         
-        ticket = new Ticket();
+        //ticket = new Ticket();
         ticket = SQLTicket.ME.getTickets(ticket.getTicketId(),ticket.getTicketId()).get(0);
         ticket.setTicketId(ticketid);
         
-        System.out.print(ticket.getEntries().size());
         DefaultTableModel model = (DefaultTableModel) tblResponses.getModel();
         model.setRowCount(0);
         model.setRowCount(numPerPage);
+        fixPageNumbers();
+        
         Reload();
     }
     private void Reload() {
-        int i = 0;
         for(int y = 0; y < tblResponses.getRowCount(); y++) {
                 for(int x = 0; x < tblResponses.getColumnCount(); x++) {
                 if(y >= ticket.getEntries().size()) {
                     tblResponses.getModel().setValueAt("", y, x);
                 } else {
-                    TicketEntry l = ticket.getEntries().get(y);
+                    TicketEntry l = ticket.getEntries().get(y +(pageNumber*25));
                     String information = "";
                     switch(x) {
                         case 0:
@@ -84,9 +85,9 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
         btnDelete = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jTextField2 = new javax.swing.JTextField();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        btnPrevious = new javax.swing.JButton();
+        txtPageNumber = new javax.swing.JTextField();
+        btnNext = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jToggleButton3 = new javax.swing.JToggleButton();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -173,15 +174,25 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
-        jToggleButton1.setText("Previous");
-        jPanel3.add(jToggleButton1);
+        btnPrevious.setText("Previous");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnPrevious);
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("1");
-        jPanel3.add(jTextField2);
+        txtPageNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPageNumber.setText("1");
+        jPanel3.add(txtPageNumber);
 
-        jToggleButton2.setText("Next");
-        jPanel3.add(jToggleButton2);
+        btnNext.setText("Next");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnNext);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -211,11 +222,30 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
         tar.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        pageNumber += 1;
+        if(pageNumber == maxPage) {
+            btnNext.setEnabled(false);
+        }
+        btnPrevious.setEnabled(true);
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        pageNumber--;
+        if(pageNumber == 0) {
+            btnPrevious.setEnabled(false);
+        } if(pageNumber != maxPage) {
+            btnNext.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnPreviousActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -223,14 +253,25 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JTable tblResponses;
+    private javax.swing.JTextField txtPageNumber;
     // End of variables declaration//GEN-END:variables
 
     void setTicket(Ticket get) {
         this.ticket = get;
+    }
+
+    private void fixPageNumbers() {
+        pageNumber = 0;
+        txtPageNumber.setText("0");
+        int size = ticket.getEntries().size();
+        maxPage = size/25 + 1;
+        btnPrevious.setEnabled(false);
+        if(maxPage > 1) {
+            btnNext.setEnabled(true);
+        } else {
+            btnNext.setEnabled(false);
+        }
     }
 }

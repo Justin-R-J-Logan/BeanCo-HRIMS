@@ -22,6 +22,7 @@ import java.util.Map;
  */
 public class Account implements DataGrabber<Account> {
 
+    private static final int ACCESS_FULLACCESS = 32;
     private static final int ACCESS_ADMINISTRATOR = 16;
     private static final int ACCESS_MANAGER = 8;
     private static final int ACCESS_MACHINE = 4;

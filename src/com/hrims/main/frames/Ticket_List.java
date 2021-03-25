@@ -27,9 +27,17 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-    
+    private void Update() {
+        tickets = SQLTicket.ME.getTicketsByPageNumber(pageNumber, numPerPage, true);
+        //fix page buttons
+        if(tickets.size() > numPerPage) btnNext.setEnabled(true);
+        else btnNext.setEnabled(false);
+        if(pageNumber > 0) btnPrevious.setEnabled(true);
+        else btnPrevious.setEnabled(false);
+        //
+        Reload();
+    }
     private void Reload() {
-        tickets = SQLTicket.ME.getTickets(pageNumber*numPerPage+1, pageNumber*numPerPage+numPerPage);
         
         for(int y = 0; y < tblTickets.getRowCount(); y++) {
                 for(int x = 0; x < tblTickets.getColumnCount(); x++) {
@@ -178,6 +186,7 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
         btnPrevious.setText("Previous");
+        btnPrevious.setEnabled(false);
         btnPrevious.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPreviousActionPerformed(evt);
@@ -190,6 +199,7 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         jPanel4.add(txtPage);
 
         btnNext.setText("Next");
+        btnNext.setEnabled(false);
         btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNextActionPerformed(evt);
@@ -221,16 +231,16 @@ public class Ticket_List extends javax.swing.JInternalFrame {
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
         pageNumber--;
         if(pageNumber<0) pageNumber=0;
-        Reload();
+        Update();
     }//GEN-LAST:event_btnPreviousActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         pageNumber++;
-        Reload();
+        Update();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        Reload();
+        Update();
     }//GEN-LAST:event_formComponentShown
 
     private void btnViewTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTicketActionPerformed

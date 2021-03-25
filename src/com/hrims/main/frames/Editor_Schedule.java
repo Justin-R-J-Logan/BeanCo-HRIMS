@@ -259,6 +259,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame implements Updat
                 }
             }
             editor.setObject(sched);
+            editor.setFrame(this);
             editor.setVisible(true);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -285,6 +286,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame implements Updat
             sched.setDate(dateSelection);
             Properties_Editor<ScheduleDay, Editor_Schedule> editor = (Properties_Editor<ScheduleDay, Editor_Schedule>)GUIManager.Lookup("Schedule_Property_Editor");
             editor.setObject(sched);
+            editor.setFrame(this);
             editor.setVisible(true);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -364,7 +366,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame implements Updat
      * On-call: Updates the data stored in the schedules array to the current date
      * stored in the Date Picker.
      */
-    public void Update(){
+    public void Update() {
         int year = jdpDatePicker.getModel().getYear();
         int month = jdpDatePicker.getModel().getMonth();
         int day = jdpDatePicker.getModel().getDay();

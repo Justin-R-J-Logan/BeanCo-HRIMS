@@ -22,8 +22,8 @@ public class SQLTicketEntry {
         
             ArrayList<TicketEntry> ticketEntries = new ArrayList<TicketEntry>();
             try {
-                ResultSet ticketEntryresults = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM contact "
-                                                        + "WHERE accountid BETWEEN " + lowAccID + " AND " + highAccID + ";");
+                ResultSet ticketEntryresults = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM ticketentry "
+                                                        + "WHERE ticketid BETWEEN " + lowAccID + " AND " + highAccID + ";");
                 while(ticketEntryresults.next()) {
                     
                     TicketEntry tic = new TicketEntry();
@@ -76,7 +76,9 @@ public class SQLTicketEntry {
         
         String statement = "INSERT INTO ticketentry(ticketid, userid, entryid, message)" 
                 + "\n VALUES ('" + tic.getTicketid()+ "', '" + tic.getUserId()
-                + "', '" + tic.getEntryId() + tic.getMessage() + "');";
+                + "', '" + tic.getEntryId() + "', '"+ tic.getMessage() + "');";
+        
+        System.out.println(statement);
         
         try {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);

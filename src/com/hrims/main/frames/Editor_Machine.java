@@ -305,11 +305,14 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
             m.setMachineName(mac.getMachineName());
             m.setPurchaseDate(mac.getPurchaseDate());
             m.setLastUse(mac.getLastUse());
+            
+            m.Save();
         } 
         catch (Exception ex) 
         {
             ex.printStackTrace();
         }
+        Update();
     }//GEN-LAST:event_btnDuplicateActionPerformed
 
     public void Update() {

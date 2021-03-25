@@ -1,7 +1,12 @@
 package com.hrims.main.frames;
 
 
+import com.hrims.main.LoginManager;
+import com.hrims.main.data.ScheduleDay;
+import com.hrims.main.sql.SQLSchedule;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 import org.jdatepicker.JDatePicker;
 import org.jdatepicker.UtilDateModel;
@@ -18,6 +23,10 @@ import org.jdatepicker.UtilDateModel;
  */
 public class Schedule_Viewer extends javax.swing.JInternalFrame {
 
+    int pageNumber = 0;
+    int resultsPerPage = 25;
+    
+    ArrayList<ScheduleDay> schedules = new ArrayList<ScheduleDay>();
     /**
      * Creates new form Employee
      */
@@ -35,10 +44,8 @@ public class Schedule_Viewer extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblData = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        jDatePicker1 = new JDatePicker(sqlDate);
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -46,9 +53,37 @@ public class Schedule_Viewer extends javax.swing.JInternalFrame {
         setTitle("Schedule Editor");
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -76,11 +111,11 @@ public class Schedule_Viewer extends javax.swing.JInternalFrame {
                 {null, null, null}
             },
             new String [] {
-                "Time Start", "Time End", "Machine ID"
+                "Date", "Time Start", "Time End"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false
@@ -94,25 +129,69 @@ public class Schedule_Viewer extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblData);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
-
-        jDatePicker1.setDoubleBuffered(true);
-        jPanel1.add(jDatePicker1);
-
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        Update();
+    }//GEN-LAST:event_formFocusGained
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        Update();
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+         Update();
+    }//GEN-LAST:event_formComponentShown
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jdatepicker.JDatePicker jDatePicker1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblData;
     // End of variables declaration//GEN-END:variables
+
+    public void Update() {
+        GregorianCalendar c = new GregorianCalendar();
+        java.sql.Date d = new java.sql.Date(c.getTime().getTime());
+        
+        //System.out.println("Date: " + dateSelection.toString());
+        schedules = SQLSchedule.ME.getSchedulesFromAccountIDandStartDate(LoginManager.MYACCOUNT.getAccountNumber(), d);
+        pageNumber = 0;
+        Reload();
+    }
+
+    public void Reload() {
+        //dateSelection = date from jdpDatePicker, make use of some method to convert if necessary.
+        //ArrayList<ScheduleDay> schedules = SQLSchedule.ME.getSchedules(dateSelection);
+        for(int y = 0; y < tblData.getRowCount(); y++) {
+            for(int x = 0; x < tblData.getColumnCount(); x++) {
+                if(y >= schedules.size()) {
+                    tblData.getModel().setValueAt("", y, x);
+                } else {
+                    ScheduleDay schd = schedules.get(y + (pageNumber * resultsPerPage));
+                    String information = "";
+                    switch(x) {
+                        case 0:
+                            information = ""+schd.getDate();
+                            break;
+                        case 1:
+                            information = ""+schd.getStart();
+                            break;
+                        case 2:
+                            information = ""+schd.getEnd();
+                            break;
+                        }
+                    tblData.getModel().setValueAt(information, y, x);
+                }
+            }
+        }
+    }
 }

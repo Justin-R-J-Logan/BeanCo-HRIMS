@@ -6,6 +6,7 @@
 package com.hrims.main.sql;
 
 import com.hrims.main.data.ScheduleDay;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -129,5 +130,37 @@ public class SQLSchedule {
         java.sql.Date testDate = new java.sql.Date(year-1900, month-1, day);
         System.out.println(testDate);
         System.out.println(ME.getSchedules(testDate).get(0).toString());*/
+    }
+
+    public ArrayList<ScheduleDay> getSchedulesFromAccountIDandStartDate(int accountNumber, Date d) {
+        ArrayList<ScheduleDay> ret = new ArrayList<ScheduleDay>();
+        
+        String SQL = "";
+        
+        try {
+            SQL += "SELECT * \n";
+            SQL += "FROM scheduleday \n";
+            SQL += "WHERE accountid = " + accountNumber + " AND day >= '" + d + "' \n";
+            SQL += "ORDER BY day;";
+            
+            ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
+            
+            while(result.next()) {
+                ScheduleDay schd = new ScheduleDay();
+                
+                schd.setDate(result.getDate(1));
+                schd.setAccountid(result.getInt(2));
+                schd.setStart(result.getTime(3));
+                schd.setEnd(result.getTime(4));
+                schd.setTotalBreakTime(result.getInt(5));
+                
+                ret.add(schd);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return ret;
     }
 }
