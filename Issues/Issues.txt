@@ -1,0 +1,3 @@
+change "status" in ticketlist to "Resolved / Unresolved"
+change "User" in ticketlist to Username instead of ID
+change instances of UserID to Username instead
