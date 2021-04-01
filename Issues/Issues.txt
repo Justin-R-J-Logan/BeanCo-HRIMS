@@ -1,3 +1,41 @@
+All fucking searches unless we decide to remove search functionality
+KEEP: Account, Machine
+Remove: Location
+
+Employee Management Menu Bug
 change "status" in ticketlist to "Resolved / Unresolved"
 change "User" in ticketlist to Username instead of ID
-change instances of UserID to Username instead
+change instances of UserID to Username instead (USE JOIN -> AccountID)
+add date/time to ticket system
+
+
+Machine animation
+Machine makes product
+Machines can break
+Choose products
+btnTicket to view active tickets.
+
+SQLTHROWERS
+
+DISTRIBUTE.
+Distributor ADD BUTTON opens TICKET_ENTRY adder.
+Distributor information
+List of products
+
+Hide Machine, Location, TicketEntry ID from tables
+
+Orders
+Catalog
+Previous Orders
+
+Catch SQLErrors
+
+MachineStatus in Administrator
+>Add "FIX MACHINE" button
+
+Ticket: change Status to "Resolved" or "Unresolved"
+Add DateTime to Ticket, TicketEntry
+
+>More detail in milestone report
+>>IE: Which forms are being edited, etc
+>>To see which parts it actually is done
