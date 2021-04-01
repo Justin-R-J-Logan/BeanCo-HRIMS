@@ -10,7 +10,10 @@ import com.hrims.main.data.Contact;
 import static com.hrims.main.sql.SQLCaller.ME;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,7 +26,8 @@ public class SQLAccount {
     public Account getAccount(int _accountNumber) {
         Account acc = new Account();
         try {
-            ResultSet result = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM account WHERE accountid=" + _accountNumber);
+            String SQL = "SELECT * FROM account WHERE accountid=" + _accountNumber;
+            ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
             result.first();
             acc.setAccountNumber(result.getInt(1));
             acc.setUsername(result.getString(2));
@@ -85,6 +89,7 @@ public class SQLAccount {
                 + "discount = '" + acc.getDiscount()+ "'\n"
                 + "WHERE accountid = " + acc.getAccountNumber();
         
+        System.out.println("SQL: " + statement);
         try {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
             ResultSetMetaData rsmd = result.getMetaData();
@@ -109,8 +114,15 @@ public class SQLAccount {
         String statement = "INSERT INTO account(username, password, accessrights, discount)" + 
                 "\n VALUES ('" + acc.getUsername() + "', '" + acc.getPassword() + "', '" + acc.getAccessRights() + "', '" + acc.getDiscount() + "');";
         
+        System.out.println("SQL: " + statement);
         try {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
+        } catch(SQLIntegrityConstraintViolationException osex) {
+            String infoMessage = "Username must be unique!";
+            String titleBar = "Username Error";
+            JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.ERROR_MESSAGE);
+        } catch(SQLException sex) {
+            sex.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;

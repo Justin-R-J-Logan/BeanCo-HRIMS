@@ -89,9 +89,9 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
         txtPageNumber = new javax.swing.JTextField();
         btnNext = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JToggleButton();
+        cmbSearchChoice = new javax.swing.JComboBox<>();
+        txtSearch = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -198,15 +198,15 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jToggleButton3.setText("Search");
-        jPanel4.add(jToggleButton3, java.awt.BorderLayout.LINE_END);
+        btnSearch.setText("Search");
+        jPanel4.add(btnSearch, java.awt.BorderLayout.LINE_END);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Response ID", "User ID", "Response", "Description" }));
-        jComboBox1.setSelectedIndex(3);
-        jPanel4.add(jComboBox1, java.awt.BorderLayout.LINE_START);
+        cmbSearchChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Response ID", "User ID", "Response", "Description" }));
+        cmbSearchChoice.setSelectedIndex(3);
+        jPanel4.add(cmbSearchChoice, java.awt.BorderLayout.LINE_START);
 
-        jTextField1.setText("Search");
-        jPanel4.add(jTextField1, java.awt.BorderLayout.CENTER);
+        txtSearch.setText("Search");
+        jPanel4.add(txtSearch, java.awt.BorderLayout.CENTER);
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
 
@@ -246,16 +246,16 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrevious;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JToggleButton btnSearch;
+    private javax.swing.JComboBox<String> cmbSearchChoice;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JTable tblResponses;
     private javax.swing.JTextField txtPageNumber;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
     void setTicket(Ticket get) {

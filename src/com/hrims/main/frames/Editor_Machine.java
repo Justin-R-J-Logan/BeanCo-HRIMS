@@ -220,6 +220,7 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
             Date d = new Date(new java.util.Date().getTime());
             mac.setCreated(d);
             mac.setLastUse(d);
+            mac.setPurchaseDate(d);
             Properties_Editor<Machine, Editor_Machine> editor = (Properties_Editor<Machine, Editor_Machine>)GUIManager.Lookup("Machine_Property_Editor");
             editor.setObject(mac);
             editor.setFrame(this);

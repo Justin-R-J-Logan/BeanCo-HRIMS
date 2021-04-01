@@ -25,6 +25,9 @@ public class Schedule_Viewer extends javax.swing.JInternalFrame {
 
     int pageNumber = 0;
     int resultsPerPage = 25;
+    int start = 2010;
+    int end = 2150;
+    java.sql.Date d = new java.sql.Date(new GregorianCalendar().getTime().getTime());;
     
     ArrayList<ScheduleDay> schedules = new ArrayList<ScheduleDay>();
     /**
@@ -46,6 +49,11 @@ public class Schedule_Viewer extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblData = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
+        cmbYear = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
+        cmbMonth = new javax.swing.JComboBox<>();
+        jPanel3 = new javax.swing.JPanel();
+        btnUpdate = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -53,11 +61,6 @@ public class Schedule_Viewer extends javax.swing.JInternalFrame {
         setTitle("Schedule Editor");
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
-        addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                formFocusGained(evt);
-            }
-        });
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -133,39 +136,86 @@ public class Schedule_Viewer extends javax.swing.JInternalFrame {
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        cmbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        populateYear();
+        jPanel1.add(cmbYear, java.awt.BorderLayout.LINE_START);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        cmbMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
+        jPanel2.add(cmbMonth, java.awt.BorderLayout.LINE_START);
+
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnUpdate, java.awt.BorderLayout.LINE_START);
+
+        jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
+
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-        Update();
-    }//GEN-LAST:event_formFocusGained
-
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        defaultMonth();
+        defaultYear(); 
         Update();
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-         Update();
+        defaultMonth();
+        defaultYear(); 
+        Update();
     }//GEN-LAST:event_formComponentShown
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        Update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cmbMonth;
+    private javax.swing.JComboBox<String> cmbYear;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblData;
     // End of variables declaration//GEN-END:variables
 
     public void Update() {
-        GregorianCalendar c = new GregorianCalendar();
-        java.sql.Date d = new java.sql.Date(c.getTime().getTime());
-        
+        d.setYear(cmbYear.getSelectedIndex()+start-1900);
+        d.setMonth(cmbMonth.getSelectedIndex());
+        d.setDate(1);
         //System.out.println("Date: " + dateSelection.toString());
         schedules = SQLSchedule.ME.getSchedulesFromAccountIDandStartDate(LoginManager.MYACCOUNT.getAccountNumber(), d);
         pageNumber = 0;
         Reload();
+    }
+    
+    private void populateYear() {
+        cmbYear.removeAllItems();
+        for(Integer i = start; i <= end; i++) {
+            cmbYear.addItem(i.toString());
+        }
+    }
+    
+    private void defaultMonth() {
+        cmbMonth.setSelectedIndex(new GregorianCalendar().get(Calendar.MONTH));
+    }
+    private void defaultYear() {
+        cmbYear.setSelectedIndex(new GregorianCalendar().get(Calendar.YEAR) - start);
     }
 
     public void Reload() {

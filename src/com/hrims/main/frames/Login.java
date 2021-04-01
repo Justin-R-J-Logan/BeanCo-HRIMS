@@ -31,13 +31,13 @@ public class Login extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        lblBeanco = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         txtUsername = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        btnLogin = new javax.swing.JButton();
+        chkSaveUser = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("BeanCo. HRIMS Login");
@@ -66,10 +66,10 @@ public class Login extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("BeanCo Account Login");
-        getContentPane().add(jLabel1, java.awt.BorderLayout.PAGE_START);
+        lblBeanco.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        lblBeanco.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBeanco.setText("BeanCo Account Login");
+        getContentPane().add(lblBeanco, java.awt.BorderLayout.PAGE_START);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 3));
 
@@ -107,17 +107,17 @@ public class Login extends javax.swing.JInternalFrame {
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jButton1.setText("Login");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnLoginActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, java.awt.BorderLayout.LINE_END);
+        jPanel2.add(btnLogin, java.awt.BorderLayout.LINE_END);
 
-        jCheckBox1.setSelected(true);
-        jCheckBox1.setText("Save Username");
-        jPanel2.add(jCheckBox1, java.awt.BorderLayout.CENTER);
+        chkSaveUser.setSelected(true);
+        chkSaveUser.setText("Save Username");
+        jPanel2.add(chkSaveUser, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
@@ -148,16 +148,16 @@ public class Login extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtUsernameFocusLost
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         submitLoginRequest();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
         submitLoginRequest();
     }//GEN-LAST:event_txtPasswordActionPerformed
 
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
-        if(!jCheckBox1.isSelected()) {
+        if(!chkSaveUser.isSelected()) {
             txtUsername.setText("Username");
             txtPassword.setText("Password");
         }
@@ -207,17 +207,17 @@ public class Login extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JCheckBox chkSaveUser;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblBeanco;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
     public void setLockdown(boolean b) {
-        jButton1.setEnabled(!b);
+        btnLogin.setEnabled(!b);
         txtPassword.setEnabled(!b);
         txtUsername.setEnabled(!b);
     }

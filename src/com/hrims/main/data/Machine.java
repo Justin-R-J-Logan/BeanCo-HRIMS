@@ -148,7 +148,7 @@ public class Machine implements DataGrabber<Machine>
                 else 
                 {
                     String date = (String)o;
-                    java.util.Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+                    java.util.Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                     this.setPurchaseDate(new java.sql.Date(date1.getTime()));
                 }
             }
@@ -162,7 +162,7 @@ public class Machine implements DataGrabber<Machine>
                 else 
                 {
                     String date = (String)o;
-                    java.util.Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+                    java.util.Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                     this.setLastUse(new java.sql.Date(date1.getTime()));
                 }
             }
@@ -176,7 +176,7 @@ public class Machine implements DataGrabber<Machine>
                 else 
                 {
                     String date = (String)o;
-                    java.util.Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+                    java.util.Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                     this.setCreated(new java.sql.Date(date1.getTime()));
                 }
             }

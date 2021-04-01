@@ -28,9 +28,9 @@ public class Menu_Employee extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ViewScheduleButton = new javax.swing.JButton();
-        OperateMachineButton = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        btnViewSchedule = new javax.swing.JButton();
+        btnOperateMachine = new javax.swing.JButton();
+        btnTickets = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -40,53 +40,44 @@ public class Menu_Employee extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(400, 300));
         getContentPane().setLayout(new java.awt.GridLayout(0, 1));
 
-        ViewScheduleButton.setText("View Schedule");
-        ViewScheduleButton.setActionCommand("ViewSchedule");
-        ViewScheduleButton.addActionListener(new java.awt.event.ActionListener() {
+        btnViewSchedule.setText("View Schedule");
+        btnViewSchedule.setActionCommand("ViewSchedule");
+        btnViewSchedule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ViewScheduleButtonActionPerformed(evt);
+                btnViewScheduleActionPerformed(evt);
             }
         });
-        getContentPane().add(ViewScheduleButton);
-        ViewScheduleButton.getAccessibleContext().setAccessibleName("ViewSchedule");
+        getContentPane().add(btnViewSchedule);
+        btnViewSchedule.getAccessibleContext().setAccessibleName("ViewSchedule");
 
-        OperateMachineButton.setText("Operate Machine");
-        OperateMachineButton.setActionCommand("OperateMachine");
-        OperateMachineButton.addActionListener(new java.awt.event.ActionListener() {
+        btnOperateMachine.setText("Operate Machine");
+        btnOperateMachine.setActionCommand("OperateMachine");
+        btnOperateMachine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                OperateMachineButtonActionPerformed(evt);
+                btnOperateMachineActionPerformed(evt);
             }
         });
-        getContentPane().add(OperateMachineButton);
+        getContentPane().add(btnOperateMachine);
 
-        jToggleButton1.setText("Help Tickets");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jToggleButton1);
+        btnTickets.setText("btnTickets");
+        getContentPane().add(btnTickets);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ViewScheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewScheduleButtonActionPerformed
+    private void btnViewScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewScheduleActionPerformed
         GUIManager.Show("Schedule_Viewer");
-    }//GEN-LAST:event_ViewScheduleButtonActionPerformed
+    }//GEN-LAST:event_btnViewScheduleActionPerformed
 
-    private void OperateMachineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OperateMachineButtonActionPerformed
+    private void btnOperateMachineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOperateMachineActionPerformed
         GUIManager.Show("Employee_Interface");
-    }//GEN-LAST:event_OperateMachineButtonActionPerformed
-
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        GUIManager.Show("TicketList");
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_btnOperateMachineActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton OperateMachineButton;
-    private javax.swing.JButton ViewScheduleButton;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JButton btnOperateMachine;
+    private javax.swing.JButton btnTickets;
+    private javax.swing.JButton btnViewSchedule;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -30,8 +30,8 @@ public class Menu_Administrator extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnTickets = new javax.swing.JButton();
+        btnMachine = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -41,32 +41,32 @@ public class Menu_Administrator extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(400, 300));
         getContentPane().setLayout(new java.awt.GridLayout(2, 1));
 
-        jButton1.setText("Tickets");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnTickets.setText("Tickets");
+        btnTickets.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnTicketsActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
+        getContentPane().add(btnTickets);
 
-        jButton2.setText("Machine Status");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnMachine.setText("Machine Status");
+        btnMachine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnMachineActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2);
+        getContentPane().add(btnMachine);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTicketsActionPerformed
         GUIManager.Show("TicketList");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnTicketsActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnMachineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMachineActionPerformed
         GUIManager.Show("Administrator_MachineStatus");
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnMachineActionPerformed
 
     /**
      * @param args the command line arguments
@@ -107,7 +107,7 @@ public class Menu_Administrator extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnMachine;
+    private javax.swing.JButton btnTickets;
     // End of variables declaration//GEN-END:variables
 }

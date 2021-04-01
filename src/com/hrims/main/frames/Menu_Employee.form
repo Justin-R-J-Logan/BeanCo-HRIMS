@@ -34,7 +34,7 @@
     <Property name="rows" type="int" value="0"/>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="ViewScheduleButton">
+    <Component class="javax.swing.JButton" name="btnViewSchedule">
       <Properties>
         <Property name="text" type="java.lang.String" value="View Schedule"/>
         <Property name="actionCommand" type="java.lang.String" value="ViewSchedule"/>
@@ -43,25 +43,22 @@
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="ViewSchedule"/>
       </AccessibilityProperties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ViewScheduleButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewScheduleActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="OperateMachineButton">
+    <Component class="javax.swing.JButton" name="btnOperateMachine">
       <Properties>
         <Property name="text" type="java.lang.String" value="Operate Machine"/>
         <Property name="actionCommand" type="java.lang.String" value="OperateMachine"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OperateMachineButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOperateMachineActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JToggleButton" name="jToggleButton1">
+    <Component class="javax.swing.JButton" name="btnTickets">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Help Tickets"/>
+        <Property name="text" type="java.lang.String" value="btnTickets"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton1ActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

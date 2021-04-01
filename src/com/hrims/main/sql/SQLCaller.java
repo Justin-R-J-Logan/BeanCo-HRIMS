@@ -50,7 +50,7 @@ public class SQLCaller {
         return "";
     }
     
-    public ResultSet Submit_SQL_Query(String strQuery) {
+    public ResultSet Submit_SQL_Query(String strQuery) throws SQLException {
         ResultSet results = null;
         
         try {
@@ -60,8 +60,8 @@ public class SQLCaller {
             results = statement.executeQuery(strQuery);
             
             connection.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (Exception ex) {
+            throw ex;
         }
         
         return results;

@@ -48,16 +48,13 @@ public class Ticket_List extends javax.swing.JInternalFrame {
                     String information = "";
                     switch(x) {
                         case 0:
-                            information = ""+l.getTicketId();
-                            break;
-                        case 1:
-                            information = ""+l.isResolved();//+l;
-                            break;
-                        case 2:
                             information = ""+l.getUserID();
                             break;
-                        case 3:
+                        case 1:
                             information = ""+l.getDescription();
+                            break;
+                        case 2:
+                            information = "" + (l.isResolved() ? "Resolved" : "Unresolved");//+l;
                             break;
                     }
                     tblTickets.getModel().setValueAt(information, y, x);
@@ -84,6 +81,7 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         tblTickets = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         btnViewTicket = new javax.swing.JButton();
+        btnResolve = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnPrevious = new javax.swing.JButton();
@@ -127,38 +125,38 @@ public class Ticket_List extends javax.swing.JInternalFrame {
 
         tblTickets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", "", "", ""},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"", "", ""},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Ticket No", "Status", "User", "Descritpion"
+                "User", "Descritpion", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -166,6 +164,10 @@ public class Ticket_List extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane2.setViewportView(tblTickets);
+        if (tblTickets.getColumnModel().getColumnCount() > 0) {
+            tblTickets.getColumnModel().getColumn(0).setResizable(false);
+            tblTickets.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
@@ -178,6 +180,10 @@ public class Ticket_List extends javax.swing.JInternalFrame {
             }
         });
         jPanel2.add(btnViewTicket, java.awt.BorderLayout.LINE_START);
+
+        btnResolve.setText("Resolve");
+        btnResolve.setEnabled(false);
+        jPanel2.add(btnResolve, java.awt.BorderLayout.LINE_END);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
@@ -317,6 +323,7 @@ public class Ticket_List extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrevious;
+    private javax.swing.JButton btnResolve;
     private javax.swing.JButton btnViewTicket;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;

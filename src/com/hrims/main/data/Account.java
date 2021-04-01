@@ -31,11 +31,7 @@ public class Account implements DataGrabber<Account> {
     private static final int ACCESS_GUEST = 0;
     
     public Account() {
-        
-    }
-    
-    public Account(int _accountNumber, boolean _get) {
-        _accountNumber  = -1;
+        _accountNumber = -1;
     }
     
     

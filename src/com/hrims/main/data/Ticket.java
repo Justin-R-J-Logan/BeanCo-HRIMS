@@ -84,7 +84,7 @@ public class Ticket implements DataGrabber<Ticket> {
         
         resources.put("userID", this.userID);
         resources.put("description", this.description);
-        resources.put("resolved", this.resolved);
+        resources.put("resolved", this.resolved ? "Resolved" : "Unresolved");
        
         
         //userid,message
@@ -103,7 +103,14 @@ public class Ticket implements DataGrabber<Ticket> {
         try {
             if(resources.containsKey("userID")) this.setUserID(Integer.parseInt(resources.remove("userID").toString()));
             if(resources.containsKey("description")) this.setDescription(resources.remove("description").toString());
-            if(resources.containsKey("resolved")) this.setResolved(new Boolean(resources.remove("resolved").toString()));
+            if(resources.containsKey("resolved")) {
+                String s = resources.remove("resolved").toString();
+                if(s == "Resolved") {
+                    this.setResolved(true);
+                } else {
+                    this.setResolved(false);
+                }
+            }
            
             
             //contacts.clear();

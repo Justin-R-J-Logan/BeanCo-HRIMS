@@ -34,9 +34,9 @@ public class Order_PreviousOrderList extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        btnCheckOrder = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -109,18 +109,18 @@ public class Order_PreviousOrderList extends javax.swing.JInternalFrame {
         });
         jPanel1.add(txtSearch, java.awt.BorderLayout.CENTER);
 
-        jButton1.setText("Search");
-        jPanel1.add(jButton1, java.awt.BorderLayout.LINE_END);
+        btnSearch.setText("Search");
+        jPanel1.add(btnSearch, java.awt.BorderLayout.LINE_END);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jButton2.setText("Check Order");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCheckOrder.setText("Check Order");
+        btnCheckOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCheckOrderActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton2);
+        jPanel2.add(btnCheckOrder);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
@@ -139,11 +139,11 @@ public class Order_PreviousOrderList extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtSearchFocusLost
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnCheckOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckOrderActionPerformed
         //Use this later to add info:
         //Distributor_PreviousOrder_ShowOrder GUI = (Distributor_PreviousOrder_ShowOrder)GUIRegister.Lookup("Distributor_PreviousOrder_ShowOrder");
         GUIManager.Show("Distributor_PreviousOrder_ShowOrder");
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnCheckOrderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,8 +213,8 @@ public class Order_PreviousOrderList extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnCheckOrder;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

@@ -33,15 +33,15 @@ public class Order_NewOrder extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnSubmit = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jTextField2 = new javax.swing.JTextField();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        btnPrevious = new javax.swing.JButton();
+        btnPage = new javax.swing.JTextField();
+        btnNext = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
@@ -109,22 +109,22 @@ public class Order_NewOrder extends javax.swing.JInternalFrame {
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        jPanel1.add(btnAdd);
 
-        jButton3.setText("Delete");
-        jPanel1.add(jButton3);
+        btnDelete.setText("Delete");
+        jPanel1.add(btnDelete);
 
-        jButton4.setText("Submit");
-        jPanel1.add(jButton4);
+        btnSubmit.setText("Submit");
+        jPanel1.add(btnSubmit);
 
-        jButton5.setText("Cancel");
-        jPanel1.add(jButton5);
+        btnCancel.setText("Cancel");
+        jPanel1.add(btnCancel);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -132,15 +132,15 @@ public class Order_NewOrder extends javax.swing.JInternalFrame {
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
-        jToggleButton1.setText("Previous");
-        jPanel3.add(jToggleButton1);
+        btnPrevious.setText("Previous");
+        jPanel3.add(btnPrevious);
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("1");
-        jPanel3.add(jTextField2);
+        btnPage.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        btnPage.setText("1");
+        jPanel3.add(btnPage);
 
-        jToggleButton2.setText("Next");
-        jPanel3.add(jToggleButton2);
+        btnNext.setText("Next");
+        jPanel3.add(btnNext);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -162,9 +162,9 @@ public class Order_NewOrder extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         GUIManager.Show("Order_AddItem");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,10 +210,13 @@ public class Order_NewOrder extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JTextField btnPage;
+    private javax.swing.JButton btnPrevious;
+    private javax.swing.JButton btnSubmit;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
@@ -223,8 +226,5 @@ public class Order_NewOrder extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
     // End of variables declaration//GEN-END:variables
 }

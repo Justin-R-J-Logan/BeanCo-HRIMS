@@ -30,7 +30,7 @@ public class Menu_Main extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton4 = new javax.swing.JButton();
+        btnSettings = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -72,13 +72,13 @@ public class Menu_Main extends javax.swing.JInternalFrame {
         });
         getContentPane().add(btnAdministratorMenu);
 
-        jButton4.setText("Settings");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnSettings.setText("Settings");
+        btnSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnSettingsActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4);
+        getContentPane().add(btnSettings);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -99,9 +99,9 @@ public class Menu_Main extends javax.swing.JInternalFrame {
         GUIManager.Show("Distributor_Menu");
     }//GEN-LAST:event_btnDistributorMenuActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
         GUIManager.Show("Settings");
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnSettingsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,6 +150,6 @@ public class Menu_Main extends javax.swing.JInternalFrame {
     public static final javax.swing.JButton btnDistributorMenu = new javax.swing.JButton();
     public static final javax.swing.JButton btnEmployeeMenu = new javax.swing.JButton();
     public static final javax.swing.JButton btnManagerMenu = new javax.swing.JButton();
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnSettings;
     // End of variables declaration//GEN-END:variables
 }

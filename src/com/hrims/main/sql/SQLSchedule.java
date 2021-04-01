@@ -136,14 +136,18 @@ public class SQLSchedule {
         ArrayList<ScheduleDay> ret = new ArrayList<ScheduleDay>();
         
         String SQL = "";
+        Date d2 = new java.sql.Date(d.getTime());
+        d2.setDate(d2.getDate()+31);
         
         try {
             SQL += "SELECT * \n";
             SQL += "FROM scheduleday \n";
-            SQL += "WHERE accountid = " + accountNumber + " AND day >= '" + d + "' \n";
+            SQL += "WHERE accountid = " + accountNumber + " AND day BETWEEN '" + d + "' AND '" + d2 + "'\n";
             SQL += "ORDER BY day;";
             
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
+            
+            System.out.println(SQL);
             
             while(result.next()) {
                 ScheduleDay schd = new ScheduleDay();

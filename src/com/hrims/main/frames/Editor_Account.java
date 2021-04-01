@@ -5,6 +5,7 @@ import com.hrims.main.data.Account;
 import com.hrims.main.sql.SQLAccount;
 import com.hrims.main.sql.SQLCaller;
 import java.sql.Date;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -373,7 +374,6 @@ public class Editor_Account extends javax.swing.JInternalFrame implements Updata
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDuplicateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDuplicateActionPerformed
-        
         int row = tblAccount.getSelectedRow();
         try 
         {
@@ -392,13 +392,21 @@ public class Editor_Account extends javax.swing.JInternalFrame implements Updata
             a.setCreated(acc.getCreated());
             a.setDiscount(acc.getDiscount());
             a.setLastLogin(acc.getLastLogin());
-            a.setUsername(null);
-            a.setPassword(null);
             
-            SQLAccount.ME.createAccount(a);
-        } 
-        catch (Exception ex) 
-        {
+            //a.setUsername(null);
+            
+            String infoMessage = "Input userame.";
+            String titleBar = "Username";
+            String s = JOptionPane.showInputDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.ERROR_MESSAGE);
+            
+            a.setUsername(s);
+            
+            a.setPassword(a.getPassword());
+            
+            if(s != null && s != "") {
+                SQLAccount.ME.createAccount(a);
+            }
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         Update();

@@ -27,30 +27,30 @@ public class Startup_ProgressBar extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jProgressBar1 = new javax.swing.JProgressBar();
+        barProgress = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Loading, Please Wait...");
         setMinimumSize(new java.awt.Dimension(500, 60));
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(500, 60));
-        getContentPane().add(jProgressBar1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(barProgress, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JProgressBar barProgress;
     // End of variables declaration//GEN-END:variables
 
     public void setMaxVal(int i) {
-        jProgressBar1.setMaximum(i);
+        barProgress.setMaximum(i);
     }
 
     public void increment() {
-        if(jProgressBar1.getValue() < jProgressBar1.getMaximum()) {
-            jProgressBar1.setValue(jProgressBar1.getValue() + 1);
+        if(barProgress.getValue() < barProgress.getMaximum()) {
+            barProgress.setValue(barProgress.getValue() + 1);
         }
     }
 }

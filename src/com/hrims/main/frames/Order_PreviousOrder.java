@@ -29,9 +29,9 @@ public class Order_PreviousOrder extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        btnTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -40,7 +40,7 @@ public class Order_PreviousOrder extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(1024, 540));
         setPreferredSize(new java.awt.Dimension(1024, 540));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        btnTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -87,7 +87,7 @@ public class Order_PreviousOrder extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable2);
+        jScrollPane1.setViewportView(btnTable);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -104,8 +104,8 @@ public class Order_PreviousOrder extends javax.swing.JInternalFrame {
         });
         jPanel1.add(txtSearch, java.awt.BorderLayout.CENTER);
 
-        jButton1.setText("Search");
-        jPanel1.add(jButton1, java.awt.BorderLayout.LINE_END);
+        btnSearch.setText("Search");
+        jPanel1.add(btnSearch, java.awt.BorderLayout.LINE_END);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -176,10 +176,10 @@ public class Order_PreviousOrder extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JTable btnTable;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable2;
     public final javax.swing.JTextField txtSearch = new javax.swing.JTextField();
     // End of variables declaration//GEN-END:variables
 }

@@ -29,9 +29,9 @@ public class Menu_Distributor extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnNewOrder = new javax.swing.JButton();
+        btnPreviousOrders = new javax.swing.JButton();
+        btnDistributorInformation = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -41,49 +41,49 @@ public class Menu_Distributor extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(400, 300));
         getContentPane().setLayout(new java.awt.GridLayout(3, 1));
 
-        jButton1.setText("New Order");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnNewOrder.setText("New Order");
+        btnNewOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnNewOrderActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
+        getContentPane().add(btnNewOrder);
 
-        jButton2.setText("Previous Orders");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnPreviousOrders.setText("Previous Orders");
+        btnPreviousOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnPreviousOrdersActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2);
+        getContentPane().add(btnPreviousOrders);
 
-        jButton3.setText("Distributor Information");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnDistributorInformation.setText("Distributor Information");
+        btnDistributorInformation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnDistributorInformationActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3);
+        getContentPane().add(btnDistributorInformation);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnNewOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewOrderActionPerformed
         GUIManager.Show("Distributor_NewOrder_Frame");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnNewOrderActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnPreviousOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousOrdersActionPerformed
         GUIManager.Show("Distributor_Previous_Orders");
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnPreviousOrdersActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnDistributorInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDistributorInformationActionPerformed
         GUIManager.Show("DistributorInfo");
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnDistributorInformationActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnDistributorInformation;
+    private javax.swing.JButton btnNewOrder;
+    private javax.swing.JButton btnPreviousOrders;
     // End of variables declaration//GEN-END:variables
 }
