@@ -5,6 +5,8 @@
  */
 package com.hrims.main.data;
 
+import java.util.ArrayList;
+
 /**
  * An object to hold the information pertaining to individual ingredients for
  * use in production.
@@ -14,6 +16,7 @@ public class Ingredient {
     private int ingredientId;
     private String name;
     private String allergens;
+    private ArrayList<Integer> products;
     
     /**
      * Constructs an ingredient with information about the ingredient.

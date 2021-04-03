@@ -56,10 +56,8 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
         btnPrevious = new javax.swing.JButton();
         txtPageNumber = new javax.swing.JTextField();
         btnNext = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        pnlFixPanel = new javax.swing.JPanel();
+        btnFixMachine = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -74,41 +72,41 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
 
         tblMachine.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1),  new Integer(1), "Mean Bean Machine (TM)", "02/09/2021", "02/10/2021", null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                { new Integer(1),  new Integer(1), "Mean Bean Machine (TM)", "02/09/2021", "02/10/2021", null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Machine ID", "Location ID", "Machine Name", "Purchase Date", "Last Use", "In Use"
+                "Machine ID", "Location ID", "Machine Name", "Purchase Date", "Last Use", "In Use", "Status Code"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -194,19 +192,17 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
 
-        jPanel4.setLayout(new java.awt.BorderLayout());
+        pnlFixPanel.setLayout(new java.awt.BorderLayout());
 
-        jToggleButton3.setText("Search");
-        jPanel4.add(jToggleButton3, java.awt.BorderLayout.LINE_END);
+        btnFixMachine.setText("Fix Machine");
+        btnFixMachine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFixMachineActionPerformed(evt);
+            }
+        });
+        pnlFixPanel.add(btnFixMachine, java.awt.BorderLayout.LINE_END);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Machine ID", "Location ID", "Machine Name", "Purchase Date", "Last Use Date", "InUse" }));
-        jComboBox1.setSelectedIndex(2);
-        jPanel4.add(jComboBox1, java.awt.BorderLayout.LINE_START);
-
-        jTextField1.setText("Search");
-        jPanel4.add(jTextField1, java.awt.BorderLayout.CENTER);
-
-        jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
+        jPanel2.add(pnlFixPanel, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
@@ -316,6 +312,14 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
         Update();
     }//GEN-LAST:event_btnDuplicateActionPerformed
 
+    private void btnFixMachineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFixMachineActionPerformed
+        Machine m = machines.get(tblMachine.getSelectedRow());
+        
+        SQLMachine.ME.fixMachine(m);
+        
+        Update();
+    }//GEN-LAST:event_btnFixMachineActionPerformed
+
     public void Update() {
         machines = SQLMachine.ME.getMachinesByPage(pageNumber, numPerPage, true);
         if(pageNumber <= 0) btnPrevious.setEnabled(false);
@@ -351,7 +355,10 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
                             information = ""+l.getLastUse();
                             break;
                         case 5:
-                            information = ""+l.isInUse();
+                            information = ""+(l.isInUse()? "In Use" : "Not In Use");
+                            break;
+                        case 6:
+                            information = ""+(l.isStatus()? "Broken" : "Functional");
                             break;
                     }
                     tblMachine.getModel().setValueAt(information, y, x);
@@ -374,18 +381,24 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDuplicate;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnFixMachine;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnReload;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JPanel pnlFixPanel;
     private javax.swing.JTable tblMachine;
     private javax.swing.JTextField txtPageNumber;
     // End of variables declaration//GEN-END:variables
+
+    void setFixer(boolean b) {
+        if(b) {
+            pnlFixPanel.setVisible(true);
+        } else {
+            pnlFixPanel.setVisible(false);
+        }
+    }
 }

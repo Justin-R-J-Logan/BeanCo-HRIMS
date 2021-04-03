@@ -16,6 +16,32 @@ import java.util.Calendar;
 public class Product {
     
     private int productID;
+    private String name;
+    private int machineID;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getMachineID() {
+        return machineID;
+    }
+
+    public void setMachineID(int machineID) {
+        this.machineID = machineID;
+    }
+
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
     private ArrayList<Ingredient> ingredientsList;
     private Machine productionMachine;
     

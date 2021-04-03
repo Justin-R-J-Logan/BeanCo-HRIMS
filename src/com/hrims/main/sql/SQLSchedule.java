@@ -13,7 +13,6 @@ import java.util.ArrayList;
 /**
  * an SQL manager for the scheduleDay object.
  * @author Alexandra
- * @src SQLLocation
  */
 public class SQLSchedule {
     public static SQLSchedule ME = new SQLSchedule();

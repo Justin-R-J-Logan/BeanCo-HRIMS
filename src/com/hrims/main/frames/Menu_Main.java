@@ -30,6 +30,10 @@ public class Menu_Main extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnEmployeeMenu = new javax.swing.JButton();
+        btnDistributorMenu = new javax.swing.JButton();
+        btnManagerMenu = new javax.swing.JButton();
+        btnAdministratorMenu = new javax.swing.JButton();
         btnSettings = new javax.swing.JButton();
 
         setClosable(true);
@@ -146,10 +150,10 @@ public class Menu_Main extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public static final javax.swing.JButton btnAdministratorMenu = new javax.swing.JButton();
-    public static final javax.swing.JButton btnDistributorMenu = new javax.swing.JButton();
-    public static final javax.swing.JButton btnEmployeeMenu = new javax.swing.JButton();
-    public static final javax.swing.JButton btnManagerMenu = new javax.swing.JButton();
-    private javax.swing.JButton btnSettings;
+    public javax.swing.JButton btnAdministratorMenu;
+    public javax.swing.JButton btnDistributorMenu;
+    public javax.swing.JButton btnEmployeeMenu;
+    public javax.swing.JButton btnManagerMenu;
+    public javax.swing.JButton btnSettings;
     // End of variables declaration//GEN-END:variables
 }

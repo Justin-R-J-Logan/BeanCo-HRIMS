@@ -22,90 +22,149 @@ import java.util.Map;
  */
 public class Account implements DataGrabber<Account> {
 
-    private static final int ACCESS_FULLACCESS = 32;
-    private static final int ACCESS_ADMINISTRATOR = 16;
-    private static final int ACCESS_MANAGER = 8;
-    private static final int ACCESS_MACHINE = 4;
-    private static final int ACCESS_DISTRIBUTOR = 2;
-    private static final int ACCESS_EMPLOYEE = 1;
-    private static final int ACCESS_GUEST = 0;
+    public static final int ACCESS_FULLACCESS = 32;
+    public static final int ACCESS_ADMINISTRATOR = 16;
+    public static final int ACCESS_MANAGER = 8;
+    public static final int ACCESS_MACHINE = 4;
+    public static final int ACCESS_DISTRIBUTOR = 2;
+    public static final int ACCESS_EMPLOYEE = 1;
+    public static final int ACCESS_GUEST = 0;
     
+    /**
+     * Creates a blank account. Sets to a safe default to prevent saving.
+     */
     public Account() {
         _accountNumber = -1;
     }
     
     
-    public Account(int _accountNumber, int _accessRights, Date _created, Date _lastLogin, String _username, String _password, int _access, int _discount) {
-        this._accountNumber = _accountNumber;
-        this._accessRights = _accessRights;
-        this._created = _created;
-        this._lastLogin = _lastLogin;
-        this._username = _username;
-        this._password = _password;
-        this._access = _access;
-        this._discount = _discount;
-    }
-    
+    /**
+     * Get the account number for the Account instance
+     * @return the account number.
+     */
     public int getAccountNumber() {
         return _accountNumber;
     }
 
+    /**
+     * Set the account number for the Account instance
+     * @param _accountNumber new account number
+     */
     public void setAccountNumber(int _accountNumber) {
         this._accountNumber = _accountNumber;
     }
 
+    /**
+     * Get the access rights number for the Account instance
+     * @return access rights.
+     */
     public int getAccessRights() {
         return _accessRights;
     }
 
+    /**
+     *
+     * Set the access rights number for the Account instance
+     * @param _accessRights
+     */
     public void setAccessRights(int _accessRights) {
         this._accessRights = _accessRights;
     }
 
+    /**
+     * Get the date the Account originally created.
+     * @return
+     */
     public Date getCreated() {
         return _created;
     }
 
+    /**
+     * Set the date the account was originally created. Not recommended.
+     * @param _created new date
+     */
     public void setCreated(Date _created) {
         this._created = _created;
     }
 
+    /**
+     * Get the last time the user logged in.
+     * @return date containing last login date and time.
+     */
     public Date getLastLogin() {
         return _lastLogin;
     }
 
+    /**
+     * Sets the last time the user logged in. Not recommended.
+     * @param _lastLogin
+     */
     public void setLastLogin(Date _lastLogin) {
         this._lastLogin = _lastLogin;
     }
     
+    /**
+     * Gets the username
+     * @return
+     */
     public String getUsername() {
         return _username;
     }
 
+    /**
+     * Sets the username
+     * @param _username String containing new username.
+     */
     public void setUsername(String _username) {
         this._username = _username;
     }
 
+    /**
+     * Gets the current password. Warning: Insecure!
+     * @return
+     */
     public String getPassword() {
         return _password;
     }
 
+    /**
+     * Sets the current password. Please do not use without permission.
+     * @param _password
+     */
     public void setPassword(String _password) {
         this._password = _password;
     }
 
+    /**
+     * Deprecated. Use getAccessRights();
+     * @return
+     */
+    @Deprecated 
     public int getAccess() {
         return _access;
     }
 
+    /**
+     * Deprecated. Use setAccessRights();
+     * @param _access
+     */
+    @Deprecated 
     public void setAccess(int _access) {
         this._access = _access;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getDiscount() {
         return _discount;
     }
 
+    /**
+     *
+     * @param _discount
+     */
     public void setDiscount(int _discount) {
         this._discount = _discount;
     }
@@ -124,19 +183,39 @@ public class Account implements DataGrabber<Account> {
     private int _access;
     private int _discount;
 
-    
+    /**
+     *
+     */
     public final ArrayList<Contact> contacts = new ArrayList<Contact>();
 
+    /**
+     *
+     * @param c
+     */
     public void addContact(Contact c) {
         contacts.add(c);
     }
+
+    /**
+     *
+     * @param c
+     */
     public void remContact(Contact c) {
         contacts.remove(c);
     }
+
+    /**
+     *
+     * @param c
+     */
     public void remContact(int c) {
         contacts.remove(c);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Map<String, Object> getResources() {
         Map<String, Object> resources = new LinkedHashMap<String, Object>();
@@ -165,6 +244,11 @@ public class Account implements DataGrabber<Account> {
         return resources;
     }
 
+    /**
+     *
+     * @param resources
+     * @return
+     */
     @Override
     public boolean SetResources(Map<String, Object> resources) {
         try {
@@ -239,6 +323,10 @@ public class Account implements DataGrabber<Account> {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public boolean Save() {
         if(this._accountNumber <= -1) {

@@ -18,38 +18,41 @@ import javax.swing.JOptionPane;
 public class LoginManager {
 
     /**
-     *
+     * Currently used username, DO NOT EDIT.
      */
     public static String Username;
+    /**
+     * Current account, DO NOT EDIT.
+     */
     public static Account MYACCOUNT;
 
     /**
-     *
+     * Login status enum to show if we are logged in.
      */
     public static enum Login_Status { 
 
         /**
-         *
+         * Logged in
          */
         IN, 
 
         /**
-         *
+         * Logged out
          */
         OUT, 
 
         /**
-         *
+         * Attempting a log in
          */
         ATTEMPT };
 
     /**
-     *
+     * current login status.
      */
     public static Login_Status status = Login_Status.OUT;
     
     /**
-     *
+     * Log user out of the program
      */
     public static void Logout() {
         if(status == Login_Status.IN) {
@@ -68,6 +71,8 @@ public class LoginManager {
             GUIManager.Login();
             status = Login_Status.IN;
             MYACCOUNT = SQLAccount.ME.getAccountByUsername(username);
+            
+            RightsManager.UpdateMenus();
         } else {
             String infoMessage = "Failed to log in. Username or Password Incorrect";
             String titleBar = "Login Error";
@@ -76,11 +81,12 @@ public class LoginManager {
     }
     
     /**
-     *
-     * @param user
-     * @param pass
-     * @return
+     * Attempts to verify username and password. Deprecated, please do not use.
+     * @param user username given to us
+     * @param pass password given to us
+     * @return true if correct data, false otherwise.
      */
+    @Deprecated
     public static boolean UserPasswordVerification(String user, String pass) {
         if(user.equalsIgnoreCase("username") || pass.equalsIgnoreCase("password")) return false;
         if(user.equalsIgnoreCase("") || pass.equalsIgnoreCase("")) return false;

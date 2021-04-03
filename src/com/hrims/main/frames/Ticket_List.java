@@ -6,6 +6,7 @@
 package com.hrims.main.frames;
 
 import com.hrims.main.GUIManager;
+import com.hrims.main.LoginManager;
 import com.hrims.main.data.Ticket;
 import com.hrims.main.sql.SQLTicket;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  */
 public class Ticket_List extends javax.swing.JInternalFrame {
 
+    boolean viewer = false;
     int pageNumber = 0;
     int numPerPage = 25;
     ArrayList<Ticket> tickets; //current list of tickets;
@@ -28,7 +30,11 @@ public class Ticket_List extends javax.swing.JInternalFrame {
     }
 
     private void Update() {
-        tickets = SQLTicket.ME.getTicketsByPageNumber(pageNumber, numPerPage, true);
+        if(viewer) {
+            tickets = SQLTicket.ME.getTicketsByPageNumberAndAccountID(pageNumber, numPerPage, true, LoginManager.MYACCOUNT.getAccountNumber());
+        } else {
+            tickets = SQLTicket.ME.getTicketsByPageNumber(pageNumber, numPerPage, true);
+        }
         //fix page buttons
         if(tickets.size() > numPerPage) btnNext.setEnabled(true);
         else btnNext.setEnabled(false);
@@ -56,6 +62,9 @@ public class Ticket_List extends javax.swing.JInternalFrame {
                         case 2:
                             information = "" + (l.isResolved() ? "Resolved" : "Unresolved");//+l;
                             break;
+                        case 3:
+                            information = "" + l.getMachineId();
+                            break;
                     }
                     tblTickets.getModel().setValueAt(information, y, x);
                 }
@@ -81,6 +90,7 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         tblTickets = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         btnViewTicket = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         btnResolve = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -125,38 +135,38 @@ public class Ticket_List extends javax.swing.JInternalFrame {
 
         tblTickets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", "", ""},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {"", "", "", null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "User", "Descritpion", "Status"
+                "User", "Descritpion", "Status", "Machine ID"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -164,10 +174,6 @@ public class Ticket_List extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane2.setViewportView(tblTickets);
-        if (tblTickets.getColumnModel().getColumnCount() > 0) {
-            tblTickets.getColumnModel().getColumn(0).setResizable(false);
-            tblTickets.getColumnModel().getColumn(1).setResizable(false);
-        }
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
@@ -181,9 +187,17 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         });
         jPanel2.add(btnViewTicket, java.awt.BorderLayout.LINE_START);
 
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
         btnResolve.setText("Resolve");
-        btnResolve.setEnabled(false);
-        jPanel2.add(btnResolve, java.awt.BorderLayout.LINE_END);
+        btnResolve.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResolveActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnResolve, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel1, java.awt.BorderLayout.LINE_END);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
@@ -252,24 +266,30 @@ public class Ticket_List extends javax.swing.JInternalFrame {
     private void btnViewTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTicketActionPerformed
         
         try {
-            int ticketID = Integer.parseInt(tblTickets.getValueAt(tblTickets.getSelectedRow(), 0).toString());
-            Ticket ticket = null;
-            for(Ticket t : tickets) {
-                if(t.getTicketId() == ticketID) {
-                    ticket = t;
-                    break;
-                }
-            }
+            Ticket ticket = tickets.get(tblTickets.getSelectedRow());
                     
             Ticket_Page tp = ((Ticket_Page)(GUIManager.Lookup("TicketPage")));
             tp.setTicket(ticket);
             tp.Update();
+            tp.setViewOnly(viewer);
             tp.setVisible(true);
         } catch(Exception ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnViewTicketActionPerformed
 
+    private void btnResolveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolveActionPerformed
+        SQLTicket.ME.resolveTicket(tickets.get(tblTickets.getSelectedRow()));
+        Reload();
+    }//GEN-LAST:event_btnResolveActionPerformed
+    public void setViewOnly(boolean tf) {
+        if(tf) {
+            btnResolve.setVisible(false);
+        } else {
+            btnResolve.setVisible(true);
+        }
+        viewer = tf;
+    }
     /**
      * @param args the command line arguments
      */
@@ -329,6 +349,7 @@ public class Ticket_List extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JInternalFrame jInternalFrame1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

@@ -257,9 +257,6 @@ public class Machine_Breakdown extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_errorMessageActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel centerCenterPanel;

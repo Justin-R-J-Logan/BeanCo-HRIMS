@@ -57,6 +57,23 @@ public class Ticket implements DataGrabber<Ticket> {
     String description;
     boolean resolved;
     int TicketId;
+    int machineId;
+
+    public static ArrayList<TicketEntry> getTickets() {
+        return tickets;
+    }
+
+    public static void setTickets(ArrayList<TicketEntry> tickets) {
+        Ticket.tickets = tickets;
+    }
+
+    public int getMachineId() {
+        return machineId;
+    }
+
+    public void setMachineId(int machineId) {
+        this.machineId = machineId;
+    }
 
     public int getTicketId() {
         return TicketId;
@@ -85,7 +102,7 @@ public class Ticket implements DataGrabber<Ticket> {
         resources.put("userID", this.userID);
         resources.put("description", this.description);
         resources.put("resolved", this.resolved ? "Resolved" : "Unresolved");
-       
+        resources.put("machineID", this.machineId);
         
         //userid,message
         int i = 0;
@@ -111,6 +128,7 @@ public class Ticket implements DataGrabber<Ticket> {
                     this.setResolved(false);
                 }
             }
+            if(resources.containsKey("machineID")) this.setMachineId(Integer.parseInt(resources.remove("machineID").toString()));
            
             
             //contacts.clear();

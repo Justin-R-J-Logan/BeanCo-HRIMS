@@ -18,6 +18,7 @@ import com.hrims.main.frames.Menu_Distributor;
 import com.hrims.main.frames.Menu_Employee;
 import com.hrims.main.frames.Menu_Main;
 import com.hrims.main.frames.Menu_Manager;
+import com.hrims.main.frames.Order_AddItem;
 import com.hrims.main.frames.Ticket_AddResponse;
 import com.hrims.main.frames.Ticket_Page;
 import com.hrims.main.frames.Order_NewOrder;
@@ -40,7 +41,7 @@ import javax.swing.JOptionPane;
  */
 
 /**
- *
+ * GUI management class for the program. Manages GUIs so we can reference them easier.
  * @author Justin
  */
 public class GUIManager {
@@ -49,12 +50,12 @@ public class GUIManager {
     private static final Startup_ProgressBar bar = new Startup_ProgressBar();
     
     /**
-     *
-     * @param s
-     * @return
+     * Looks to see if a GUI (internal frame) exists by name identifier.
+     * @param gui_name name of the internal frame
+     * @return returns the frame if found, null if not found.
      */
-    public static JInternalFrame Lookup(String s) {
-        if(_table.containsKey(s)) return _table.get(s);
+    public static JInternalFrame Lookup(String gui_name) {
+        if(_table.containsKey(gui_name)) return _table.get(gui_name);
         else {
             String infoMessage = "GUI Not found! Please check the register code.";
             String titleBar = "GUI Not Found";
@@ -64,12 +65,12 @@ public class GUIManager {
     }
     
     /**
-     *
-     * @param s
-     * @return
+     * Shows a frame by name.
+     * @param gui_name name of the internal frame
+     * @return true if found and shown, false if not found or already visible
      */
-    public static boolean Show(String s) {
-        JInternalFrame f = Lookup(s);
+    public static boolean Show(String gui_name) {
+        JInternalFrame f = Lookup(gui_name);
         if(f == null || f.isVisible() == true ) return false;
         else {
             f.setVisible(true);
@@ -82,32 +83,36 @@ public class GUIManager {
     }
     
     /**
-     *
-     * @param s
-     * @param f
-     * @return
+     * Registers a frame in the GUIRegister by a given name. 
+     * @param gui_name name of the internal frame
+     * @param frame to be registered.
+     * @return true if the frame gets registered, false if not.
      */
-    public static boolean Register(String s, JInternalFrame f) {
+    public static boolean Register(String gui_name, JInternalFrame frame) {
         boolean ret = false;
-        if(!_table.containsKey(s)) {
-            f.setDefaultCloseOperation(JInternalFrame.HIDE_ON_CLOSE);
-            f.addInternalFrameListener(new InternalWindowListener());
-            _table.put(s, f);
+        if(!_table.containsKey(gui_name)) {
+            frame.setDefaultCloseOperation(JInternalFrame.HIDE_ON_CLOSE);
+            frame.addInternalFrameListener(new InternalWindowListener());
+            _table.put(gui_name, frame);
             ret = true;
             bar.increment();
+            try {
+                Window.paneDesktop.add(frame);
+            } catch (Exception ex) {
+                
+            }
         }
-        Window.paneDesktop.add(f);
         return ret;
     }
 
     /**
-     *
-     * @param s
-     * @return
+     * Hides a GUI by name.
+     * @param gui_name to hide
+     * @return true if hidden, false if not found or already hidden
      */
-    public static boolean Hide(String s) {
-        JInternalFrame f = Lookup(s);
-        if(f == null) {
+    public static boolean Hide(String gui_name) {
+        JInternalFrame f = Lookup(gui_name);
+        if(f == null | f.isVisible() == false) {
             return false;
         }
         else {
@@ -119,7 +124,7 @@ public class GUIManager {
     }
     
     /**
-     *
+     * Logs user out.
      */
     public static void Logout() {
         for (String key : _table.keySet()) {
@@ -130,14 +135,13 @@ public class GUIManager {
     }
 
     /**
-     *
+     * Check to count currently open windows.
      */
     public static void Window_Closed() {
         Windows_Running--;
     }
 
     static void Setup() {
-        
         
         bar.setMaxVal(24);
         
@@ -160,13 +164,12 @@ public class GUIManager {
         Register("Machine_Breakdown", new Machine_Breakdown());
         Register("Schedule_Editor", new Editor_Schedule());
         Register("Schedule_Viewer", new Schedule_Viewer());
-        Register("Order_AddItem", new Ticket_AddResponse());
+        Register("Order_AddItem", new Order_AddItem());
         Register("DistributorInfo", new Properties_DistributorInfo());
         Register("Settings", new Properties_ProgramSettings());
         Register("Employee_Editor", new Editor_Account());
         Register("Location_Editor", new Editor_Location());
         Register("Machine_Editor", new Editor_Machine());
-        Register("Administrator_MachineStatus", new Administrator_MachineStatus());
         Register("TicketList", new Ticket_List());
         Register("TicketPage", new Ticket_Page());
         Register("Ticket_AddResponse", new Ticket_AddResponse());

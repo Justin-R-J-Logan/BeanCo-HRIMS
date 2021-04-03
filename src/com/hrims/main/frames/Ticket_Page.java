@@ -274,4 +274,14 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
             btnNext.setEnabled(false);
         }
     }
+
+    void setViewOnly(boolean viewer) {
+        if(viewer) {
+            btnEdit.setVisible(false);
+            btnDelete.setVisible(false);
+        } else {
+            btnEdit.setVisible(true);
+            btnDelete.setVisible(true);
+        }
+    }
 }

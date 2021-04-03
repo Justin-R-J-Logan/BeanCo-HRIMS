@@ -38,6 +38,7 @@ public class SQLTicket {
             tic.setUserID(result.getInt(2));
             tic.setDescription(result.getString(3));
             tic.setResolved(result.getBoolean(4));
+            tic.setMachineId(result.getInt(5));
             
             for(TicketEntry t : ticketEntries) {
                 if(t.getTicketid() == tic.getTicketId()) {
@@ -73,6 +74,7 @@ public class SQLTicket {
                 tic.setUserID(result.getInt(2));
                 tic.setDescription(result.getString(3));
                 tic.setResolved(result.getBoolean(4));
+                tic.setMachineId(result.getInt(5));
                 
                 if(tic.getTicketId()> max || max==-1) max = tic.getTicketId();
                 if(tic.getTicketId()< min || min==-1) min = tic.getTicketId();
@@ -93,7 +95,50 @@ public class SQLTicket {
         }
         return tickets;
     }
-    
+   public ArrayList<Ticket> getTicketsByPageNumberAndAccountID(int page, int maxp, boolean oneExtra, int accountID) {
+        ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+        try {
+            ArrayList<TicketEntry> ticketEntries = new ArrayList<TicketEntry>();
+            
+            String SQL = "";
+            
+            SQL += "SELECT * FROM ticket \n";
+            SQL += "WHERE accountid = " + accountID + "\n";
+            SQL += " LIMIT " + (page*maxp) + "," + (oneExtra ? maxp+1 : maxp) + ";";
+            
+            ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
+            
+            int min=-1, max=-1;
+            
+            while(result.next()) {
+                Ticket tic = new Ticket();
+                tic.getEntries().clear();
+                //ticketid, accountid, description)
+                tic.setTicketId(result.getInt(1));
+                tic.setUserID(result.getInt(2));
+                tic.setDescription(result.getString(3));
+                tic.setResolved(result.getBoolean(4));
+                tic.setMachineId(result.getInt(5));
+                
+                if(tic.getTicketId()> max || max==-1) max = tic.getTicketId();
+                if(tic.getTicketId()< min || min==-1) min = tic.getTicketId();
+                
+                tickets.add(tic);
+            }
+            
+            ticketEntries = SQLTicketEntry.ME.getTicketsFromTicketId(min, max);
+            for(Ticket tic : tickets) {
+                for(TicketEntry t : ticketEntries) {
+                    if(tic.getTicketId()== t.getTicketid())
+                        tic.addEntry(t);
+                }
+            }
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return tickets;
+    }
     public ArrayList<Ticket> getTickets(int low, int high) {
         ArrayList<Ticket> tickets = new ArrayList<Ticket>();
         
@@ -111,6 +156,7 @@ public class SQLTicket {
                 tic.setUserID(result.getInt(2));
                 tic.setDescription(result.getString(3));
                 tic.setResolved(result.getBoolean(4));
+                tic.setMachineId(result.getInt(5));
                 
                 for(TicketEntry t : ticketEntries) {
                     if(t.getTicketid() == tic.getTicketId()) {
@@ -136,7 +182,8 @@ public class SQLTicket {
                 + "accountid = '" + tic.getUserID() + "', "
                 + "description = '" + tic.getDescription()+ "', "
                 + "resolved = '" + tic.isResolved()+ "', "
-                + "ticketid = '" + tic.getTicketId()+ "'\n"
+                + "ticketid = '" + tic.getTicketId()+ "'"
+                + "machineid = '" + tic.getMachineId()+ "'\n"
                 + "WHERE ticketid = " + tic.getTicketId();
         
         try {
@@ -162,9 +209,9 @@ public class SQLTicket {
         
         int isResolved = tic.isResolved() ? 1 : 0;
         
-        String statement = "INSERT INTO ticket(accountid, description, status)" 
+        String statement = "INSERT INTO ticket(accountid, description, status, machineid)" 
                 + "\n VALUES ('" + tic.getUserID()+ "', '" + tic.getDescription()
-                + "', '" + isResolved + "');";
+                + "', '" + isResolved + "', '" + tic.getMachineId() + "');";
         
         try {
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(statement);
@@ -205,4 +252,19 @@ public class SQLTicket {
         return true;
     }
     
+    
+    public void resolveTicket(Ticket t) {
+        if(!t.isResolved()) {
+            String SQL = "UPDATE ticket \n"
+                        + "SET "
+                        + "status = '1' \n"
+                       + "WHERE ticketid = " + t.getTicketId();
+            try {
+                ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            t.setResolved(true);
+        }
+    }
 }

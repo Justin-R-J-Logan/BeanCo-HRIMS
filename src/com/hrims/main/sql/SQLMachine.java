@@ -38,6 +38,7 @@ public class SQLMachine
                 mac.setLastUse(result.getDate(5));
                 mac.setCreated(result.getDate(6));
                 mac.setInUse(result.getBoolean(7));
+                mac.setStatus(result.getBoolean(8));
                 
                 machines.add(mac);
             }
@@ -60,7 +61,8 @@ public class SQLMachine
                 + "name = '" + mac.getMachineName() + "', "
                 + "purchasedate = '" + mac.getPurchaseDate()+ "', "
                 + "lastuse = '" + mac.getLastUse()+ "', "
-                + "created = '" + mac.getCreated()+ "' \n"
+                + "created = '" + mac.getCreated()+ "'"
+                + "status = '" + mac.isStatus()+ "' \n"
                 + "WHERE machineid = " + mac.getMachineID();
         
         try 
@@ -136,6 +138,7 @@ public class SQLMachine
                 mac.setLastUse(result.getDate(5));
                 mac.setCreated(result.getDate(6));
                 mac.setInUse(result.getBoolean(7));
+                mac.setStatus(result.getBoolean(8));
                 
                 machines.add(mac);
             }
@@ -144,5 +147,20 @@ public class SQLMachine
             ex.printStackTrace();
         }
         return machines;
+    }
+    
+    public void fixMachine(Machine m) {
+        if(m.isStatus()) {
+            String SQL = "UPDATE machine \n"
+                        + "SET "
+                        + "status = '0' \n"
+                       + "WHERE machineid = " + m.getMachineID();
+            try {
+                ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            m.setStatus(false);
+        }
     }
 }

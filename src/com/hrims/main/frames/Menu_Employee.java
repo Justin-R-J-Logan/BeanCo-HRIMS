@@ -59,7 +59,12 @@ public class Menu_Employee extends javax.swing.JInternalFrame {
         });
         getContentPane().add(btnOperateMachine);
 
-        btnTickets.setText("btnTickets");
+        btnTickets.setText("Tickets");
+        btnTickets.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTicketsActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnTickets);
 
         pack();
@@ -72,6 +77,12 @@ public class Menu_Employee extends javax.swing.JInternalFrame {
     private void btnOperateMachineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOperateMachineActionPerformed
         GUIManager.Show("Employee_Interface");
     }//GEN-LAST:event_btnOperateMachineActionPerformed
+
+    private void btnTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTicketsActionPerformed
+        Ticket_List tl = (Ticket_List)GUIManager.Lookup("TicketList");
+        tl.setViewOnly(true);
+        GUIManager.Show("TicketList");
+    }//GEN-LAST:event_btnTicketsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

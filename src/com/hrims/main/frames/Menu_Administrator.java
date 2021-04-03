@@ -61,11 +61,15 @@ public class Menu_Administrator extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTicketsActionPerformed
+        Ticket_List tl = (Ticket_List)GUIManager.Lookup("TicketList");
+        tl.setViewOnly(false);
         GUIManager.Show("TicketList");
     }//GEN-LAST:event_btnTicketsActionPerformed
 
     private void btnMachineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMachineActionPerformed
-        GUIManager.Show("Administrator_MachineStatus");
+        Editor_Machine m = (Editor_Machine)GUIManager.Lookup("Machine_Editor");
+        m.setFixer(true);
+        GUIManager.Show("Machine_Editor");
     }//GEN-LAST:event_btnMachineActionPerformed
 
     /**

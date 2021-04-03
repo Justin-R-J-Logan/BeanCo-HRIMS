@@ -83,6 +83,8 @@ public class Menu_Manager extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEmployeesActionPerformed
 
     private void btnMachinesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMachinesActionPerformed
+        Editor_Machine m = (Editor_Machine)GUIManager.Lookup("Machine_Editor");
+        m.setFixer(false);
         GUIManager.Show("Machine_Editor");
     }//GEN-LAST:event_btnMachinesActionPerformed
 

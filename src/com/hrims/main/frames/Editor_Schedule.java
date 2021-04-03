@@ -69,7 +69,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame implements Updat
 
         tblData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1), "8:00", "15:00", null},
+                {null, "8:00", "15:00", null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
@@ -96,11 +96,11 @@ public class Editor_Schedule extends javax.swing.JInternalFrame implements Updat
                 {null, null, null, null}
             },
             new String [] {
-                "Account ID", "Time Start", "Time End", "Total Break Time"
+                "User", "Time Start", "Time End", "Total Break Time"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, true, false

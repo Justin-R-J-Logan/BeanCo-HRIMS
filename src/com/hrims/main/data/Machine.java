@@ -31,16 +31,6 @@ public class Machine implements DataGrabber<Machine>
         return _machineID;
     }
 
-    public Machine(int _machineID, int _locationID, String _machineName, Date _purchaseDate, Date _lastUse, Date _created, boolean _inUse) {
-        this._machineID = _machineID;
-        this._locationID = _locationID;
-        this._machineName = _machineName;
-        this._purchaseDate = _purchaseDate;
-        this._lastUse = _lastUse;
-        this._created = _created;
-        this._inUse = _inUse;
-    }
-
     public void setMachineID(int _machineID) 
     {
         this._machineID = _machineID;
@@ -113,6 +103,15 @@ public class Machine implements DataGrabber<Machine>
     private java.sql.Date _lastUse;
     private java.sql.Date _created;
     private boolean _inUse;
+    private boolean _status;
+
+    public boolean isStatus() {
+        return _status;
+    }
+
+    public void setStatus(boolean _status) {
+        this._status = _status;
+    }
     
     @Override
     public Map<String, Object> getResources() 
@@ -126,6 +125,7 @@ public class Machine implements DataGrabber<Machine>
         resources.put("Last Use", this._lastUse);
         resources.put("Created", this._created);
         resources.put("In Use", this._inUse);
+        resources.put("Status", this._status);
         
         return resources;
     }
@@ -181,6 +181,7 @@ public class Machine implements DataGrabber<Machine>
                 }
             }
             if(resources.containsKey("In Use")) this.setInUse(Boolean.parseBoolean(""+resources.remove("In Use")));
+            if(resources.containsKey("Status")) this.setInUse(Boolean.parseBoolean(""+resources.remove("Status")));
         } 
         catch (Exception ex) 
         {

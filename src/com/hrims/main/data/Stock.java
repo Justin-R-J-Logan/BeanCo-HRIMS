@@ -5,6 +5,7 @@
  */
 package com.hrims.main.data;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -93,7 +94,7 @@ public class Stock {
      */
     public boolean checkValidity(){
         boolean valid = false;
-        if (dateOfProduction.before(dateOfExpiry)){ valid = true; }
+        if (dateOfProduction.before(dateOfExpiry) && dateOfExpiry.after(Calendar.getInstance().getTime())){ valid = true; }
         return valid;
     }
 }

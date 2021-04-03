@@ -49,7 +49,7 @@ public class Order_EditQuantity extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * @param args the command line arguments
+     * 
      */
     
     public int getValue() {

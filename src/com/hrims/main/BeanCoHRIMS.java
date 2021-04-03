@@ -14,10 +14,12 @@ import javax.swing.UIManager;
  *
  * @author Justin
  */
+
 public class BeanCoHRIMS {
 
     /**
-     * @param args the command line arguments
+     * Main class for the program. Will be activated by the JAR or command line.
+     * @param args the command line arguments. No arguments currently in use.
      */
     public static void main(String[] args) {
         try { 
