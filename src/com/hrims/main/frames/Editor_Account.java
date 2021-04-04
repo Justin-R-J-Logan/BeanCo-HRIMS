@@ -96,41 +96,41 @@ public class Editor_Account extends javax.swing.JInternalFrame implements Updata
 
         tblAccount.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1), null, "test", "guy", "123-456-7890", "qwe@asd.zxc"},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, "test", "guy", "123-456-7890", "qwe@asd.zxc"},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Account ID", "Username", "First Name", "Last Name", "Phone", "Email"
+                "Username", "First Name", "Last Name", "Phone", "Email"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -141,6 +141,7 @@ public class Editor_Account extends javax.swing.JInternalFrame implements Updata
                 return canEdit [columnIndex];
             }
         });
+        tblAccount.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblAccount);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -253,27 +254,24 @@ public class Editor_Account extends javax.swing.JInternalFrame implements Updata
                     String information = "";
                     switch(x) {
                         case 0:
-                            information = ""+a.getAccountNumber();
-                            break;
-                        case 1:
                             information = ""+a.getUsername();
                             break;
-                        case 2:
+                        case 1:
                             if(a.contacts.size() > 0) {
                                 information = ""+a.contacts.get(0).getFirstName();
                             }
                             break;
-                        case 3:
+                        case 2:
                             if(a.contacts.size() > 0) {
                                 information = ""+a.contacts.get(0).getLastName();
                             }
                             break;
-                        case 4:
+                        case 3:
                             if(a.contacts.size() > 0) {
                                 information = ""+a.contacts.get(0).getMainPhone();
                             }
                             break;
-                        case 5:
+                        case 4:
                             if(a.contacts.size() > 0) {
                                 information = ""+a.contacts.get(0).getEmail();
                             }
@@ -332,14 +330,8 @@ public class Editor_Account extends javax.swing.JInternalFrame implements Updata
         int row = tblAccount.getSelectedRow();
         if(row == -1) return;
         try {
-            int accID = Integer.parseInt((String)tblAccount.getModel().getValueAt(row, 0));
-            Account acc = null;
+            Account acc = accounts.get(row);
             Properties_Editor<Account, Editor_Account> editor = (Properties_Editor<Account, Editor_Account>)GUIManager.Lookup("Account_Property_Editor");
-            for(Account a : accounts) {
-                if(a.getAccountNumber() == accID) {
-                    acc = a;
-                }
-            }
             editor.setObject(acc);
             editor.setFrame(this);
             editor.setVisible(true);

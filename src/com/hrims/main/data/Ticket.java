@@ -8,6 +8,7 @@ package com.hrims.main.data;
 import com.hrims.main.sql.SQLTicket;
 import com.hrims.main.sql.SQLTicketEntry;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,6 +19,22 @@ import java.util.Map;
  */
 public class Ticket implements DataGrabber<Ticket> {
 
+    public static ArrayList<TicketEntry> tickets = new ArrayList<TicketEntry>();
+    int userID;
+    String description;
+    boolean resolved;
+    int TicketId;
+    int machineId;
+    java.util.Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
     public Ticket() {
         TicketId = -1;
     }
@@ -52,13 +69,6 @@ public class Ticket implements DataGrabber<Ticket> {
         this.resolved = resolved;
     }
     
-    public static ArrayList<TicketEntry> tickets = new ArrayList<TicketEntry>();
-    int userID;
-    String description;
-    boolean resolved;
-    int TicketId;
-    int machineId;
-
     public static ArrayList<TicketEntry> getTickets() {
         return tickets;
     }

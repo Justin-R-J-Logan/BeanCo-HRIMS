@@ -1,38 +1,29 @@
-package com.hrims.main.frames;
-
-import com.hrims.main.GUIManager;
-import com.hrims.main.data.Location;
-import com.hrims.main.data.Machine;
-import com.hrims.main.sql.SQLCaller;
-import com.hrims.main.sql.SQLLocation;
-import com.hrims.main.sql.SQLMachine;
-import java.sql.Date;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
+package com.hrims.main.frames;
+
+import com.hrims.main.data.Product;
+import java.util.ArrayList;
+
 /**
  *
- * @author Matthew
+ * @author Justin
  */
-public class Editor_Machine extends javax.swing.JInternalFrame implements Updatable
-{
+public class Editor_Products extends javax.swing.JInternalFrame {
 
     int pageNumber = 0;
     int numPerPage = 25;
     boolean lockForward = false;
-    ArrayList<Machine> machines;
+    ArrayList<Product> products;
     
     /**
-     * Creates new form Employee
+     * Creates new form Products_SelectProduct
      */
-    public Editor_Machine() 
-    {
+    public Editor_Products() {
         initComponents();
     }
 
@@ -48,6 +39,7 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMachine = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -58,57 +50,44 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
         btnPrevious = new javax.swing.JButton();
         txtPageNumber = new javax.swing.JTextField();
         btnNext = new javax.swing.JButton();
-        pnlFixPanel = new javax.swing.JPanel();
-        btnFixMachine = new javax.swing.JButton();
-
-        setClosable(true);
-        setIconifiable(true);
-        setTitle("Machine Editor");
-        setMinimumSize(new java.awt.Dimension(1024, 540));
-        setPreferredSize(new java.awt.Dimension(1024, 540));
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                formComponentShown(evt);
-            }
-        });
 
         tblMachine.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1), "Mean Bean Machine (TM)", "02/09/2021", "02/10/2021", null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, "Mean Bean Machine (TM)"},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Location", "Machine Name", "Purchase Date", "Last Use", "In Use", "Status Code"
+                "Name", "Machine"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -126,6 +105,9 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+
+        jButton1.setText("Select");
+        jPanel1.add(jButton1);
 
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -195,27 +177,23 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
 
-        pnlFixPanel.setLayout(new java.awt.BorderLayout());
-
-        btnFixMachine.setText("Fix Machine");
-        btnFixMachine.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFixMachineActionPerformed(evt);
-            }
-        });
-        pnlFixPanel.add(btnFixMachine, java.awt.BorderLayout.LINE_END);
-
-        jPanel2.add(pnlFixPanel, java.awt.BorderLayout.PAGE_START);
-
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void Update() {
+        
+        Reload();
+    }
+    
+    private void Reload() {
+        
+    }
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        try 
+        try
         {
-            Machine mac = new Machine();
+            /*Machine mac = new Machine();
             Date d = new Date(new java.util.Date().getTime());
             mac.setCreated(d);
             mac.setLastUse(d);
@@ -223,13 +201,74 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
             Properties_Editor<Machine, Editor_Machine> editor = (Properties_Editor<Machine, Editor_Machine>)GUIManager.Lookup("Machine_Property_Editor");
             editor.setObject(mac);
             editor.setFrame(this);
-            editor.setVisible(true);
-        } 
-        catch (Exception ex) 
+            editor.setVisible(true);*/
+        }
+        catch (Exception ex)
         {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        int row = tblMachine.getSelectedRow();
+        try
+        {/*
+            Machine acc = machines.get(row);
+            Properties_Editor<Machine, Editor_Machine> editor = (Properties_Editor<Machine, Editor_Machine>)GUIManager.Lookup("Machine_Property_Editor");
+            editor.setObject(acc);
+            editor.setFrame(this);
+            editor.setVisible(true);*/
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        /*
+        int input = JOptionPane.showConfirmDialog(null, "Delete selected machine?");
+        if (input == 0)
+        {
+            int machineID = Integer.parseInt(tblMachine.getModel().getValueAt(tblMachine.getSelectedRow(), 0).toString());
+            SQLMachine.ME.deleteMachine(machineID);
+        }*/
+        Update();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
+        Update();
+    }//GEN-LAST:event_btnReloadActionPerformed
+
+    private void btnDuplicateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDuplicateActionPerformed
+        int row = tblMachine.getSelectedRow();
+        try
+        {/*
+            int macID = Integer.parseInt((String)tblMachine.getModel().getValueAt(row, 0));
+            Machine mac = null;
+            for(Machine m : machines)
+            {
+                if(m.getMachineID() == macID)
+                {
+                    mac = m;
+                }
+            }
+            Machine m = new Machine();
+            m.setCreated(mac.getCreated());
+            m.setInUse(mac.isInUse());
+            m.setLocationID(mac.getLocationID());
+            m.setMachineName(mac.getMachineName());
+            m.setPurchaseDate(mac.getPurchaseDate());
+            m.setLastUse(mac.getLastUse());
+
+            m.Save();*/
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        Update();
+    }//GEN-LAST:event_btnDuplicateActionPerformed
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
         pageNumber--;
@@ -242,156 +281,21 @@ public class Editor_Machine extends javax.swing.JInternalFrame implements Updata
         Update();
     }//GEN-LAST:event_btnNextActionPerformed
 
-    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        Update();
-    }//GEN-LAST:event_formComponentShown
 
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        int row = tblMachine.getSelectedRow();
-        try 
-        {
-            Machine acc = machines.get(row);
-            Properties_Editor<Machine, Editor_Machine> editor = (Properties_Editor<Machine, Editor_Machine>)GUIManager.Lookup("Machine_Property_Editor");
-            editor.setObject(acc);
-            editor.setFrame(this);
-            editor.setVisible(true);
-        } 
-        catch (Exception ex) 
-        {
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_btnEditActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        
-    int input = JOptionPane.showConfirmDialog(null, "Delete selected machine?");
-    if (input == 0)
-    {
-        int machineID = Integer.parseInt(tblMachine.getModel().getValueAt(tblMachine.getSelectedRow(), 0).toString());
-        SQLMachine.ME.deleteMachine(machineID);
-    }
-        Update();
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
-    private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
-        Update();
-    }//GEN-LAST:event_btnReloadActionPerformed
-
-    private void btnDuplicateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDuplicateActionPerformed
-        int row = tblMachine.getSelectedRow();
-        try 
-        {
-            int macID = Integer.parseInt((String)tblMachine.getModel().getValueAt(row, 0));
-            Machine mac = null;
-            for(Machine m : machines) 
-            {
-                if(m.getMachineID() == macID) 
-                {
-                    mac = m;
-                }
-            }
-            Machine m = new Machine();
-            m.setCreated(mac.getCreated());
-            m.setInUse(mac.isInUse());
-            m.setLocationID(mac.getLocationID());
-            m.setMachineName(mac.getMachineName());
-            m.setPurchaseDate(mac.getPurchaseDate());
-            m.setLastUse(mac.getLastUse());
-            
-            m.Save();
-        } 
-        catch (Exception ex) 
-        {
-            ex.printStackTrace();
-        }
-        Update();
-    }//GEN-LAST:event_btnDuplicateActionPerformed
-
-    private void btnFixMachineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFixMachineActionPerformed
-        Machine m = machines.get(tblMachine.getSelectedRow());
-        
-        SQLMachine.ME.fixMachine(m);
-        
-        Update();
-    }//GEN-LAST:event_btnFixMachineActionPerformed
-
-    public void Update() {
-        machines = SQLMachine.ME.getMachinesByPage(pageNumber, numPerPage, true);
-        if(pageNumber <= 0) btnPrevious.setEnabled(false);
-        else btnPrevious.setEnabled(true);
-        if(machines.size() > numPerPage) btnNext.setEnabled(true);
-        else btnNext.setEnabled(false);     
-        Reload();
-    }
-    
-    public void Reload() {
-        
-        for(int y = 0; y < tblMachine.getRowCount(); y++) {
-                for(int x = 0; x < tblMachine.getColumnCount(); x++) {
-                if(y >= machines.size()) {
-                    tblMachine.getModel().setValueAt("", y, x);
-                } else {
-                    Machine m = machines.get(y);
-                    String information = "";
-                    switch(x) {
-                        case 0:
-                            Location l = SQLLocation.ME.getLocation(m.getLocationID());
-                            information = "" + l.getAddress() + " " + l.getAddress2();
-                            break;
-                        case 1:
-                            information = ""+m.getMachineName();
-                            break;
-                        case 2:
-                            information = ""+m.getPurchaseDate();
-                            break;
-                        case 3:
-                            information = ""+m.getLastUse();
-                            break;
-                        case 4:
-                            information = ""+(m.isInUse()? "In Use" : "Not In Use");
-                            break;
-                        case 5:
-                            information = ""+(m.isStatus()? "Broken" : "Functional");
-                            break;
-                    }
-                    tblMachine.getModel().setValueAt(information, y, x);
-                }
-            }
-        }
-        txtPageNumber.setText(""+(pageNumber+1));
-        
-    }
-
-    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) 
-    {                                         
-        Update();
-    }                                                                            
-
-   
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDuplicate;
     private javax.swing.JButton btnEdit;
-    private javax.swing.JButton btnFixMachine;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnReload;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel pnlFixPanel;
     private javax.swing.JTable tblMachine;
     private javax.swing.JTextField txtPageNumber;
     // End of variables declaration//GEN-END:variables
-
-    void setFixer(boolean b) {
-        if(b) {
-            pnlFixPanel.setVisible(true);
-        } else {
-            pnlFixPanel.setVisible(false);
-        }
-    }
 }

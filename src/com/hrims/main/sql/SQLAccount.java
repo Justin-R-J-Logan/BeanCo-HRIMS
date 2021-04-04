@@ -28,14 +28,17 @@ public class SQLAccount {
         try {
             String SQL = "SELECT * FROM account WHERE accountid=" + _accountNumber;
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
-            result.first();
-            acc.setAccountNumber(result.getInt(1));
-            acc.setUsername(result.getString(2));
-            acc.setPassword(result.getString(3));
-            acc.setCreated(result.getDate(4));
-            acc.setLastLogin(result.getDate(5));
-            acc.setAccessRights(result.getInt(6));
-            acc.setDiscount(result.getInt(7));
+            acc.setUsername("");
+            if(result.first()) {
+                acc.setAccountNumber(result.getInt(1));
+                acc.setUsername(result.getString(2));
+                acc.setPassword(result.getString(3));
+                acc.setCreated(result.getDate(4));
+                acc.setLastLogin(result.getDate(5));
+                acc.setAccessRights(result.getInt(6));
+                acc.setDiscount(result.getInt(7));
+            }
+            
             
         } catch (Exception ex) {
             ex.printStackTrace();

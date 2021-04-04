@@ -47,18 +47,15 @@ public class Editor_Location extends javax.swing.JInternalFrame implements Updat
                     String information = "";
                     switch(x) {
                         case 0:
-                            information = ""+l.getLocationID();
-                            break;
-                        case 1:
                             information = ""+l.getAddress() + " " + l.getAddress2();
                             break;
-                        case 2:
+                        case 1:
                             information = ""+l.getMainPhone();
                             break;
-                        case 3:
+                        case 2:
                             information = ""+l.getEmail();
                             break;
-                        case 4:
+                        case 3:
                             information = ""+l.getCompany();
                             break;
                     }
@@ -125,41 +122,41 @@ public class Editor_Location extends javax.swing.JInternalFrame implements Updat
 
         tblLocation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "60 Commerce Crescent", "705.474.7600", "N/A", "Canadore"},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {"60 Commerce Crescent", "705.474.7600", "N/A", "Canadore"},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Location ID", "Address", "Phone", "Email", "Company"
+                "Address", "Phone", "Email", "Company"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -170,6 +167,7 @@ public class Editor_Location extends javax.swing.JInternalFrame implements Updat
                 return canEdit [columnIndex];
             }
         });
+        tblLocation.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblLocation);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -274,15 +272,8 @@ public class Editor_Location extends javax.swing.JInternalFrame implements Updat
         int row = tblLocation.getSelectedRow();
         if(row < 0) return;
         try {
-            int locID = Integer.parseInt((String)tblLocation.getModel().getValueAt(row, 0));
-            System.out.println(locID);
-            Location loc = null;
+            Location loc = locations.get(row);
             Properties_Editor<Location, Editor_Location> editor = (Properties_Editor<Location, Editor_Location>)GUIManager.Lookup("Location_Property_Editor");
-            for(Location l : locations) {
-                if(l.getLocationID()== locID) {
-                    loc = l;
-                }
-            }
             editor.setObject(loc);
             editor.setFrame(this);
             editor.setVisible(true);

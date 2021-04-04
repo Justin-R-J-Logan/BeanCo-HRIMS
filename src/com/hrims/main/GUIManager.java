@@ -23,7 +23,7 @@ import com.hrims.main.frames.Ticket_AddResponse;
 import com.hrims.main.frames.Ticket_Page;
 import com.hrims.main.frames.Order_NewOrder;
 import com.hrims.main.frames.Order_PreviousOrder;
-import com.hrims.main.frames.Order_PreviousOrderList;
+import com.hrims.main.frames.Order_PreviousOrderItems;
 import com.hrims.main.unusedclasses.Properties_DistributorInfo;
 import com.hrims.main.frames.Properties_Editor;
 import com.hrims.main.unusedclasses.Properties_ProgramSettings;
@@ -156,7 +156,7 @@ public class GUIManager {
         Register("Machine_List_Frame", new Editor_Machine());
         Register("Distributor_Menu", new Menu_Distributor());
         Register("Distributor_NewOrder_Frame", new Order_NewOrder());
-        Register("Distributor_Previous_Orders", new Order_PreviousOrderList());
+        Register("Distributor_Previous_Orders", new Order_PreviousOrderItems());
         Register("Distributor_PreviousOrder_ShowOrder", new Order_PreviousOrder());
         Register("Inventory_SearchItems", new Ticket_AddResponse());
         Register("Employee_Frame", new Menu_Employee());

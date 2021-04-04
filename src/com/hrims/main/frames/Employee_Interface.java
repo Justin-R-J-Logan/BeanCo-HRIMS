@@ -1,5 +1,8 @@
 package com.hrims.main.frames;
 
+import com.hrims.main.GUIManager;
+import com.hrims.main.LoginManager;
+
 /*
  * This is a license.
  */
@@ -29,7 +32,10 @@ public class Employee_Interface extends javax.swing.JInternalFrame {
         northPanel = new javax.swing.JPanel();
         employeeID = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        btnProduct = new javax.swing.JTextField();
+        btnSelectProduct = new javax.swing.JButton();
         centerPanel = new javax.swing.JPanel();
         centerWestPanel = new javax.swing.JPanel();
         centerEastPanel = new javax.swing.JPanel();
@@ -61,8 +67,32 @@ public class Employee_Interface extends javax.swing.JInternalFrame {
         northPanel.add(employeeID, java.awt.BorderLayout.LINE_START);
         northPanel.add(jSeparator1, java.awt.BorderLayout.SOUTH);
 
-        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        northPanel.add(jSeparator2, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 48, Short.MAX_VALUE)
+        );
+
+        northPanel.add(jPanel2, java.awt.BorderLayout.LINE_END);
+
+        btnProduct.setEnabled(false);
+        btnProduct.setPreferredSize(new java.awt.Dimension(200, 24));
+        jPanel3.add(btnProduct);
+
+        btnSelectProduct.setText("Select Product");
+        btnSelectProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectProductActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnSelectProduct);
+
+        northPanel.add(jPanel3, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(northPanel, java.awt.BorderLayout.PAGE_START);
 
@@ -199,10 +229,16 @@ public class Employee_Interface extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSelectProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectProductActionPerformed
+        //Editor_Products pswin = (Editor_Products) GUIManager.Lookup(Products_SelectProduct);
+    }//GEN-LAST:event_btnSelectProductActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton beanProductionButton;
     private javax.swing.JProgressBar beanProductionProgressBar;
+    private javax.swing.JTextField btnProduct;
+    private javax.swing.JButton btnSelectProduct;
     private javax.swing.JPanel centerCenterPanel;
     private javax.swing.JPanel centerEastPanel;
     private javax.swing.JPanel centerPanel;
@@ -210,8 +246,9 @@ public class Employee_Interface extends javax.swing.JInternalFrame {
     private javax.swing.JPanel eastPanel;
     private javax.swing.JLabel employeeID;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel machineID;
     private javax.swing.JLabel machineIcon;
     private javax.swing.JPanel northPanel;
@@ -222,4 +259,8 @@ public class Employee_Interface extends javax.swing.JInternalFrame {
     private javax.swing.JPanel southWestPanel;
     private javax.swing.JPanel westPanel;
     // End of variables declaration//GEN-END:variables
+
+    public void Update() {
+        employeeID.setText("Employee: " + LoginManager.MYACCOUNT.getAccountNumber());
+    }
 }

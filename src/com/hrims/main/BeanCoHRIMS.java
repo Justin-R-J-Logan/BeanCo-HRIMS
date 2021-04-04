@@ -17,6 +17,7 @@ import javax.swing.UIManager;
 
 public class BeanCoHRIMS {
 
+    public static boolean DEBUG = false;
     /**
      * Main class for the program. Will be activated by the JAR or command line.
      * @param args the command line arguments. No arguments currently in use.

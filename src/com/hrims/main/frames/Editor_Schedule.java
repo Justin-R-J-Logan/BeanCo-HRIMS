@@ -2,7 +2,9 @@ package com.hrims.main.frames;
 
 
 import com.hrims.main.GUIManager;
+import com.hrims.main.data.Account;
 import com.hrims.main.data.ScheduleDay;
+import com.hrims.main.sql.SQLAccount;
 import com.hrims.main.sql.SQLSchedule;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -114,6 +116,7 @@ public class Editor_Schedule extends javax.swing.JInternalFrame implements Updat
                 return canEdit [columnIndex];
             }
         });
+        tblData.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jspDataDisplay.setViewportView(tblData);
 
         getContentPane().add(jspDataDisplay, java.awt.BorderLayout.CENTER);
@@ -333,7 +336,8 @@ public class Editor_Schedule extends javax.swing.JInternalFrame implements Updat
                     String information = "";
                     switch(x) {
                         case 0:
-                            information = ""+schd.getAccountid();
+                            Account a = SQLAccount.ME.getAccount(schd.getAccountid());
+                            information = "" + (a.getUsername() != "" ? a.getUsername() : "Deleted User").toString();//+l;
                             break;
                         case 1:
                             information = ""+schd.getStart();

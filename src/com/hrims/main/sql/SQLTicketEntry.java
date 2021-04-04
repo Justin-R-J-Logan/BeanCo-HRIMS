@@ -31,6 +31,7 @@ public class SQLTicketEntry {
                     tic.setTicketid(ticketEntryresults.getInt(2));
                     tic.setUserId(ticketEntryresults.getInt(3));
                     tic.setMessage(ticketEntryresults.getString(4));
+                    tic.setDate(ticketEntryresults.getDate(5));
                     
                     ticketEntries.add(tic);
                 }

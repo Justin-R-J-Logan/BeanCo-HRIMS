@@ -5,12 +5,28 @@
  */
 package com.hrims.main.data;
 
+import java.util.Date;
+
 /**
  *
  * @author Justin
  */
 public class TicketEntry {
 
+    int ticketid;
+    int userid;
+    int entryid;
+    String message;
+    java.util.Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
     public TicketEntry() {
         
     }
@@ -45,17 +61,5 @@ public class TicketEntry {
 
     public void setTicketid(int ticketid) {
         this.ticketid = ticketid;
-    }
-    
-    int ticketid;
-    int userid;
-    int entryid;
-    String message;
-
-    public TicketEntry(int ticketid, int userId, int entryid, String message) {
-        this.ticketid = ticketid;
-        this.userid = userId;
-        this.entryid = entryid;
-        this.message = message;
     }
 }

@@ -1,8 +1,10 @@
 package com.hrims.main.frames;
 
 import com.hrims.main.GUIManager;
+import com.hrims.main.data.Account;
 import com.hrims.main.data.Ticket;
 import com.hrims.main.data.TicketEntry;
+import com.hrims.main.sql.SQLAccount;
 import com.hrims.main.sql.SQLTicket;
 import javax.swing.table.DefaultTableModel;
 
@@ -47,10 +49,11 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
                     String information = "";
                     switch(x) {
                         case 0:
-                            information = ""+l.getEntryId();
+                            information = ""+l.getDate();
                             break;
                         case 1:
-                            information = ""+l.getUserId();//+l;
+                            Account a = SQLAccount.ME.getAccount(l.getUserId());
+                            information = "" + (a.getUsername() != "" ? a.getUsername() : "Deleted User").toString();//+l;
                             break;
                         case 2:
                             information = ""+l.getMessage();
@@ -128,14 +131,14 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
                 {null, null, null}
             },
             new String [] {
-                "Response ID", "UserID", "Response"
+                "Date", "User", "Response"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

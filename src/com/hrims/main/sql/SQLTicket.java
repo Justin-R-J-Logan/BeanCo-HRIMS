@@ -51,7 +51,7 @@ public class SQLTicket {
         return tic;
     }
    
-    public ArrayList<Ticket> getTicketsByPageNumber(int page, int maxp, boolean oneExtra) {
+    public ArrayList<Ticket> getTicketsByPageNumber(int page, int maxp, boolean oneExtra, boolean showResolved) {
         ArrayList<Ticket> tickets = new ArrayList<Ticket>();
         try {
             ArrayList<TicketEntry> ticketEntries = new ArrayList<TicketEntry>();
@@ -60,6 +60,7 @@ public class SQLTicket {
             
             SQL += "SELECT * ";
             SQL += "FROM ticket ";
+            if(!showResolved) SQL += "WHERE status = 0";
             SQL += " LIMIT " + (page*maxp) + "," + (oneExtra ? maxp+1 : maxp) + ";";
             
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
@@ -75,6 +76,7 @@ public class SQLTicket {
                 tic.setDescription(result.getString(3));
                 tic.setResolved(result.getBoolean(4));
                 tic.setMachineId(result.getInt(5));
+                tic.setDate(result.getDate(6));
                 
                 if(tic.getTicketId()> max || max==-1) max = tic.getTicketId();
                 if(tic.getTicketId()< min || min==-1) min = tic.getTicketId();
@@ -95,7 +97,7 @@ public class SQLTicket {
         }
         return tickets;
     }
-   public ArrayList<Ticket> getTicketsByPageNumberAndAccountID(int page, int maxp, boolean oneExtra, int accountID) {
+   public ArrayList<Ticket> getTicketsByPageNumberAndAccountID(int page, int maxp, boolean oneExtra, int accountID, boolean showResolved) {
         ArrayList<Ticket> tickets = new ArrayList<Ticket>();
         try {
             ArrayList<TicketEntry> ticketEntries = new ArrayList<TicketEntry>();
@@ -103,7 +105,8 @@ public class SQLTicket {
             String SQL = "";
             
             SQL += "SELECT * FROM ticket \n";
-            SQL += "WHERE accountid = " + accountID + "\n";
+            SQL += "WHERE accountid = " + accountID + " ";
+            if(!showResolved) SQL += "AND status = 0";
             SQL += " LIMIT " + (page*maxp) + "," + (oneExtra ? maxp+1 : maxp) + ";";
             
             ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
@@ -119,6 +122,7 @@ public class SQLTicket {
                 tic.setDescription(result.getString(3));
                 tic.setResolved(result.getBoolean(4));
                 tic.setMachineId(result.getInt(5));
+                tic.setDate(result.getDate(6));
                 
                 if(tic.getTicketId()> max || max==-1) max = tic.getTicketId();
                 if(tic.getTicketId()< min || min==-1) min = tic.getTicketId();
@@ -157,6 +161,7 @@ public class SQLTicket {
                 tic.setDescription(result.getString(3));
                 tic.setResolved(result.getBoolean(4));
                 tic.setMachineId(result.getInt(5));
+                tic.setDate(result.getDate(6));
                 
                 for(TicketEntry t : ticketEntries) {
                     if(t.getTicketid() == tic.getTicketId()) {

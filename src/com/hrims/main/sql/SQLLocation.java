@@ -126,4 +126,27 @@ public class SQLLocation {
         
         return true;
     }
+
+    public Location getLocation(int locationID) {
+        Location loc = null;
+        
+        String SQL = "SELECT * FROM location "
+            + "WHERE locationid = " + locationID + ";";
+        try{
+            ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
+            loc = new Location();
+            result.next();
+            loc.setLocationID(result.getInt(1));
+            loc.setAddress(result.getString(2));
+            loc.setAddress2(result.getString(3));
+            loc.setMainPhone(result.getString(4));
+            loc.setEmail(result.getString(5));
+            loc.setCreated(result.getDate(6));
+            loc.setCompany(result.getString(7));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return loc;
+    }
 }

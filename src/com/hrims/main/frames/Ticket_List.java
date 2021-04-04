@@ -7,7 +7,10 @@ package com.hrims.main.frames;
 
 import com.hrims.main.GUIManager;
 import com.hrims.main.LoginManager;
+import com.hrims.main.Window;
+import com.hrims.main.data.Account;
 import com.hrims.main.data.Ticket;
+import com.hrims.main.sql.SQLAccount;
 import com.hrims.main.sql.SQLTicket;
 import java.util.ArrayList;
 
@@ -31,9 +34,9 @@ public class Ticket_List extends javax.swing.JInternalFrame {
 
     private void Update() {
         if(viewer) {
-            tickets = SQLTicket.ME.getTicketsByPageNumberAndAccountID(pageNumber, numPerPage, true, LoginManager.MYACCOUNT.getAccountNumber());
+            tickets = SQLTicket.ME.getTicketsByPageNumberAndAccountID(pageNumber, numPerPage, true, LoginManager.MYACCOUNT.getAccountNumber(), tglShowResolved.isSelected());
         } else {
-            tickets = SQLTicket.ME.getTicketsByPageNumber(pageNumber, numPerPage, true);
+            tickets = SQLTicket.ME.getTicketsByPageNumber(pageNumber, numPerPage, true, tglShowResolved.isSelected());
         }
         //fix page buttons
         if(tickets.size() > numPerPage) btnNext.setEnabled(true);
@@ -54,16 +57,20 @@ public class Ticket_List extends javax.swing.JInternalFrame {
                     String information = "";
                     switch(x) {
                         case 0:
-                            information = ""+l.getUserID();
+                            Account a = SQLAccount.ME.getAccount(l.getUserID());
+                            information = "" + (a.getUsername() != "" ? a.getUsername() : "Deleted User").toString();//+l;
                             break;
                         case 1:
-                            information = ""+l.getDescription();
+                            information = "" + l.getDescription();
                             break;
                         case 2:
                             information = "" + (l.isResolved() ? "Resolved" : "Unresolved");//+l;
                             break;
                         case 3:
                             information = "" + l.getMachineId();
+                            break;
+                        case 4:
+                            information = "" + l.getDate().toString();
                             break;
                     }
                     tblTickets.getModel().setValueAt(information, y, x);
@@ -98,9 +105,7 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         txtPage = new javax.swing.JTextField();
         btnNext = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        tglShowResolved = new javax.swing.JToggleButton();
 
         jInternalFrame1.setVisible(true);
 
@@ -135,39 +140,46 @@ public class Ticket_List extends javax.swing.JInternalFrame {
 
         tblTickets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", "", "", null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "User", "Descritpion", "Status", "Machine ID"
+                "User", "Descritpion", "Status", "Machine ID", "Date"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -231,15 +243,13 @@ public class Ticket_List extends javax.swing.JInternalFrame {
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ticket No.", "Status", "User", "Description" }));
-        jComboBox2.setSelectedIndex(2);
-        jPanel5.add(jComboBox2, java.awt.BorderLayout.LINE_START);
-
-        jTextField3.setText("Search");
-        jPanel5.add(jTextField3, java.awt.BorderLayout.CENTER);
-
-        jButton1.setText("Search");
-        jPanel5.add(jButton1, java.awt.BorderLayout.LINE_END);
+        tglShowResolved.setText("Show Resolved");
+        tglShowResolved.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tglShowResolvedStateChanged(evt);
+            }
+        });
+        jPanel5.add(tglShowResolved, java.awt.BorderLayout.LINE_END);
 
         jPanel3.add(jPanel5, java.awt.BorderLayout.PAGE_START);
 
@@ -267,12 +277,12 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         
         try {
             Ticket ticket = tickets.get(tblTickets.getSelectedRow());
-                    
-            Ticket_Page tp = ((Ticket_Page)(GUIManager.Lookup("TicketPage")));
+            
+            Ticket_Page tp = (Ticket_Page) GUIManager.Lookup("TicketPage");
             tp.setTicket(ticket);
             tp.Update();
             tp.setViewOnly(viewer);
-            tp.setVisible(true);
+            GUIManager.Show("TicketPage");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -282,6 +292,10 @@ public class Ticket_List extends javax.swing.JInternalFrame {
         SQLTicket.ME.resolveTicket(tickets.get(tblTickets.getSelectedRow()));
         Reload();
     }//GEN-LAST:event_btnResolveActionPerformed
+
+    private void tglShowResolvedStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tglShowResolvedStateChanged
+        Update();
+    }//GEN-LAST:event_tglShowResolvedStateChanged
     public void setViewOnly(boolean tf) {
         if(tf) {
             btnResolve.setVisible(false);
@@ -345,9 +359,7 @@ public class Ticket_List extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnResolve;
     private javax.swing.JButton btnViewTicket;
-    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -357,8 +369,8 @@ public class Ticket_List extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tblTickets;
+    private javax.swing.JToggleButton tglShowResolved;
     private javax.swing.JTextField txtPage;
     // End of variables declaration//GEN-END:variables
 }
