@@ -20,12 +20,13 @@ import java.util.Map;
 public class Ticket implements DataGrabber<Ticket> {
 
     public static ArrayList<TicketEntry> tickets = new ArrayList<TicketEntry>();
-    int userID;
+    int accountid;
     String description;
     boolean resolved;
     int TicketId;
     int machineId;
     java.util.Date date;
+    String username;
 
     public Date getDate() {
         return date;
@@ -39,12 +40,20 @@ public class Ticket implements DataGrabber<Ticket> {
         TicketId = -1;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getAccountid() {
+        return accountid;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setAccountid(int userID) {
+        this.accountid = userID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getDescription() {
@@ -64,7 +73,7 @@ public class Ticket implements DataGrabber<Ticket> {
     }
 
     public Ticket(int userID, String description, boolean resolved) {
-        this.userID = userID;
+        this.accountid = userID;
         this.description = description;
         this.resolved = resolved;
     }
@@ -109,15 +118,16 @@ public class Ticket implements DataGrabber<Ticket> {
     public Map<String, Object> getResources() {
         Map<String, Object> resources = new LinkedHashMap<String, Object>();
         
-        resources.put("userID", this.userID);
+        resources.put("accountid", this.accountid);
         resources.put("description", this.description);
         resources.put("resolved", this.resolved ? "Resolved" : "Unresolved");
         resources.put("machineID", this.machineId);
+        resources.put("username", this.username);
         
         //userid,message
         int i = 0;
         for(TicketEntry c : tickets) {
-            resources.put("Entry " + i + " userid", "" + c.getUserId());
+            resources.put("Entry " + i + " userid", "" + c.getAccountid());
             resources.put("Entry " + i + " message", "" + c.getMessage());
             i++;
         }
@@ -128,7 +138,8 @@ public class Ticket implements DataGrabber<Ticket> {
     @Override
     public boolean SetResources(Map<String, Object> resources) {
         try {
-            if(resources.containsKey("userID")) this.setUserID(Integer.parseInt(resources.remove("userID").toString()));
+            if(resources.containsKey("accountid")) this.setAccountid(Integer.parseInt(resources.remove("accountid").toString()));
+            if(resources.containsKey("username")) this.setUsername(resources.remove("username").toString());
             if(resources.containsKey("description")) this.setDescription(resources.remove("description").toString());
             if(resources.containsKey("resolved")) {
                 String s = resources.remove("resolved").toString();
@@ -146,7 +157,7 @@ public class Ticket implements DataGrabber<Ticket> {
                 if(tickets.get(i)!=null) {
                     TicketEntry c = tickets.get(i);
                     if(resources.containsKey("Entry " + i + " userid")) {
-                        c.setUserId(Integer.parseInt(resources.get("Entry " + i + " userid").toString()));
+                        c.setAccountid(Integer.parseInt(resources.get("Entry " + i + " userid").toString()));
                     }
                     if(resources.containsKey("Entry " + i + " message")) {
                         c.setMessage(resources.get("Entry " + i + " message").toString());

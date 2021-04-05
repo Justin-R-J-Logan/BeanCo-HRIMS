@@ -29,7 +29,7 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
         int ticketid = ticket.getTicketId();
         
         //ticket = new Ticket();
-        ticket = SQLTicket.ME.getTickets(ticket.getTicketId(),ticket.getTicketId()).get(0);
+        ticket = SQLTicket.ME.getTicket(ticket.getTicketId());
         ticket.setTicketId(ticketid);
         
         DefaultTableModel model = (DefaultTableModel) tblResponses.getModel();
@@ -52,8 +52,8 @@ public class Ticket_Page extends javax.swing.JInternalFrame {
                             information = ""+l.getDate();
                             break;
                         case 1:
-                            Account a = SQLAccount.ME.getAccount(l.getUserId());
-                            information = "" + (a.getUsername() != "" ? a.getUsername() : "Deleted User").toString();//+l;
+                            //Account a = SQLAccount.ME.getAccount(l.getAccountid());
+                            information = "" + l.getUsername();//(a.getUsername() != "" ? a.getUsername() : "Deleted User").toString();//+l;
                             break;
                         case 2:
                             information = ""+l.getMessage();

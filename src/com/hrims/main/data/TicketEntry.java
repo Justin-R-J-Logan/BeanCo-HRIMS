@@ -14,10 +14,19 @@ import java.util.Date;
 public class TicketEntry {
 
     int ticketid;
-    int userid;
+    int accountid;
     int entryid;
     String message;
     java.util.Date date;
+    String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public Date getDate() {
         return date;
@@ -31,12 +40,12 @@ public class TicketEntry {
         
     }
 
-    public int getUserId() {
-        return userid;
+    public int getAccountid() {
+        return accountid;
     }
 
-    public void setUserId(int userId) {
-        this.userid = userId;
+    public void setAccountid(int userId) {
+        this.accountid = userId;
     }
 
     public int getEntryId() {

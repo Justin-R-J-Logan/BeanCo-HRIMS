@@ -24,21 +24,28 @@ public class SQLTicket {
     
     public static SQLTicket ME = new SQLTicket();
     
-   public Ticket getTicket(int _accountNumber) { 
+   public Ticket getTicket(int ticketid) { 
         Ticket tic = new Ticket();
         tic.getEntries().clear();
         try {
             
             ArrayList<TicketEntry> ticketEntries;
-            ticketEntries = SQLTicketEntry.ME.getTicketsFromTicketId(_accountNumber, _accountNumber+1);
+            ticketEntries = SQLTicketEntry.ME.getTicketEntriesFromTicketId(ticketid);
             
-            ResultSet result = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM ticket WHERE ticketid = " + _accountNumber);
+            String SQL = "SELECT * ";
+            SQL += "FROM ticket ";
+            SQL += "LEFT JOIN account ON ticket.accountid = account.accountid\n";
+            SQL += "WHERE ticketid = " + ticketid;
+            
+            ResultSet result = SQLCaller.ME.Submit_SQL_Query(SQL);
             result.first();
             tic.setTicketId(result.getInt(1));
-            tic.setUserID(result.getInt(2));
+            tic.setAccountid(result.getInt(2));
             tic.setDescription(result.getString(3));
             tic.setResolved(result.getBoolean(4));
             tic.setMachineId(result.getInt(5));
+            tic.setDate(result.getDate(6));
+            tic.setUsername(result.getString(8) != null ? result.getString(8) : "User Deleted");
             
             for(TicketEntry t : ticketEntries) {
                 if(t.getTicketid() == tic.getTicketId()) {
@@ -60,6 +67,7 @@ public class SQLTicket {
             
             SQL += "SELECT * ";
             SQL += "FROM ticket ";
+            SQL += "LEFT JOIN account ON ticket.accountid = account.accountid\n";
             if(!showResolved) SQL += "WHERE status = 0";
             SQL += " LIMIT " + (page*maxp) + "," + (oneExtra ? maxp+1 : maxp) + ";";
             
@@ -72,11 +80,12 @@ public class SQLTicket {
                 tic.getEntries().clear();
                 //ticketid, accountid, description)
                 tic.setTicketId(result.getInt(1));
-                tic.setUserID(result.getInt(2));
+                tic.setAccountid(result.getInt(2));
                 tic.setDescription(result.getString(3));
                 tic.setResolved(result.getBoolean(4));
                 tic.setMachineId(result.getInt(5));
                 tic.setDate(result.getDate(6));
+                tic.setUsername(result.getString(8) != null ? result.getString(8) : "User Deleted");
                 
                 if(tic.getTicketId()> max || max==-1) max = tic.getTicketId();
                 if(tic.getTicketId()< min || min==-1) min = tic.getTicketId();
@@ -84,7 +93,7 @@ public class SQLTicket {
                 tickets.add(tic);
             }
             
-            ticketEntries = SQLTicketEntry.ME.getTicketsFromTicketId(min, max);
+            ticketEntries = SQLTicketEntry.ME.getTicketEntriesFromTicketId(min, max);
             for(Ticket tic : tickets) {
                 for(TicketEntry t : ticketEntries) {
                     if(tic.getTicketId()== t.getTicketid())
@@ -105,7 +114,8 @@ public class SQLTicket {
             String SQL = "";
             
             SQL += "SELECT * FROM ticket \n";
-            SQL += "WHERE accountid = " + accountID + " ";
+            SQL += "LEFT JOIN account ON ticket.accountid = account.accountid\n";
+            SQL += "WHERE ticket.accountid = " + accountID + " ";
             if(!showResolved) SQL += "AND status = 0";
             SQL += " LIMIT " + (page*maxp) + "," + (oneExtra ? maxp+1 : maxp) + ";";
             
@@ -118,11 +128,12 @@ public class SQLTicket {
                 tic.getEntries().clear();
                 //ticketid, accountid, description)
                 tic.setTicketId(result.getInt(1));
-                tic.setUserID(result.getInt(2));
+                tic.setAccountid(result.getInt(2));
                 tic.setDescription(result.getString(3));
                 tic.setResolved(result.getBoolean(4));
                 tic.setMachineId(result.getInt(5));
                 tic.setDate(result.getDate(6));
+                tic.setUsername(result.getString(8) != null ? result.getString(8) : "User Deleted");
                 
                 if(tic.getTicketId()> max || max==-1) max = tic.getTicketId();
                 if(tic.getTicketId()< min || min==-1) min = tic.getTicketId();
@@ -130,7 +141,7 @@ public class SQLTicket {
                 tickets.add(tic);
             }
             
-            ticketEntries = SQLTicketEntry.ME.getTicketsFromTicketId(min, max);
+            ticketEntries = SQLTicketEntry.ME.getTicketEntriesFromTicketId(min, max);
             for(Ticket tic : tickets) {
                 for(TicketEntry t : ticketEntries) {
                     if(tic.getTicketId()== t.getTicketid())
@@ -148,7 +159,7 @@ public class SQLTicket {
         
         try {
             ArrayList<TicketEntry> ticketEntries;
-            ticketEntries = SQLTicketEntry.ME.getTicketsFromTicketId(low, high);
+            ticketEntries = SQLTicketEntry.ME.getTicketEntriesFromTicketId(low, high);
             
             ResultSet result = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM ticket "
                                                         + "WHERE ticketid BETWEEN " + low + " AND " + high + ";");
@@ -157,7 +168,7 @@ public class SQLTicket {
                 tic.getEntries().clear();
                 //ticketid, accountid, description)
                 tic.setTicketId(result.getInt(1));
-                tic.setUserID(result.getInt(2));
+                tic.setAccountid(result.getInt(2));
                 tic.setDescription(result.getString(3));
                 tic.setResolved(result.getBoolean(4));
                 tic.setMachineId(result.getInt(5));
@@ -184,7 +195,7 @@ public class SQLTicket {
      public boolean updateTicket(Ticket tic) {
         String statement = "UPDATE ticket " + "\n"
                 + "SET "
-                + "accountid = '" + tic.getUserID() + "', "
+                + "accountid = '" + tic.getAccountid() + "', "
                 + "description = '" + tic.getDescription()+ "', "
                 + "resolved = '" + tic.isResolved()+ "', "
                 + "ticketid = '" + tic.getTicketId()+ "'"
@@ -215,7 +226,7 @@ public class SQLTicket {
         int isResolved = tic.isResolved() ? 1 : 0;
         
         String statement = "INSERT INTO ticket(accountid, description, status, machineid)" 
-                + "\n VALUES ('" + tic.getUserID()+ "', '" + tic.getDescription()
+                + "\n VALUES ('" + tic.getAccountid()+ "', '" + tic.getDescription()
                 + "', '" + isResolved + "', '" + tic.getMachineId() + "');";
         
         try {
@@ -248,9 +259,9 @@ public class SQLTicket {
         e.setTicketid(ticket.getTicketId());
         e.setEntryId(ticket.getEntries().size()+1);
         if(LoginManager.MYACCOUNT != null) {
-            e.setUserId(LoginManager.MYACCOUNT.getAccountNumber());
+            e.setAccountid(LoginManager.MYACCOUNT.getAccountNumber());
         } else {
-            e.setUserId(-1);
+            e.setAccountid(-1);
         }
         
         SQLTicketEntry.ME.createTicketEntry(e);

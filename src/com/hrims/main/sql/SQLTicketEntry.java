@@ -18,20 +18,49 @@ public class SQLTicketEntry {
 
     public static SQLTicketEntry ME = new SQLTicketEntry();
     
-    public ArrayList<TicketEntry> getTicketsFromTicketId(int lowAccID, int highAccID) {
+    public ArrayList<TicketEntry> getTicketEntriesFromTicketId(int ticketID) {
         
             ArrayList<TicketEntry> ticketEntries = new ArrayList<TicketEntry>();
             try {
-                ResultSet ticketEntryresults = SQLCaller.ME.Submit_SQL_Query("SELECT * FROM ticketentry "
-                                                        + "WHERE ticketid BETWEEN " + lowAccID + " AND " + highAccID + ";");
+                String SQL = "SELECT * FROM ticketentry\n" 
+                           + "LEFT JOIN account ON ticketentry.accountid = account.accountid\n"
+                           + "WHERE ticketid = " + ticketID + ";";
+                ResultSet ticketEntryresults = SQLCaller.ME.Submit_SQL_Query(SQL);
                 while(ticketEntryresults.next()) {
                     
                     TicketEntry tic = new TicketEntry();
                     tic.setEntryId(ticketEntryresults.getInt(1));
                     tic.setTicketid(ticketEntryresults.getInt(2));
-                    tic.setUserId(ticketEntryresults.getInt(3));
+                    tic.setAccountid(ticketEntryresults.getInt(3));
                     tic.setMessage(ticketEntryresults.getString(4));
                     tic.setDate(ticketEntryresults.getDate(5));
+                    tic.setUsername(ticketEntryresults.getString(7));
+                    
+                    ticketEntries.add(tic);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        return ticketEntries;
+    }
+    
+    public ArrayList<TicketEntry> getTicketEntriesFromTicketId(int lowAccID, int highAccID) {
+        
+            ArrayList<TicketEntry> ticketEntries = new ArrayList<TicketEntry>();
+            try {
+                String SQL = "SELECT * FROM ticketentry\n" 
+                           + "LEFT JOIN account ON ticketentry.accountid = account.accountid\n"
+                           + "WHERE ticketid BETWEEN " + lowAccID + " AND " + highAccID + ";";
+                ResultSet ticketEntryresults = SQLCaller.ME.Submit_SQL_Query(SQL);
+                while(ticketEntryresults.next()) {
+                    
+                    TicketEntry tic = new TicketEntry();
+                    tic.setEntryId(ticketEntryresults.getInt(1));
+                    tic.setTicketid(ticketEntryresults.getInt(2));
+                    tic.setAccountid(ticketEntryresults.getInt(3));
+                    tic.setMessage(ticketEntryresults.getString(4));
+                    tic.setDate(ticketEntryresults.getDate(5));
+                    tic.setUsername(ticketEntryresults.getString(6));
                     
                     ticketEntries.add(tic);
                 }
@@ -49,7 +78,7 @@ public class SQLTicketEntry {
         String statement = "UPDATE ticketentry " + "\n"
                 + "SET "
                 + "ticketid = '" + tic.getTicketid()+ "', "
-                + "userid = '" + tic.getUserId()+ "', "
+                + "accountid = '" + tic.getAccountid()+ "', "
                 + "entryid = '" + tic.getEntryId()+ "', "
                 + "message = '" + tic.getMessage()+ "'\n"
                 + "WHERE entryid = " + tic.getEntryId();
@@ -75,8 +104,8 @@ public class SQLTicketEntry {
     }
     public boolean createTicketEntry(TicketEntry tic) {
         
-        String statement = "INSERT INTO ticketentry(ticketid, userid, entryid, message)" 
-                + "\n VALUES ('" + tic.getTicketid()+ "', '" + tic.getUserId()
+        String statement = "INSERT INTO ticketentry(ticketid, accountid, entryid, message)" 
+                + "\n VALUES ('" + tic.getTicketid()+ "', '" + tic.getAccountid()
                 + "', '" + tic.getEntryId() + "', '"+ tic.getMessage() + "');";
         
         System.out.println(statement);

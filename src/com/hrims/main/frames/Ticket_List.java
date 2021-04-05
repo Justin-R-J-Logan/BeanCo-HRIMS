@@ -57,8 +57,8 @@ public class Ticket_List extends javax.swing.JInternalFrame {
                     String information = "";
                     switch(x) {
                         case 0:
-                            Account a = SQLAccount.ME.getAccount(l.getUserID());
-                            information = "" + (a.getUsername() != "" ? a.getUsername() : "Deleted User").toString();//+l;
+                            //Account a = SQLAccount.ME.getAccount(l.getAccountid());
+                            information = "" + l.getUsername();//(a.getUsername() != "" ? a.getUsername() : "Deleted User").toString();//+l;
                             break;
                         case 1:
                             information = "" + l.getDescription();
